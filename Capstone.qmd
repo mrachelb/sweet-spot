@@ -1,0 +1,34 @@
+---
+title: "Capstone Project"
+author: "Alex, Rachel, Vlatko, Malte"
+date: "2024-06-06"
+format: html
+execute: 
+  cache: true
+  echo: false
+  error: true
+jupyter: python3
+editor:
+  render-on-save: true
+---
+
+# load libraries and data
+
+```{python}
+import pandas as pd
+import numpy as np
+d =pd.read_csv("c:/users/malte/spiced/capstone/daily_sales_report-1.csv")
+```
+
+# EDA 
+
+```{python}
+d.head()
+```
+# data cleaning
+
+```{python}
+d['date'] =pd.to_datetime(d['date'])
+d['weekday'] =d['date'].dt.dayofweek
+d.weekday.value_counts()
+```
