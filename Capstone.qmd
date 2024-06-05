@@ -17,14 +17,38 @@ editor:
 ```{python}
 import pandas as pd
 import numpy as np
-d =pd.read_csv("data/daily_sales_report.csv")
+import matplotlib.pyplot as plt
+import seaborn as sns
+d = pd.read_csv("data/daily_sales_report.csv")
+
 ```
+
 
 # EDA 
 
 ```{python}
 d.head()
 ```
+
+```{python}
+d["type_name"].value_counts()
+```
+
+
+```{python}
+
+```
+
+
+```{python}
+Changes Vlatko
+```
+
+```{python}
+
+```
+
+
 # data cleaning
 
 ```{python}
