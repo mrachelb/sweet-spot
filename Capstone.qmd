@@ -17,7 +17,7 @@ editor:
 ```{python}
 import pandas as pd
 import numpy as np
-d =pd.read_csv("c:/users/malte/spiced/capstone/daily_sales_report-1.csv")
+d =pd.read_csv("data/daily_sales_report.csv")
 ```
 
 # EDA 
@@ -31,4 +31,10 @@ d.head()
 d['date'] =pd.to_datetime(d['date'])
 d['weekday'] =d['date'].dt.dayofweek
 d.weekday.value_counts()
+```
+```{python}
+hey git, lets conflict
+```
+```{python}
+anothe conflict
 ```
