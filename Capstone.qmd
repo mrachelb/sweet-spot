@@ -20,6 +20,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
 d = pd.read_csv("data/daily_sales_report.csv")
+
 ```
 
 
@@ -54,4 +55,10 @@ Changes Vlatko
 d['date'] =pd.to_datetime(d['date'])
 d['weekday'] =d['date'].dt.dayofweek
 d.weekday.value_counts()
+```
+```{python}
+hey git, lets conflict
+```
+```{python}
+anothe conflict
 ```
