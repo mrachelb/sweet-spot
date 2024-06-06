@@ -20,7 +20,6 @@ import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
 d = pd.read_csv("data/daily_sales_report.csv")
-
 ```
 
 
@@ -30,23 +29,12 @@ d = pd.read_csv("data/daily_sales_report.csv")
 d.head()
 ```
 
+
 ```{python}
 d["type_name"].value_counts()
 ```
 
 
-```{python}
-
-```
-
-
-```{python}
-Changes Vlatko
-```
-
-```{python}
-
-```
 
 
 # data cleaning
@@ -57,31 +45,43 @@ d['weekday'] =d['date'].dt.dayofweek
 d.weekday.value_counts()
 ```
 
+
 # Feature engeneering - Categorizing
+
 ```{python}
-donut_counts = d.loc[d["type_name"] == "donuts", "item_name"].value_counts()
-donut_counts.head(30)
+d.loc[d["type_name"] == "donuts", "item_name"].value_counts(normalize = True)
 ```
+
+
+```{python}
+d.loc[d["type_name"] == "donuts", "item_name"].value_counts()
+```
+
 ```{python}
 different_products = ['Star Wars Day', 'Pizza Hawaii', 'Grilled Cheese', 'Pie Day', 'Bat', 'Cat Day', 'NYE: Tonka Cream', 'Zimtstern Donut', 'Free Donut Softeis ', 'Cookie Softie Sandwich', 'Choc Custard Filled', 'Free Donut Upgrade', 'Strawberry Bun', 'Fried Chicken & Donut Waffle', 'Waffle + Maple Syrup', 'Chicken Waffle Sriracha', 'Chicken Waffle Truffle', 'Waffle + Sriracha ', 'Chicken Waffle Maple', 'Grilled Cheese with Jalapeños', 'Waffle + Truffle3', 'Grilled Cheese + Jalapenos', 'Classic Hot Dog', 'Special Hot Dog', 'Waffle + Truffle', 'Free Berliner']
 ```
+
+
 ```{python}
 # Define the categories
 classics = [
     'Strawberry Sprinkles', 'White Choc & Strawberries', 'Choc Sprinkles', 
-    'Cinnamon Sugar', 'Boston Cream'
-]
+    'Cinnamon Sugar', 'Boston Cream']
+
 specials = [
     'Blueberry Lemon Cheesecake', 'Chocolate Bomboloni', 'Apple Pie', 
-    'Bienenstich'
-]
+    'Bienenstich']
+
 monthly_specials = [
     'Passionfruit', 'Strawberry Shortcake', 'Strawberries & Cream', 
-    'Lemon Tart', 'Pistachio Dream'
-]
-different_products = ['Different Product']
+    'Lemon Tart', 'Pistachio Dream']
 
-# Function to determine the category
+different_products = ['Different Product']
+```
+
+
+```{python}
+# function to determine category
 def categorize_item(item_name):
     if item_name in classics:
         return 'classics'
@@ -96,7 +96,78 @@ def categorize_item(item_name):
 
 # Apply the function to create the 'item_category' column
 d['item_category'] = d['item_name'].apply(categorize_item)
+```
 
+
+```{python}
 # Display the DataFrame
 d.head(10)
 ```
+
+
+
+
+# Feature engineering
+
+## Adding weather variables
+
+
+```{python}
+from functions import transform_weather_temp, transform_weather_prec_sunshine
+```
+
+
+```{python}
+prec = pd.read_csv("data/precipitation.txt", sep = ";")
+sun = pd.read_csv("data/sunshine_hrs.txt", sep = ";")
+temp = pd.read_csv("data/temp_humidity.txt", sep = ";")
+```
+
+
+```{python}
+#renaming relevant column names 
+
+prec = prec.rename(columns = {"  R1":"precipitation"})
+sun = sun.rename(columns = {"SD_SO":"sunshine"})
+temp = temp.rename(columns = {"TT_TU":"temp"})
+```
+
+
+```{python}
+#apply weather transformation function --> from hourly to daily values 
+
+prec = transform_weather_prec_sunshine(prec, "precipitation")
+sun = transform_weather_prec_sunshine(sun, "sunshine")
+```
+
+
+```{python}
+# converting sunshine in mins to sunshine in hours
+
+sun["sunshine"] = sun["sunshine"]/60
+```
+
+
+```{python}
+# apply weather transformation function for temp --> from hourly to daily values 
+
+temp = transform_weather_temp(temp,"temp")
+```
+
+
+```{python}
+
+# merged all weather datasets with. 
+
+# Note !! Data for June 6 and June 7 was automatically removed through this merge
+
+from functools import reduce
+d = reduce(lambda left, right: pd.merge(left, right, on='date'), [d,prec,temp,sun])
+
+```
+
+
+
+
+# Visualizations
+
