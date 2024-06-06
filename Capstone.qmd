@@ -56,9 +56,47 @@ d['date'] =pd.to_datetime(d['date'])
 d['weekday'] =d['date'].dt.dayofweek
 d.weekday.value_counts()
 ```
+
+# Feature engeneering - Categorizing
 ```{python}
-hey git, lets conflict
+donut_counts = d.loc[d["type_name"] == "donuts", "item_name"].value_counts()
+donut_counts.head(30)
 ```
 ```{python}
-anothe conflict
+different_products = ['Star Wars Day', 'Pizza Hawaii', 'Grilled Cheese', 'Pie Day', 'Bat', 'Cat Day', 'NYE: Tonka Cream', 'Zimtstern Donut', 'Free Donut Softeis ', 'Cookie Softie Sandwich', 'Choc Custard Filled', 'Free Donut Upgrade', 'Strawberry Bun', 'Fried Chicken & Donut Waffle', 'Waffle + Maple Syrup', 'Chicken Waffle Sriracha', 'Chicken Waffle Truffle', 'Waffle + Sriracha ', 'Chicken Waffle Maple', 'Grilled Cheese with Jalapeños', 'Waffle + Truffle3', 'Grilled Cheese + Jalapenos', 'Classic Hot Dog', 'Special Hot Dog', 'Waffle + Truffle', 'Free Berliner']
+```
+```{python}
+# Define the categories
+classics = [
+    'Strawberry Sprinkles', 'White Choc & Strawberries', 'Choc Sprinkles', 
+    'Cinnamon Sugar', 'Boston Cream'
+]
+specials = [
+    'Blueberry Lemon Cheesecake', 'Chocolate Bomboloni', 'Apple Pie', 
+    'Bienenstich'
+]
+monthly_specials = [
+    'Passionfruit', 'Strawberry Shortcake', 'Strawberries & Cream', 
+    'Lemon Tart', 'Pistachio Dream'
+]
+different_products = ['Different Product']
+
+# Function to determine the category
+def categorize_item(item_name):
+    if item_name in classics:
+        return 'classics'
+    elif item_name in specials:
+        return 'specials'
+    elif item_name in monthly_specials:
+        return 'monthly_specials'
+    elif item_name in different_products:
+        return 'not_donut'
+    else:
+        return 'other'
+
+# Apply the function to create the 'item_category' column
+d['item_category'] = d['item_name'].apply(categorize_item)
+
+# Display the DataFrame
+d.head(10)
 ```
