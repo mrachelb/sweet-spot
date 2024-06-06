@@ -91,6 +91,8 @@ def categorize_item(item_name):
         return 'monthly_specials'
     elif item_name in different_products:
         return 'not_donut'
+    elif item_name == 'donuts sold (old)':  # Corrected syntax
+        return 'old'
     else:
         return 'other'
 
@@ -98,5 +100,15 @@ def categorize_item(item_name):
 d['item_category'] = d['item_name'].apply(categorize_item)
 
 # Display the DataFrame
-d.head(10)
+d.tail(10)
+```
+```{python}
+# Filter the DataFrame for rows where type_name is 'donut group'
+donut_group_items = d[d['type_name'] == 'donut group']
+
+# Get the unique values in the item_name column for the filtered rows
+unique_donut_group_items = donut_group_items['item_name'].value_counts()
+
+# Display the unique item names
+print(unique_donut_group_items)
 ```
