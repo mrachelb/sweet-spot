@@ -63,17 +63,17 @@ donut_counts = d.loc[d["type_name"] == "donuts", "item_name"].value_counts()
 donut_counts.head(30)
 ```
 ```{python}
-different_products = ['Star Wars Day', 'Pizza Hawaii', 'Grilled Cheese', 'Pie Day', 'Bat', 'Cat Day', 'NYE: Tonka Cream', 'Zimtstern Donut', 'Free Donut Softeis ', 'Cookie Softie Sandwich', 'Choc Custard Filled', 'Free Donut Upgrade', 'Strawberry Bun', 'Fried Chicken & Donut Waffle', 'Waffle + Maple Syrup', 'Chicken Waffle Sriracha', 'Chicken Waffle Truffle', 'Waffle + Sriracha ', 'Chicken Waffle Maple', 'Grilled Cheese with Jalapeños', 'Waffle + Truffle3', 'Grilled Cheese + Jalapenos', 'Classic Hot Dog', 'Special Hot Dog', 'Waffle + Truffle', 'Free Berliner']
+different_products = ['Star Wars Day', 'Pizza Hawaii', 'Grilled Cheese', 'Pie Day', 'Bat', 'Cat Day', 'NYE: Tonka Cream', 'Zimtstern Donut', 'Free Donut Softeis ', 'Cookie Softie Sandwich', 'Choc Custard Filled', 'Free Donut Upgrade', 'Strawberry Bun', 'Fried Chicken & Donut Waffle', 'Waffle + Maple Syrup', 'Chicken Waffle Sriracha', 'Chicken Waffle Truffle', 'Waffle + Sriracha ', 'Chicken Waffle Maple', 'Grilled Cheese with Jalapeños', 'Waffle + Truffle3', 'Grilled Cheese + Jalapenos', 'Classic Hot Dog', 'Special Hot Dog', 'Waffle + Truffle', 'Free Berliner', 'Letter Donuts']
 ```
 ```{python}
 # Define the categories
 classics = [
     'Strawberry Sprinkles', 'White Choc & Strawberries', 'Choc Sprinkles', 
-    'Cinnamon Sugar', 'Boston Cream'
+    'Cinnamon Sugar', 'Boston Cream', 'Classic Donut'
 ]
 specials = [
     'Blueberry Lemon Cheesecake', 'Chocolate Bomboloni', 'Apple Pie', 
-    'Bienenstich'
+    'Bienenstich', 'Special Donut'
 ]
 monthly_specials = [
     'Passionfruit', 'Strawberry Shortcake', 'Strawberries & Cream', 
@@ -111,4 +111,7 @@ unique_donut_group_items = donut_group_items['item_name'].value_counts()
 
 # Display the unique item names
 print(unique_donut_group_items)
+```
+```{python}
+d.loc[d['item_name'] == 'Special Donut', 'item_category']
 ```
