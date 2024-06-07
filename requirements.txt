@@ -13,3 +13,4 @@ tensorflow==2.15
 tensorflow-hub
 tensorflow-docs
 xgboost==1.7.5
+holidays==0.50
