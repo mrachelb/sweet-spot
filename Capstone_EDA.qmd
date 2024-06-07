@@ -174,5 +174,26 @@ d = reduce(lambda left, right: pd.merge(left, right, on='date'), [d,prec,temp,su
 
 # Visualizations
 
+# Convert the 'date' column to datetime format
+df['date'] = pd.to_datetime(df['date'])
 
+# Extract year from the date
+df['year'] = df['date'].dt.year
+
+# Filter the data for years 2017 to 2024
+df_filtered = df[(df['year'] >= 2017) & (df['year'] <= 2024)]
+
+# Group by 'year', 'weekday', and 'item_category', and sum the 'amount'
+grouped_df = df_filtered.groupby(['year', 'weekday', 'item_category'])['amount'].sum().reset_index()
+
+# Plotting the bar chart
+plt.figure(figsize=(14, 8))
+sns.barplot(data=grouped_df, x='weekday', y='amount', hue='item_category')
+plt.title('Total Amount per Weekday per Item Category (2017-2024)')
+plt.xlabel('Weekday')
+plt.ylabel('Total Amount')
+plt.legend(title='Item Category', bbox_to_anchor=(1.05, 1), loc='upper left')
+plt.grid(True)
+plt.show()
+```
 
