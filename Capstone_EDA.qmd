@@ -167,8 +167,7 @@ d = reduce(lambda left, right: pd.merge(left, right, on='date'), [d,prec,temp,su
 
 # Visualizations
 
-d.tail(10)
-```
+
 ```{python}
 # Filter the DataFrame for rows where type_name is 'donut group'
 donut_group_items = d[d['type_name'] == 'donut group']
