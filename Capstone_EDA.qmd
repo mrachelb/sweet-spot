@@ -210,16 +210,59 @@ plt.show()
 # 1. Filter the DataFrame for 'other' in 'item_category'
 filtered_d = d[d['item_category'] == 'other']
 
-# 2. Extract the year from the 'date' column
-filtered_d['year'] = pd.to_datetime(filtered_d['date']).dt.year
+# 2. Extract the year and month from the 'date' column
+filtered_d['year'] = filtered_d['date'].dt.year
+filtered_d['month'] = filtered_d['date'].dt.month
 
-# 3. Drop duplicate entries to get unique days per 'item_name' and 'year'
-unique_days = filtered_d[['item_name', 'year', 'date']].drop_duplicates()
+# 3. Drop duplicate entries to get unique days per 'item_name', 'year', and 'month'
+unique_days = filtered_d[['item_name', 'year', 'month', 'date', 'type_name']].drop_duplicates()
 
 # 4. Group by 'item_name' and 'year' and count unique dates
-result = unique_days.groupby(['item_name', 'year']).size().reset_index(name='unique_days_count')
+unique_days_count = unique_days.groupby(['item_name', 'year', 'type_name']).size().reset_index(name='unique_days_count')
 
-print(pd.DataFrame(result).head(304))
+# 5. Aggregate the months in a comma-separated format
+months_aggregated = unique_days.groupby(['item_name', 'year'])['month'].apply(lambda x: ','.join(map(str, sorted(x.unique())))).reset_index(name='months')
 
+
+# 6. Merge the aggregated months back into the result DataFrame
+result = pd.merge(unique_days_count, months_aggregated, on=['item_name', 'year'])
+
+pd.set_option("display.max_rows", 305)
+pd.set_option("display.large_repr", "truncate") 
+result_df = pd.DataFrame(result)
+result_df
 
 ```
+
+```{python}
+result['months_count'] = result['months'].apply(lambda x: len(x.split(',')))
+
+# 8. Classify into bins
+bins = ['3 or less', 'between 3 and 6', '6 or more']
+result['bin'] = pd.cut(result['months_count'], bins=[0, 3, 6, float('inf')], labels=bins, right=False)
+
+# 9. Count the number of rows in each bin
+bin_counts = result['bin'].value_counts().reindex(bins)
+
+# 10. Create the bar plot
+bin_counts.plot(kind='bar', color='skyblue')
+
+# Add labels and title
+plt.title('Classifying types of product in "other"')
+plt.xlabel('Number of Months')
+plt.ylabel('Count')
+
+# Show the plot
+plt.show()
+```
+
+```{python}
+filtered_result_not_seasonal = result_df
+#if multiple year AND at least 6 months each year
+#elif one year for 10 motns or more
+#(dont know where to add, could be classics or specials. maybe keep them in others)
+
+#everything else seasonal (add to montly_specials)
+
+```
+
