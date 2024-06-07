@@ -75,7 +75,7 @@ monthly_specials = [
 different_products = ['Star Wars Day', 'Pizza Hawaii', 'Grilled Cheese', 'Pie Day', 'Bat', 'Cat Day', 'NYE: Tonka Cream', 'Zimtstern Donut', 'Free Donut Softeis ', 'Cookie Softie Sandwich', 'Choc Custard Filled', 'Free Donut Upgrade', 'Strawberry Bun', 'Fried Chicken & Donut Waffle', 'Waffle + Maple Syrup', 'Chicken Waffle Sriracha', 'Chicken Waffle Truffle', 'Waffle + Sriracha ', 'Chicken Waffle Maple', 'Grilled Cheese with Jalapeños', 'Waffle + Truffle3', 'Grilled Cheese + Jalapenos', 'Classic Hot Dog', 'Special Hot Dog', 'Waffle + Truffle', 'Free Berliner', 'Letter Donuts']
 
 
-```{python}
+
 # Function to determine the category
 def categorize_item(item_name):
     if item_name in classics:
@@ -178,7 +178,7 @@ d = reduce(lambda left, right: pd.merge(left, right, on='date'), [d,prec,temp,su
 
 # Plotting the bar chart
 plt.figure(figsize=(14, 8))
-sns.barplot(data=grouped_df, x='weekday', y='amount', hue='item_category')
+sns.barplot(data=d, x='weekday', y='amount', hue='item_category')
 plt.title('Total Amount per Weekday per Item Category (2017-2024)')
 plt.xlabel('Weekday')
 plt.ylabel('Total Amount')
@@ -186,4 +186,40 @@ plt.legend(title='Item Category', bbox_to_anchor=(1.05, 1), loc='upper left')
 plt.grid(True)
 plt.show()
 ```
+# Categories balance
+```{python}
 
+import matplotlib.pyplot as plt
+
+# Count occurrences of each item category
+category_counts = d['item_category'].value_counts()
+
+# Create bar plot
+category_counts.plot(kind='bar', color='skyblue')
+
+# Add labels and title
+plt.title('Amount of Data per Item Category')
+plt.xlabel('Item Category')
+plt.ylabel('Count')
+
+# Show plot
+plt.show()
+```
+
+```{python}
+# 1. Filter the DataFrame for 'other' in 'item_category'
+filtered_d = d[d['item_category'] == 'other']
+
+# 2. Extract the year from the 'date' column
+filtered_d['year'] = pd.to_datetime(filtered_d['date']).dt.year
+
+# 3. Drop duplicate entries to get unique days per 'item_name' and 'year'
+unique_days = filtered_d[['item_name', 'year', 'date']].drop_duplicates()
+
+# 4. Group by 'item_name' and 'year' and count unique dates
+result = unique_days.groupby(['item_name', 'year']).size().reset_index(name='unique_days_count')
+
+print(pd.DataFrame(result).head(304))
+
+
+```
