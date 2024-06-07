@@ -58,7 +58,7 @@ d.loc[d["type_name"] == "donuts", "item_name"].value_counts()
 ```
 
 ```{python}
-different_products = ['Star Wars Day', 'Pizza Hawaii', 'Grilled Cheese', 'Pie Day', 'Bat', 'Cat Day', 'NYE: Tonka Cream', 'Zimtstern Donut', 'Free Donut Softeis ', 'Cookie Softie Sandwich', 'Choc Custard Filled', 'Free Donut Upgrade', 'Strawberry Bun', 'Fried Chicken & Donut Waffle', 'Waffle + Maple Syrup', 'Chicken Waffle Sriracha', 'Chicken Waffle Truffle', 'Waffle + Sriracha ', 'Chicken Waffle Maple', 'Grilled Cheese with Jalapeños', 'Waffle + Truffle3', 'Grilled Cheese + Jalapenos', 'Classic Hot Dog', 'Special Hot Dog', 'Waffle + Truffle', 'Free Berliner']
+different_products = ['Star Wars Day', 'Pizza Hawaii', 'Grilled Cheese', 'Pie Day', 'Bat', 'Cat Day', 'NYE: Tonka Cream', 'Zimtstern Donut', 'Free Donut Softeis ', 'Cookie Softie Sandwich', 'Choc Custard Filled', 'Free Donut Upgrade', 'Strawberry Bun', 'Fried Chicken & Donut Waffle', 'Waffle + Maple Syrup', 'Chicken Waffle Sriracha', 'Chicken Waffle Truffle', 'Waffle + Sriracha ', 'Chicken Waffle Maple', 'Grilled Cheese with Jalapeños', 'Waffle + Truffle3', 'Grilled Cheese + Jalapenos', 'Classic Hot Dog', 'Special Hot Dog', 'Waffle + Truffle', 'Free Berliner', 'Letter Donuts']
 ```
 
 
@@ -66,12 +66,12 @@ different_products = ['Star Wars Day', 'Pizza Hawaii', 'Grilled Cheese', 'Pie Da
 # Define the categories
 classics = [
     'Strawberry Sprinkles', 'White Choc & Strawberries', 'Choc Sprinkles', 
-    'Cinnamon Sugar', 'Boston Cream']
-
+    'Cinnamon Sugar', 'Boston Cream', 'Classic Donut'
+]
 specials = [
     'Blueberry Lemon Cheesecake', 'Chocolate Bomboloni', 'Apple Pie', 
-    'Bienenstich']
-
+    'Bienenstich', 'Special Donut'
+]
 monthly_specials = [
     'Passionfruit', 'Strawberry Shortcake', 'Strawberries & Cream', 
     'Lemon Tart', 'Pistachio Dream']
@@ -91,6 +91,8 @@ def categorize_item(item_name):
         return 'monthly_specials'
     elif item_name in different_products:
         return 'not_donut'
+    elif item_name == 'donuts sold (old)':  # Corrected syntax
+        return 'old'
     else:
         return 'other'
 
@@ -99,10 +101,6 @@ d['item_category'] = d['item_name'].apply(categorize_item)
 ```
 
 
-```{python}
-# Display the DataFrame
-d.head(10)
-```
 
 
 
@@ -167,7 +165,21 @@ d = reduce(lambda left, right: pd.merge(left, right, on='date'), [d,prec,temp,su
 ```
 
 
-
-
 # Visualizations
+
+d.tail(10)
+```
+```{python}
+# Filter the DataFrame for rows where type_name is 'donut group'
+donut_group_items = d[d['type_name'] == 'donut group']
+
+# Get the unique values in the item_name column for the filtered rows
+unique_donut_group_items = donut_group_items['item_name'].value_counts()
+
+# Display the unique item names
+print(unique_donut_group_items)
+```
+```{python}
+d.loc[d['item_name'] == 'Special Donut', 'item_category']
+```
 
