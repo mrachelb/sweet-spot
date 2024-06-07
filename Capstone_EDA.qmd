@@ -57,31 +57,26 @@ d.loc[d["type_name"] == "donuts", "item_name"].value_counts(normalize = True)
 d.loc[d["type_name"] == "donuts", "item_name"].value_counts()
 ```
 
-```{python}
-different_products = ['Star Wars Day', 'Pizza Hawaii', 'Grilled Cheese', 'Pie Day', 'Bat', 'Cat Day', 'NYE: Tonka Cream', 'Zimtstern Donut', 'Free Donut Softeis ', 'Cookie Softie Sandwich', 'Choc Custard Filled', 'Free Donut Upgrade', 'Strawberry Bun', 'Fried Chicken & Donut Waffle', 'Waffle + Maple Syrup', 'Chicken Waffle Sriracha', 'Chicken Waffle Truffle', 'Waffle + Sriracha ', 'Chicken Waffle Maple', 'Grilled Cheese with Jalapeños', 'Waffle + Truffle3', 'Grilled Cheese + Jalapenos', 'Classic Hot Dog', 'Special Hot Dog', 'Waffle + Truffle', 'Free Berliner', 'Letter Donuts']
-```
-
 
 ```{python}
-# Define the categories
+
+
 classics = [
     'Strawberry Sprinkles', 'White Choc & Strawberries', 'Choc Sprinkles', 
-    'Cinnamon Sugar', 'Boston Cream', 'Classic Donut'
-]
+    'Cinnamon Sugar', 'Boston Cream', 'Classic Donut', 'Chocolate Peanut Fudge', 'Salted Caramel Hazelnut', 'Salted Caramel']
+
 specials = [
     'Blueberry Lemon Cheesecake', 'Chocolate Bomboloni', 'Apple Pie', 
-    'Bienenstich', 'Special Donut'
-]
+    'Bienenstich', 'Special Donut']
 monthly_specials = [
     'Passionfruit', 'Strawberry Shortcake', 'Strawberries & Cream', 
     'Lemon Tart', 'Pistachio Dream']
 
-different_products = ['Different Product']
-```
+different_products = ['Star Wars Day', 'Pizza Hawaii', 'Grilled Cheese', 'Pie Day', 'Bat', 'Cat Day', 'NYE: Tonka Cream', 'Zimtstern Donut', 'Free Donut Softeis ', 'Cookie Softie Sandwich', 'Choc Custard Filled', 'Free Donut Upgrade', 'Strawberry Bun', 'Fried Chicken & Donut Waffle', 'Waffle + Maple Syrup', 'Chicken Waffle Sriracha', 'Chicken Waffle Truffle', 'Waffle + Sriracha ', 'Chicken Waffle Maple', 'Grilled Cheese with Jalapeños', 'Waffle + Truffle3', 'Grilled Cheese + Jalapenos', 'Classic Hot Dog', 'Special Hot Dog', 'Waffle + Truffle', 'Free Berliner', 'Letter Donuts']
 
 
 ```{python}
-# function to determine category
+# Function to determine the category
 def categorize_item(item_name):
     if item_name in classics:
         return 'classics'
@@ -91,8 +86,10 @@ def categorize_item(item_name):
         return 'monthly_specials'
     elif item_name in different_products:
         return 'not_donut'
-    elif item_name == 'donuts sold (old)':  # Corrected syntax
+    elif item_name == 'donuts sold (old)':
         return 'old'
+    elif item_name == 'Charity Donut':
+        return 'charity_donut'
     else:
         return 'other'
 
@@ -100,6 +97,16 @@ def categorize_item(item_name):
 d['item_category'] = d['item_name'].apply(categorize_item)
 ```
 
+
+```{python}
+d["item_category"] = d.apply(lambda row: 'box' if row['type_name'] == 'box' else row['item_category'], axis=1)
+```
+
+
+```{python}
+# Display the DataFrame
+d.head(10)
+```
 
 
 
