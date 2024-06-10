@@ -3,8 +3,56 @@ import pandas as pd
 import numpy as np
 import holidays
 from datetime import datetime
+import requests
+
+
+
 
 # function to transform weather variables
+
+
+def weather_data(df:pd.DataFrame):
+    weather_URL = "https://archive-api.open-meteo.com/v1/archive"
+
+    params_BE = {
+	"latitude": 52.52,
+	"longitude": 13.41,
+	"start_date": "2017-07-01",
+	"end_date": "2024-06-05",
+	"daily": ["temperature_2m_mean", "sunshine_duration", "precipitation_hours"],
+	"timezone": "Europe/Berlin"}
+
+    params_HH = {
+	"latitude": 53.5507,
+	"longitude": 9.993,
+	"start_date": "2017-07-01",
+	"end_date": "2024-06-05",
+	"daily": ["temperature_2m_mean", "sunshine_duration", "precipitation_hours"],
+	"timezone": "Europe/Berlin"}
+
+    weather_BE = requests.get(url =weather_URL,params=params_BE).json()
+    weather_BE = pd.DataFrame(weather_BE.get("daily"))
+    weather_BE = weather_BE.rename(columns = {"time":"date"})
+
+    weather_HH = requests.get(url =weather_URL,params=params_HH).json()
+    weather_HH = pd.DataFrame(weather_HH.get("daily"))
+    weather_HH = weather_HH.rename(columns = {"time":"date"})
+
+    df_new = df.copy().reset_index()
+
+    merged_BE = pd.merge(left = df_new[df_new["Location_name"] == "Berlin"], right = weather_BE, on = "date")
+    merged_HH = pd.merge(left = df_new[df_new["Location_name"] == "Hamburg"], right = weather_HH, on = "date")
+
+    df_new = pd.concat([merged_BE, merged_HH]).sort_values(by = "index").reset_index(drop = True).drop("index", axis = 1)
+
+    return df_new
+
+
+
+
+
+# OLD weather transformations
+
 
 def transform_weather_temp(df, variable:str):
     df = df.iloc[:,[1,3]]
@@ -29,6 +77,9 @@ def transform_weather_prec_sunshine(df, variable:str):
     df["date"] = df["date"].apply(lambda x: pd.Timestamp(x))
     return df
 
+
+
+
 # school holidays
 
 def hol_school (df,h_s):
@@ -43,6 +94,9 @@ def hol_school (df,h_s):
     h_s_exp["hol_school"] =1
     df =pd.merge(left=df,right=h_s_exp, how="left", on="date").fillna(0)
     return df
+
+
+
 
 # public holidays 
 
