@@ -19,9 +19,12 @@ import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
-d = pd.read_csv("data/daily_sales_report.csv")
+import datetime as dt
 ```
 
+```{python}
+d = pd.read_csv("data/daily_sales_report.csv")
+```
 
 # EDA 
 
@@ -118,58 +121,17 @@ d.head(10)
 
 
 ```{python}
-from functions import transform_weather_temp, transform_weather_prec_sunshine
+from functions import weather_data
 ```
 
 
 ```{python}
-prec = pd.read_csv("data/precipitation.txt", sep = ";")
-sun = pd.read_csv("data/sunshine_hrs.txt", sep = ";")
-temp = pd.read_csv("data/temp_humidity.txt", sep = ";")
+d = weather_data(d)
 ```
 
 
-```{python}
-#renaming relevant column names 
-
-prec = prec.rename(columns = {"  R1":"precipitation"})
-sun = sun.rename(columns = {"SD_SO":"sunshine"})
-temp = temp.rename(columns = {"TT_TU":"temp"})
-```
 
 
-```{python}
-#apply weather transformation function --> from hourly to daily values 
-
-prec = transform_weather_prec_sunshine(prec, "precipitation")
-sun = transform_weather_prec_sunshine(sun, "sunshine")
-```
-
-
-```{python}
-# converting sunshine in mins to sunshine in hours
-
-sun["sunshine"] = sun["sunshine"]/60
-```
-
-
-```{python}
-# apply weather transformation function for temp --> from hourly to daily values 
-
-temp = transform_weather_temp(temp,"temp")
-```
-
-
-```{python}
-
-# merged all weather datasets with. 
-
-# Note !! Data for June 6 and June 7 was automatically removed through this merge
-
-from functools import reduce
-d = reduce(lambda left, right: pd.merge(left, right, on='date'), [d,prec,temp,sun])
-
-```
 
 
 # Visualizations
@@ -186,7 +148,11 @@ plt.legend(title='Item Category', bbox_to_anchor=(1.05, 1), loc='upper left')
 plt.grid(True)
 plt.show()
 ```
+
+
+
 # Categories balance
+
 ```{python}
 
 import matplotlib.pyplot as plt
