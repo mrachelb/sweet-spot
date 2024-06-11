@@ -108,3 +108,25 @@ def hol_pub (df):
     h_p["hol_pub"] =1
     df =pd.merge(left=df,right=h_p, how="left",  on="date").fillna(0)
     return df
+
+
+
+# calculating total amount
+
+def calculate_total_amount(dataframe):
+    item_name = dataframe['item_name']
+    amount = dataframe['amount']
+    
+    if any(str(i) in item_name for i in [4, 6, 12]):
+        if '4' in item_name:
+            return amount * 4
+        elif '6' in item_name:
+            return amount * 6
+        elif '12' in item_name:
+            return amount * 12
+    elif any(month in item_name for month in ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']):
+        return amount * 6
+    elif 'box' in item_name.lower():
+        return amount * 4
+    else:
+        return amount * 1
