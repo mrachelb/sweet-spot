@@ -149,17 +149,29 @@ def calculate_total_amount(dataframe):
     else:
         return amount * 1
 
+
+# dropping duplicates
+
 def drop_duplicates(d):
     ind_drop =d[(d["item_name"] =="donuts sold (old)") &
 (((d["date"] >"2021-07-12") & (d["store_name"] =="Mitte")) | 
 ((d["date"] >"2021-07-12") & (d["store_name"] =="Potsdamer")) |
 ((d["date"] >"2021-07-14") & (d["store_name"] =="Danziger")) |  
 ((d["date"] >"2021-07-14") & (d["store_name"] =="Maybachufer")) |  
-((d["date"] >"2021-07-14") & (d["store_name"] =="Mitte")) |  
 ((d["date"] >"2021-07-14") & (d["store_name"] =="Warschauer")) |  
-((d["date"] >"2021-07-15") & (d["store_name"] =="KaDeWe")))].index
+((d["date"] >"2021-07-15") & (d["store_name"] =="KaDeWe")) |
+((d["date"] >"2021-07-15") & (d["store_name"] =="Schöneberg")) |
+((d["date"] >"2021-07-12") & (d["store_name"] =="Jungfernstieg")) |
+((d["date"] >"2021-07-12") & (d["store_name"] =="Altona")) |
+((d["date"] >"2021-07-12") & (d["store_name"] =="Neuer Kamp")) |
+((d["date"] >"2021-07-12") & (d["store_name"] =="Eppendorf")) |
+((d["date"] >"2021-07-12") & (d["store_name"] =="Hamburg Hauptbahnhof")) |
+((d["date"] >"2021-07-12") & (d["store_name"] =="Hauptbahnhof")))].index
     d_new =d.drop(ind_drop)
     return d_new
+
+
+# creating time variables
 
 def date_info(d):
     d['date'] =pd.to_datetime(d['date'])
@@ -170,3 +182,144 @@ def date_info(d):
     d['week_year'] =d['date'].dt.isocalendar().week
     d_new =d
     return d_new
+
+
+
+# categorization of items
+
+classics = [
+    'Strawberry Sprinkles', 'White Choc & Strawberries', 'Choc Sprinkles', 
+    'Cinnamon Sugar', 'Boston Cream', 'Classic Donut', 'Chocolate Peanut Fudge', 'Salted Caramel Hazelnut', 'Salted Caramel', 
+    "Bram's Favourites 12 Box", "Bram's Favourites 6 Box", "Bram's 12 Favorites", "Bram's 6 Favorites", "Bram's Favourites (12 Box)"]
+
+specials = [
+    'Blueberry Lemon Cheesecake', 'Chocolate Bomboloni', 'Apple Pie', 
+    'Bienenstich', 'Special Donut', 'Halloween Haunt Box', 'Halloween Box', "Valentine's Day Box", 'Valentines Day Special Box','New Years Eve Special: 6 box',
+ 'New Years Eve Special (4)',
+ 'New Years Eve Special (6)','NYE 4 Box',
+ 'NYE 6 Box',
+ 'New Years Eve Special: 4 box',
+ "Cookies & Cream", "Weekend special", "Lotus Ring",
+    "White Nougat Pistachio", "Pink Sprinkles", "Chocolate Bombolini", "Pecan Pie", "Affogato", "Vanilla Glazed",
+    "Peanut Butter Cup", "Cranberry Walnut"
+]
+
+monthly_specials = [
+    'Passionfruit', 'Strawberry Shortcake', 'Strawberries & Cream', 
+    'Lemon Tart', 'Pistachio Dream', 'May Donut Box',
+ 'April Donut Box',
+ 'December Donut Box',
+ 'March Donut Box',
+ 'October Donut Box',
+ 'February Donut Box',
+ 'January Donut Box',
+ 'June Donut Box',
+ 'November Donut Box',
+ 'September Donut Box',
+ 'August Donut Box',
+ 'July Donut Box']
+
+different_products = ['Star Wars Day', 'Pizza Hawaii', 'Grilled Cheese', 'Pie Day', 'Bat', 'Cat Day', 'NYE: Tonka Cream', 'Zimtstern Donut', 'Free Donut Softeis ', 'Cookie Softie Sandwich', 'Choc Custard Filled', 'Free Donut Upgrade', 'Strawberry Bun', 'Fried Chicken & Donut Waffle', 'Waffle + Maple Syrup', 'Chicken Waffle Sriracha', 'Chicken Waffle Truffle', 'Waffle + Sriracha ', 'Chicken Waffle Maple', 'Grilled Cheese with Jalapeños', 'Waffle + Truffle3', 'Grilled Cheese + Jalapenos', 'Classic Hot Dog', 'Special Hot Dog', 'Waffle + Truffle', 'Free Berliner', 'Letter Donuts']
+
+charity = ['Charity Donut', 'charity in box(duplicate)']
+
+mixed = ['6 Donuts',
+ '4 Donuts',
+ '12 Donuts',
+ '6 Box', '12 Box','Donut Drink Combo', '6x Donut Box Online', '6 Donuts + 50% Rabatt auf ein Nitro Flat White 0,25l','6 box + free Nitro can', 'Puzzle Deal'
+]
+
+
+def categorize_item(item_name):
+    if item_name in classics:
+        return 'classics'
+    elif item_name in specials:
+        return 'specials'
+    elif item_name in monthly_specials:
+        return 'monthly_specials'
+    elif item_name in different_products:
+        return 'not_donut'
+    elif item_name == 'donuts sold (old)':
+        return 'old'
+    elif item_name in charity:
+        return 'charity_donut'
+    elif item_name in mixed:
+        return 'mixed'
+    else:
+        return 'other'
+    
+
+
+
+# reclassify "other" category
+
+def update_item_category(dataframe):
+    # Ensure the 'date' column is in datetime format
+    dataframe['date'] = pd.to_datetime(dataframe['date'])
+
+    # Extract the year and month from the 'date' column
+    dataframe['year'] = dataframe['date'].dt.year
+    dataframe['month'] = dataframe['date'].dt.month
+
+    # Filter only the rows where item_category is 'other'
+    other_df = dataframe[dataframe['item_category'] == 'other']
+
+    # Drop duplicate entries to get unique days per 'item_name', 'year', and 'month'
+    unique_days = other_df[['item_name', 'year', 'month', 'date']].drop_duplicates()
+
+    # Group by 'item_name' and 'year' and count unique dates
+    unique_days_count = unique_days.groupby(['item_name', 'year']).size().reset_index(name='unique_days_count')
+
+    # Aggregate the months in a comma-separated format
+    months_aggregated = unique_days.groupby(['item_name', 'year'])['month'].apply(lambda x: ','.join(map(str, sorted(x.unique())))).reset_index(name='months')
+
+    # Merge the aggregated months back into the result DataFrame
+    result = pd.merge(unique_days_count, months_aggregated, on=['item_name', 'year'])
+
+    # Count the number of months in the 'months' column
+    result['months_count'] = result['months'].apply(lambda x: len(x.split(',')))
+
+    # Classify into bins
+    bins = ['3 or less', 'more than 3 and less than 6', '6 or more']
+    result['bin'] = pd.cut(result['months_count'], bins=[0, 3, 6, float('inf')], labels=bins, right=False)
+
+    # Identify the item_names in the '3 or less' bin
+    items_3_or_less = result[result['bin'] == '3 or less']['item_name'].unique()
+
+    # Identify the item_names with 10 or more months in the same year
+    items_10_or_more = result[result['months_count'] >= 10]['item_name'].unique()
+
+    # Identify continuous sales of 10 months or more
+    continuous_sales_items = []
+    for item_name in unique_days['item_name'].unique():
+        item_sales = unique_days[unique_days['item_name'] == item_name].sort_values(by=['year', 'month'])
+        item_sales['time'] = item_sales['year'] * 12 + item_sales['month']
+        item_sales['diff'] = item_sales['time'].diff().fillna(1)
+        continuous_sales = (item_sales['diff'] <= 1).astype(int).groupby(item_sales['diff'].ne(1).cumsum()).cumsum()
+        if continuous_sales.max() >= 10:
+            continuous_sales_items.append(item_name)
+
+    # List of item_names that should remain 'other'
+    items_keep_other = [
+        'Weekend special', 'donuts in boxes (wolt)', 'Letter donuts',
+        'Softeis', 'Softi - Cup', 'Oatly Softeis', 'Drinking Bottle', 'Oatly Softeis', 'Softeis', 'Softi - Cup', 'Softi - Dount', 'Special Softi', 'donuts in boxes (wolt)'
+    ]
+
+    # Function to update item_category based on additional rules
+    def update_item_category_row(row):
+        if row['item_name'] in items_keep_other:
+            return 'other'
+        if row['item_name'] in items_10_or_more:
+            return 'specials'
+        if row['item_name'] in continuous_sales_items:
+            return 'specials'
+        if row['item_name'] in items_3_or_less:
+            return 'monthly_specials'
+        else:
+            "specials"
+        return row['item_category']
+
+    # Apply the function to update the item_category column only for 'other' category rows
+    dataframe.loc[dataframe['item_category'] == 'other', 'item_category'] = dataframe[dataframe['item_category'] == 'other'].apply(update_item_category_row, axis=1)
+
+    return dataframe
