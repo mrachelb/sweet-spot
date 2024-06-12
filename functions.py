@@ -149,3 +149,24 @@ def calculate_total_amount(dataframe):
     else:
         return amount * 1
 
+def drop_duplicates(d):
+    ind_drop =d[(d["item_name"] =="donuts sold (old)") &
+(((d["date"] >"2021-07-12") & (d["store_name"] =="Mitte")) | 
+((d["date"] >"2021-07-12") & (d["store_name"] =="Potsdamer")) |
+((d["date"] >"2021-07-14") & (d["store_name"] =="Danziger")) |  
+((d["date"] >"2021-07-14") & (d["store_name"] =="Maybachufer")) |  
+((d["date"] >"2021-07-14") & (d["store_name"] =="Mitte")) |  
+((d["date"] >"2021-07-14") & (d["store_name"] =="Warschauer")) |  
+((d["date"] >"2021-07-15") & (d["store_name"] =="KaDeWe")))].index
+    d_new =d.drop(ind_drop)
+    return d_new
+
+def date_info(d):
+    d['date'] =pd.to_datetime(d['date'])
+    d['weekday'] =d['date'].dt.dayofweek
+    d['day'] =d['date'].dt.day
+    d['month'] =d['date'].dt.month
+    d['year'] =d['date'].dt.year
+    d['week_year'] =d['date'].dt.isocalendar().week
+    d_new =d
+    return d_new
