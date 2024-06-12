@@ -1,0 +1,438 @@
+---
+title: "Capstone Project"
+author: "Alex, Rachel, Vlatko, Malte"
+date: "2024-06-06"
+format: html
+execute: 
+  cache: true
+  echo: false
+  error: true
+jupyter: python3
+editor:
+  render-on-save: true
+---
+
+# load libraries and data
+
+```{python}
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+import seaborn as sns
+import datetime as dt
+```
+
+```{python}
+d = pd.read_csv("data/daily_sales_report.csv")
+```
+
+# EDA 
+
+```{python}
+d.head()
+```
+
+
+```{python}
+d["type_name"].value_counts()
+```
+
+
+
+
+# data cleaning
+
+```{python}
+d['date'] =pd.to_datetime(d['date'])
+d['weekday'] =d['date'].dt.dayofweek
+d.weekday.value_counts()
+```
+
+
+# Feature engeneering - Categorizing
+
+```{python}
+d.loc[d["type_name"] == "donuts", "item_name"].value_counts(normalize = True)
+```
+
+
+```{python}
+d.loc[d["type_name"] == "donuts", "item_name"].value_counts()
+```
+
+
+```{python}
+
+
+# Add to item categories list the boxes that are clearly part of that list.
+
+# For example: June Donut Box --> monthly_specials
+
+
+classics = [
+    'Strawberry Sprinkles', 'White Choc & Strawberries', 'Choc Sprinkles', 
+    'Cinnamon Sugar', 'Boston Cream', 'Classic Donut', 'Chocolate Peanut Fudge', 'Salted Caramel Hazelnut', 'Salted Caramel', 
+    "Bram's Favourites 12 Box", "Bram's Favourites 6 Box", "Bram's 12 Favorites", "Bram's 6 Favorites", "Bram's Favourites (12 Box)"]
+
+specials = [
+    'Blueberry Lemon Cheesecake', 'Chocolate Bomboloni', 'Apple Pie', 
+    'Bienenstich', 'Special Donut', 'Halloween Haunt Box', 'Halloween Box', "Valentine's Day Box", 'Valentines Day Special Box','New Years Eve Special: 6 box',
+ 'New Years Eve Special (4)',
+ 'New Years Eve Special (6)','NYE 4 Box',
+ 'NYE 6 Box',
+ 'New Years Eve Special: 4 box',
+]
+monthly_specials = [
+    'Passionfruit', 'Strawberry Shortcake', 'Strawberries & Cream', 
+    'Lemon Tart', 'Pistachio Dream', 'May Donut Box',
+ 'April Donut Box',
+ 'December Donut Box',
+ 'March Donut Box',
+ 'October Donut Box',
+ 'February Donut Box',
+ 'January Donut Box',
+ 'June Donut Box',
+ 'November Donut Box',
+ 'September Donut Box',
+ 'August Donut Box',
+ 'July Donut Box']
+
+different_products = ['Star Wars Day', 'Pizza Hawaii', 'Grilled Cheese', 'Pie Day', 'Bat', 'Cat Day', 'NYE: Tonka Cream', 'Zimtstern Donut', 'Free Donut Softeis ', 'Cookie Softie Sandwich', 'Choc Custard Filled', 'Free Donut Upgrade', 'Strawberry Bun', 'Fried Chicken & Donut Waffle', 'Waffle + Maple Syrup', 'Chicken Waffle Sriracha', 'Chicken Waffle Truffle', 'Waffle + Sriracha ', 'Chicken Waffle Maple', 'Grilled Cheese with Jalapeños', 'Waffle + Truffle3', 'Grilled Cheese + Jalapenos', 'Classic Hot Dog', 'Special Hot Dog', 'Waffle + Truffle', 'Free Berliner', 'Letter Donuts']
+
+charity = ['Charity Donut', 'charity in box(duplicate)']
+
+mixed = ['6 Donuts',
+ '4 Donuts',
+ '12 Donuts',
+ '6 Box', '12 Box','Donut Drink Combo', '6x Donut Box Online', '6 Donuts + 50% Rabatt auf ein Nitro Flat White 0,25l','6 box + free Nitro can', 'Puzzle Deal'
+]
+
+# Function to determine the category
+def categorize_item(item_name):
+    if item_name in classics:
+        return 'classics'
+    elif item_name in specials:
+        return 'specials'
+    elif item_name in monthly_specials:
+        return 'monthly_specials'
+    elif item_name in different_products:
+        return 'not_donut'
+    elif item_name == 'donuts sold (old)':
+        return 'old'
+    elif item_name in charity:
+        return 'charity_donut'
+    elif item_name in mixed:
+        return 'mixed'
+    else:
+        return 'other'
+
+# Apply the function to create the 'item_category' column
+d['item_category'] = d['item_name'].apply(categorize_item)
+```
+
+
+```{python}
+# Display the DataFrame
+d.head(10)
+```
+
+
+
+
+
+# Feature engineering
+
+## Adding weather variables
+
+
+```{python}
+from functions import weather_data
+```
+
+
+```{python}
+d = weather_data(d)
+```
+
+
+
+
+
+
+# Visualizations
+
+```{python}
+
+# Plotting the bar chart
+plt.figure(figsize=(14, 8))
+sns.barplot(data=d, x='weekday', y='amount', hue='item_category')
+plt.title('Total Amount per Weekday per Item Category (2017-2024)')
+plt.xlabel('Weekday')
+plt.ylabel('Total Amount')
+plt.legend(title='Item Category', bbox_to_anchor=(1.05, 1), loc='upper left')
+plt.grid(True)
+plt.show()
+```
+
+
+
+# Categories balance
+
+```{python}
+#Plot distribution on item categories in 'd'
+import matplotlib.pyplot as plt
+
+# Count occurrences of each item category
+category_counts = d['item_category'].value_counts()
+
+# Create bar plot
+category_counts.plot(kind='bar', color='skyblue')
+
+# Add labels and title
+plt.title('Amount of Data per Item Category')
+plt.xlabel('Item Category')
+plt.ylabel('Count')
+
+# Show plot
+plt.show()
+
+#item_category_list = d['item_category'].unique().tolist()
+print(category_counts)
+print("total:", sum(category_counts))
+
+#for category, amount in category_counts:
+ #   print(category, amount)
+```
+
+# Filtered 'd' to only item_category = 'other'
+
+```{python}
+# 1. Filter the DataFrame for 'other' in 'item_category'
+filtered_d = d[d['item_category'] == 'other']
+
+# 2. Extract the year and month from the 'date' column
+filtered_d['year'] = filtered_d['date'].dt.year
+filtered_d['month'] = filtered_d['date'].dt.month
+
+# 3. Drop duplicate entries to get unique days per 'item_name', 'year', and 'month'
+unique_days = filtered_d[['item_name', 'year', 'month', 'date', 'type_name']].drop_duplicates()
+
+# 4. Group by 'item_name' and 'year' and count unique dates
+unique_days_count = unique_days.groupby(['item_name', 'year', 'type_name']).size().reset_index(name='unique_days_count')
+
+# 5. Aggregate the months in a comma-separated format
+months_aggregated = unique_days.groupby(['item_name', 'year'])['month'].apply(lambda x: ','.join(map(str, sorted(x.unique())))).reset_index(name='months')
+
+
+# 6. Merge the aggregated months back into the result DataFrame
+result = pd.merge(unique_days_count, months_aggregated, on=['item_name', 'year'])
+```
+
+# Visualizing the slice of all rows in the category 'other', filtered by unique days count, unique months count and unique years count
+```{python}
+pd.set_option("display.max_rows", 305)
+pd.set_option("display.large_repr", "truncate") 
+result_df = pd.DataFrame(result)
+result_df
+
+```
+
+```{python}
+result_df.info()
+```
+
+# Adding the count of the months each product appears in, per year
+```{python}
+result['months_count'] = result['months'].apply(lambda x: len(x.split(',')))
+```
+
+```{python}
+result
+```
+```{python}
+# 8. Classify into bins
+bins = ['3 or less', 'between 3 and 6', '6 or more']
+result['bin'] = pd.cut(result['months_count'], bins=[0, 3, 6, float('inf')], labels=bins, right=False)
+
+# 9. Count the number of rows in each bin
+bin_counts = result['bin'].value_counts().reindex(bins)
+
+# 10. Create the bar plot
+bin_counts.plot(kind='bar', color='skyblue')
+
+# Add labels and title
+plt.title('Classifying types of product in "other"')
+plt.xlabel('Number of Months')
+plt.ylabel('Count')
+
+# Show the plot
+plt.show()
+```
+
+# Function for recategorizing some of the others
+
+```{python}
+def update_item_category(dataframe):
+    # Ensure the 'date' column is in datetime format
+    dataframe['date'] = pd.to_datetime(dataframe['date'])
+
+    # Extract the year and month from the 'date' column
+    dataframe['year'] = dataframe['date'].dt.year
+    dataframe['month'] = dataframe['date'].dt.month
+
+    # Filter only the rows where item_category is 'other'
+    other_df = dataframe[dataframe['item_category'] == 'other']
+
+    # Drop duplicate entries to get unique days per 'item_name', 'year', and 'month'
+    unique_days = other_df[['item_name', 'year', 'month', 'date']].drop_duplicates()
+
+    # Group by 'item_name' and 'year' and count unique dates
+    unique_days_count = unique_days.groupby(['item_name', 'year']).size().reset_index(name='unique_days_count')
+
+    # Aggregate the months in a comma-separated format
+    months_aggregated = unique_days.groupby(['item_name', 'year'])['month'].apply(lambda x: ','.join(map(str, sorted(x.unique())))).reset_index(name='months')
+
+    # Merge the aggregated months back into the result DataFrame
+    result = pd.merge(unique_days_count, months_aggregated, on=['item_name', 'year'])
+
+    # Count the number of months in the 'months' column
+    result['months_count'] = result['months'].apply(lambda x: len(x.split(',')))
+
+    # Classify into bins
+    bins = ['3 or less', 'more than 3 and less than 6', '6 or more']
+    result['bin'] = pd.cut(result['months_count'], bins=[0, 3, 6, float('inf')], labels=bins, right=False)
+
+    # Identify the item_names in the '3 or less' bin
+    items_3_or_less = result[result['bin'] == '3 or less']['item_name'].unique()
+
+    # Identify the item_names with 10 or more months in the same year
+    items_10_or_more = result[result['months_count'] >= 10]['item_name'].unique()
+
+    # Identify continuous sales of 10 months or more
+    continuous_sales_items = []
+    for item_name in unique_days['item_name'].unique():
+        item_sales = unique_days[unique_days['item_name'] == item_name].sort_values(by=['year', 'month'])
+        item_sales['time'] = item_sales['year'] * 12 + item_sales['month']
+        item_sales['diff'] = item_sales['time'].diff().fillna(1)
+        continuous_sales = (item_sales['diff'] <= 1).astype(int).groupby(item_sales['diff'].ne(1).cumsum()).cumsum()
+        if continuous_sales.max() >= 10:
+            continuous_sales_items.append(item_name)
+
+    # List of item_names that should remain 'other'
+    items_keep_other = [
+        'Weekend special', 'donuts in boxes (wolt)', 'Letter donuts',
+        'Softeis', 'Softi - Cup', 'Oatly Softeis', 'Drinking Bottle', 'Oatly Softeis', 'Softeis', 'Softi - Cup', 'Softi - Dount', 'Special Softi', 'donuts in boxes (wolt)'
+    ]
+
+    # Function to update item_category based on additional rules
+    def update_item_category_row(row):
+        if row['item_name'] in items_keep_other:
+            return 'other'
+        if row['item_name'] in items_10_or_more:
+            return 'specials'
+        if row['item_name'] in continuous_sales_items:
+            return 'specials'
+        if row['item_name'] in items_3_or_less:
+            return 'monthly_specials'
+        return row['item_category']
+
+    # Apply the function to update the item_category column only for 'other' category rows
+    dataframe.loc[dataframe['item_category'] == 'other', 'item_category'] = dataframe[dataframe['item_category'] == 'other'].apply(update_item_category_row, axis=1)
+
+    return dataframe
+
+updated_d = update_item_category(d)
+print(category_counts)
+print("total:", sum(category_counts))
+
+```
+
+# Other dropped to 12K
+
+```{python}
+category_counts = updated_d['item_category'].value_counts()
+category_counts
+
+```
+
+
+```{python}
+
+# 1. Filter the DataFrame for 'other' in 'item_category'
+filtered_updated_d = updated_d[updated_d['item_category'] == 'other']
+
+# 2. Extract the year and month from the 'date' column
+filtered_updated_d['year'] = filtered_updated_d['date'].dt.year
+filtered_updated_d['month'] = filtered_updated_d['date'].dt.month
+
+# 3. Drop duplicate entries to get unique days per 'item_name', 'year', and 'month'
+unique_days = filtered_updated_d[['item_name', 'year', 'month', 'date', 'type_name']].drop_duplicates()
+
+# 4. Group by 'item_name' and 'year' and count unique dates
+unique_days_count = unique_days.groupby(['item_name', 'year', 'type_name']).size().reset_index(name='unique_days_count')
+
+# 5. Aggregate the months in a comma-separated format
+months_aggregated = unique_days.groupby(['item_name', 'year'])['month'].apply(lambda x: ','.join(map(str, sorted(x.unique())))).reset_index(name='months')
+
+
+# 6. Merge the aggregated months back into the result DataFrame
+result_updated = pd.merge(unique_days_count, months_aggregated, on=['item_name', 'year'])
+
+pd.set_option("display.max_rows", 305)
+pd.set_option("display.large_repr", "truncate") 
+result_updated = pd.DataFrame(result_updated)
+
+
+
+
+result_updated['months_count'] = result_updated['months'].apply(lambda x: len(x.split(',')))
+# 8. Classify into bins
+bins_updated = ['3 or less', 'between 3 and 6', '6 or more']
+result_updated['bin'] = pd.cut(result_updated['months_count'], bins=[0, 3, 6, float('inf')], labels=bins, right=False)
+
+# 9. Count the number of rows in each bin
+bin_counts_updated = result_updated['bin'].value_counts().reindex(bins)
+
+# 10. Create the bar plot
+bin_counts_updated.plot(kind='bar', color='skyblue')
+
+# Add labels and title
+plt.title('Classifying types of product in "other"')
+plt.xlabel('Number of Months')
+plt.ylabel('Count')
+
+# Show the plot
+plt.show()
+```
+
+
+```{python}
+# Filter the DataFrame for 'box' in 'item_category'
+box_items = updated_d[updated_d['item_category'] == 'box']
+
+# Count the occurrences of each 'item_name'
+box_item_counts = box_items['item_name'].value_counts()
+
+print(box_item_counts)
+
+```
+
+
+# Function for amount transformation
+```{python}
+
+from functions import calculate_total_amount
+
+d['total_amount'] = d.apply(calculate_total_amount, axis=1)
+```
+
+```{python}
+box_names_group = d[d['type_name'] == 'box']['item_name']
+box_names_group.value_counts()
+box_names_group.value_counts().index.tolist()
+
+```
+
+```{python}
+box_names_group.drop_duplicates().tolist()
+```
