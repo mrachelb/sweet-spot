@@ -132,11 +132,6 @@ d['item_category'] = d['item_name'].apply(categorize_item)
 
 
 ```{python}
-d["item_category"] = d.apply(lambda row: 'box' if row['type_name'] == 'box' else row['item_category'], axis=1)
-```
-
-
-```{python}
 # Display the DataFrame
 d.head(10)
 ```
