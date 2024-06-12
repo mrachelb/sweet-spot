@@ -122,7 +122,7 @@ def categorize_item(item_name):
     elif item_name in charity:
         return 'charity_donut'
     elif item_name in mixed:
-        retunr 'mixed'
+        return 'mixed'
     else:
         return 'other'
 
