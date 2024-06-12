@@ -71,18 +71,41 @@ d.loc[d["type_name"] == "donuts", "item_name"].value_counts()
 
 classics = [
     'Strawberry Sprinkles', 'White Choc & Strawberries', 'Choc Sprinkles', 
-    'Cinnamon Sugar', 'Boston Cream', 'Classic Donut', 'Chocolate Peanut Fudge', 'Salted Caramel Hazelnut', 'Salted Caramel']
+    'Cinnamon Sugar', 'Boston Cream', 'Classic Donut', 'Chocolate Peanut Fudge', 'Salted Caramel Hazelnut', 'Salted Caramel', 
+    "Bram's Favourites 12 Box", "Bram's Favourites 6 Box", "Bram's 12 Favorites", "Bram's 6 Favorites", "Bram's Favourites (12 Box)"]
 
 specials = [
     'Blueberry Lemon Cheesecake', 'Chocolate Bomboloni', 'Apple Pie', 
-    'Bienenstich', 'Special Donut']
+    'Bienenstich', 'Special Donut', 'Halloween Haunt Box', 'Halloween Box', "Valentine's Day Box", 'Valentines Day Special Box','New Years Eve Special: 6 box',
+ 'New Years Eve Special (4)',
+ 'New Years Eve Special (6)','NYE 4 Box',
+ 'NYE 6 Box',
+ 'New Years Eve Special: 4 box',
+]
 monthly_specials = [
     'Passionfruit', 'Strawberry Shortcake', 'Strawberries & Cream', 
-    'Lemon Tart', 'Pistachio Dream']
+    'Lemon Tart', 'Pistachio Dream', 'May Donut Box',
+ 'April Donut Box',
+ 'December Donut Box',
+ 'March Donut Box',
+ 'October Donut Box',
+ 'February Donut Box',
+ 'January Donut Box',
+ 'June Donut Box',
+ 'November Donut Box',
+ 'September Donut Box',
+ 'August Donut Box',
+ 'July Donut Box']
 
 different_products = ['Star Wars Day', 'Pizza Hawaii', 'Grilled Cheese', 'Pie Day', 'Bat', 'Cat Day', 'NYE: Tonka Cream', 'Zimtstern Donut', 'Free Donut Softeis ', 'Cookie Softie Sandwich', 'Choc Custard Filled', 'Free Donut Upgrade', 'Strawberry Bun', 'Fried Chicken & Donut Waffle', 'Waffle + Maple Syrup', 'Chicken Waffle Sriracha', 'Chicken Waffle Truffle', 'Waffle + Sriracha ', 'Chicken Waffle Maple', 'Grilled Cheese with Jalapeños', 'Waffle + Truffle3', 'Grilled Cheese + Jalapenos', 'Classic Hot Dog', 'Special Hot Dog', 'Waffle + Truffle', 'Free Berliner', 'Letter Donuts']
 
+charity = ['Charity Donut', 'charity in box(duplicate)']
 
+mixed = ['6 Donuts',
+ '4 Donuts',
+ '12 Donuts',
+ '6 Box', '12 Box','Donut Drink Combo', '6x Donut Box Online', '6 Donuts + 50% Rabatt auf ein Nitro Flat White 0,25l','6 box + free Nitro can', 'Puzzle Deal'
+]
 
 # Function to determine the category
 def categorize_item(item_name):
@@ -96,8 +119,10 @@ def categorize_item(item_name):
         return 'not_donut'
     elif item_name == 'donuts sold (old)':
         return 'old'
-    elif item_name == 'Charity Donut':
+    elif item_name in charity:
         return 'charity_donut'
+    elif item_name in mixed:
+        retunr 'mixed'
     else:
         return 'other'
 
@@ -407,5 +432,12 @@ d['total_amount'] = d.apply(calculate_total_amount, axis=1)
 ```
 
 ```{python}
-d
+box_names_group = d[d['type_name'] == 'box']['item_name']
+box_names_group.value_counts()
+box_names_group.value_counts().index.tolist()
+
+```
+
+```{python}
+box_names_group.drop_duplicates().tolist()
 ```
