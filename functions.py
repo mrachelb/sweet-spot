@@ -82,29 +82,45 @@ def transform_weather_prec_sunshine(df, variable:str):
 
 # school holidays
 
-def hol_school (df,h_s):
+def hol_school (df,hs_b,hs_h):
     df['date'] =pd.to_datetime(df['date'])
-    start =pd.to_datetime(h_s["Beginn"], format ="%d.%m.%Y").to_frame()
-    end =pd.to_datetime(h_s["Ende"], format ="%d.%m.%Y").to_frame()
-    h_s =pd.concat([start,end], axis =1)
+    start_b =pd.to_datetime(hs_b["Beginn"], format ="%d.%m.%Y").to_frame()
+    end_b =pd.to_datetime(hs_b["Ende"], format ="%d.%m.%Y").to_frame()
+    hs_b =pd.concat([start_b,end_b], axis =1)
+    start_h =pd.to_datetime(hs_h["Beginn"], format ="%d.%m.%Y").to_frame()
+    end_h =pd.to_datetime(hs_h["Ende"], format ="%d.%m.%Y").to_frame()
+    hs_h =pd.concat([start_h,end_h], axis =1)
     def gen_range(row):
         return pd.date_range(start=row['Beginn'], end=row['Ende'])
-    h_s['date'] =h_s.apply(gen_range, axis=1)
-    h_s_exp =h_s.explode('date').reset_index(drop=True).drop(["Beginn","Ende"], axis =1)
-    h_s_exp["hol_school"] =1
-    df =pd.merge(left=df,right=h_s_exp, how="left", on="date").fillna(0)
-    return df
-
-
+    hs_b['date'] =hs_b.apply(gen_range, axis=1)
+    hs_b_exp =hs_b.explode('date').reset_index(drop=True).drop(["Beginn","Ende"], axis =1)
+    hs_b_exp["hol_school"] =1
+    hs_h['date'] =hs_h.apply(gen_range, axis=1)
+    hs_h_exp =hs_h.explode('date').reset_index(drop=True).drop(["Beginn","Ende"], axis =1)
+    hs_h_exp["hol_school"] =1
+    df_new =df.copy().reset_index()
+    merged_b =pd.merge(left =df_new[df_new["Location_name"] == "Berlin"], right =hs_b_exp, how ="left", on ="date").fillna(0)
+    merged_h =pd.merge(left =df_new[df_new["Location_name"] == "Hamburg"], right =hs_h_exp, how ="left", on = "date").fillna(0)
+    df_new =pd.concat([merged_b, merged_h]).sort_values(by = "index").reset_index(drop = True).drop("index", axis = 1)
+    return df_new
 
 
 # public holidays 
 
 def hol_pub (df):
-    hol_ber =holidays.Germany(years=range(2017, 2024), prov='BE')
-    hol_dates =sorted(hol_ber.keys())
-    h_p =pd.DataFrame(hol_dates, columns=['date'])
-    h_p['date'] =pd.to_datetime(h_p['date'])
-    h_p["hol_pub"] =1
-    df =pd.merge(left=df,right=h_p, how="left",  on="date").fillna(0)
-    return df
+    df['date'] =pd.to_datetime(df['date'])
+    hol_b =holidays.Germany(years=range(2017, 2024), prov='BE')
+    holdates_b =sorted(hol_b.keys())
+    hp_b =pd.DataFrame(holdates_b, columns=['date'])
+    hp_b['date'] =pd.to_datetime(hp_b['date'])
+    hp_b["hol_pub"] =1
+    hol_h =holidays.Germany(years=range(2017, 2024), prov='HH')
+    holdates_h =sorted(hol_h.keys())
+    hp_h =pd.DataFrame(holdates_h, columns=['date'])
+    hp_h['date'] =pd.to_datetime(hp_h['date'])
+    hp_h["hol_pub"] =1
+    df_new =df.copy().reset_index()
+    merged_b =pd.merge(left =df_new[df_new["Location_name"] == "Berlin"], right =hp_b, how ="left", on = "date").fillna(0)
+    merged_h =pd.merge(left =df_new[df_new["Location_name"] =="Hamburg"], right =hp_h, how ="left", on ="date").fillna(0)
+    df_new =pd.concat([merged_b, merged_h]).sort_values(by = "index").reset_index(drop = True).drop("index", axis = 1)
+    return df_new
