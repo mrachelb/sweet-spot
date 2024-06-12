@@ -33,10 +33,12 @@ def weather_data(df:pd.DataFrame):
     weather_BE = requests.get(url =weather_URL,params=params_BE).json()
     weather_BE = pd.DataFrame(weather_BE.get("daily"))
     weather_BE = weather_BE.rename(columns = {"time":"date"})
+    weather_BE["date"] = pd.to_datetime(weather_BE["date"])
 
     weather_HH = requests.get(url =weather_URL,params=params_HH).json()
     weather_HH = pd.DataFrame(weather_HH.get("daily"))
     weather_HH = weather_HH.rename(columns = {"time":"date"})
+    weather_HH["date"] = pd.to_datetime(weather_HH["date"])
 
     df_new = df.copy().reset_index()
 
