@@ -124,3 +124,26 @@ def hol_pub (df):
     merged_h =pd.merge(left =df_new[df_new["Location_name"] =="Hamburg"], right =hp_h, how ="left", on ="date").fillna(0)
     df_new =pd.concat([merged_b, merged_h]).sort_values(by = "index").reset_index(drop = True).drop("index", axis = 1)
     return df_new
+
+  
+
+# calculating total amount
+
+def calculate_total_amount(dataframe):
+    item_name = dataframe['item_name']
+    amount = dataframe['amount']
+    
+    if any(str(i) in item_name for i in [4, 6, 12]):
+        if '4' in item_name:
+            return amount * 4
+        elif '6' in item_name:
+            return amount * 6
+        elif '12' in item_name:
+            return amount * 12
+    elif any(month in item_name for month in ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']):
+        return amount * 6
+    elif 'box' in item_name.lower():
+        return amount * 4
+    else:
+        return amount * 1
+
