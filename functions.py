@@ -111,12 +111,12 @@ def hol_school (df,hs_b,hs_h):
 
 def hol_pub (df):
     df['date'] =pd.to_datetime(df['date'])
-    hol_b =holidays.Germany(years=range(2017, 2024), prov='BE')
+    hol_b =holidays.Germany(years=range(2017, 2025), prov='BE')
     holdates_b =sorted(hol_b.keys())
     hp_b =pd.DataFrame(holdates_b, columns=['date'])
     hp_b['date'] =pd.to_datetime(hp_b['date'])
     hp_b["hol_pub"] =1
-    hol_h =holidays.Germany(years=range(2017, 2024), prov='HH')
+    hol_h =holidays.Germany(years=range(2017, 2025), prov='HH')
     holdates_h =sorted(hol_h.keys())
     hp_h =pd.DataFrame(holdates_h, columns=['date'])
     hp_h['date'] =pd.to_datetime(hp_h['date'])
