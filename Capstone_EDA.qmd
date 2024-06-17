@@ -21,7 +21,7 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 import datetime as dt
 
-from sklearn.model_selection import train_test_split, GroupShuffleSplit
+from sklearn.model_selection import TimeSeriesSplit
 ```
 
 
@@ -29,6 +29,9 @@ from sklearn.model_selection import train_test_split, GroupShuffleSplit
 %run functions.py
 ```
 
+```{python}
+pd.set_option("display.max_columns", None)
+```
 
 ```{python}
 d = pd.read_csv("data/daily_sales_report.csv")
@@ -159,27 +162,75 @@ updated_d = drop_duplicates(updated_d)
 
 
 
-## Remove the store in Eppendorf from dataset (opened in June 2024)
+## Remove stores in Eppendorf, Schöneberg, Hauptbahnhof from dataset 
 
 ```{python}
 updated_d = updated_d[(updated_d["date"] <= pd.to_datetime("2024-05-31")) &
-           (updated_d["store_name"] != "Eppendorf")]
+           (-updated_d["store_name"].isin(["Eppendorf","Schöneberg","Hauptbahnhof"]))]
+```
+
+
+## Create "weekend" dummy
+
+```{python}
+updated_d["weekend"] = updated_d["weekday"].apply(lambda x: 1 if x in [5,6] else 0)
+```
+
+
+## Create "public_space" dummy
+
+```{python}
+updated_d["public_space"] = updated_d["store_name"].apply(lambda x: 1 if x in ["Potsdamer","Altona","KaDeWe","Hamburg Hauptbahnhof"] else 0)
 ```
 
 
 
-## Test-train split
+## Create "box_deal" dummy
+
 
 ```{python}
-train_idx, test_idx = next(GroupShuffleSplit(n_splits = 1, random_state=100, test_size = 0.25).split(updated_d, groups = updated_d["date"]))
-
-train = updated_d.iloc[train_idx]
-test = updated_d.iloc[test_idx]
+updated_d["box_deal"] = updated_d["type_name"].apply(lambda x: 1 if x in "box" else 0)
 ```
 
 ```{python}
 updated_d
 ```
+
+
+
+## Time Series split
+
+```{python}
+updated_d = updated_d.set_index("date")
+```
+
+```{python}
+days = np.sort(updated_d.index.unique())
+days
+```
+
+```{python}
+tscv = TimeSeriesSplit(n_splits=2, test_size = 7)
+list(tscv.split(days))
+```
+
+
+```{python}
+for train_index, test_index in tscv.split(days):
+    train_days, test_days = days[train_index], days[test_index]
+    train, test = updated_d.loc[train_days], updated_d.loc[test_days]
+
+```
+
+
+
+```{python}
+train = train.reset_index()
+test = test.reset_index()
+```
+
+
+
 
 
 
