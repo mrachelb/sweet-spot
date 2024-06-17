@@ -222,6 +222,9 @@ for train_index, test_index in tscv.split(days):
 
 ```
 
+```{python}
+updated_d = updated_d.reset_index()
+```
 
 
 ```{python}
@@ -229,8 +232,10 @@ train = train.reset_index()
 test = test.reset_index()
 ```
 
-
-
+```{python}
+train = train.sort_values("date", ascending = False)
+test = test.sort_values("date", ascending = False)
+```
 
 
 
