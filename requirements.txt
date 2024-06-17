@@ -15,3 +15,5 @@ tensorflow-docs
 xgboost==1.7.5
 holidays==0.50
 requests
+scipy==1.10.1
+catboost == 1.2.5
