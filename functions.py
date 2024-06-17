@@ -2,7 +2,7 @@
 import pandas as pd
 import numpy as np
 import holidays
-from datetime import datetime
+from datetime import datetime, timedelta
 import requests
 
 
@@ -127,7 +127,6 @@ def hol_pub (df):
     df_new =pd.concat([merged_b, merged_h]).sort_values(by = "index").reset_index(drop = True).drop("index", axis = 1)
     return df_new
 
-  
 
 # calculating total amount
 
@@ -180,10 +179,9 @@ def date_info(d):
     d['month'] =d['date'].dt.month
     d['year'] =d['date'].dt.year
     d['week_year'] =d['date'].dt.isocalendar().week
-    d_new =d
-    return d_new
-
-
+    last_date =datetime(2024, 5, 31)
+    d['days_back'] =(last_date -d['date']).dt.days
+    return d
 
 # categorization of items
 
@@ -323,3 +321,11 @@ def update_item_category(dataframe):
     dataframe.loc[dataframe['item_category'] == 'other', 'item_category'] = dataframe[dataframe['item_category'] == 'other'].apply(update_item_category_row, axis=1)
 
     return dataframe
+
+
+# lagged variables 
+
+def lag(d):
+    d['lag1'] =d.groupby(["store_name","day"])["total_amount"].shift(periods =1)
+    d['lag7'] =d.groupby(["store_name","day"])["total_amount"].shift(periods =7)
+    return d
