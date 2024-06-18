@@ -5,7 +5,29 @@ import holidays
 from datetime import datetime, timedelta
 import requests
 
+# function to create total amount per day
 
+def daily_total(d): 
+    td =d.groupby(["date","store_name","Location_name",
+    "location_id","store_id"])["total_amount"].sum().reset_index() 
+    td['item_category'] ='daily total'
+    td['type_id'] ='0'
+    td['type_name'] ='daily total'
+    td['item_id'] ='0'
+    td['amount'] =td['total_amount']
+    d_new =pd.concat([d, td]).reset_index(drop=True)
+    return d_new
+
+# function to create lagged variables
+
+def lag(d):
+    dl =d.loc[d['item_category'] =='daily total',
+    ["date","store_name","item_category","total_amount"]]
+    dl['lag1'] =dl.groupby("store_name")["total_amount"].shift(periods =1)
+    dl['lag2'] =dl.groupby("store_name")["total_amount"].shift(periods =2)
+    dl =dl.drop("total_amount", axis =1)
+    d_new =pd.merge(d,dl,on=["date","store_name","item_category"], how ='left')
+    return d_new
 
 
 # function to transform weather variables
@@ -323,9 +345,3 @@ def update_item_category(dataframe):
     return dataframe
 
 
-# lagged variables 
-
-def lag(d):
-    d['lag1'] =d.groupby(["store_name","day"])["total_amount"].shift(periods =1)
-    d['lag7'] =d.groupby(["store_name","day"])["total_amount"].shift(periods =7)
-    return d
