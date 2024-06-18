@@ -5,6 +5,12 @@ import holidays
 from datetime import datetime, timedelta
 import requests
 
+# function to add column street_market as a dummy
+
+def dummy_street_market(df):
+    df['street_market'] = df.apply(lambda row: 1 if row['store_name'] == 'Maybachufer' and row['weekday'] in [1, 4] else 0, axis=1)
+    return df
+
 # function to create total amount per day
 
 def daily_total(d): 
