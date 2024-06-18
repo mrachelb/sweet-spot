@@ -42,11 +42,6 @@ school_h_hh = pd.read_csv("data/hol_school_h.csv")
 
 # EDA 
 
-```{python}
-d
-```
-
-
 
 ## Converting "date" to datetime 
 
@@ -68,9 +63,6 @@ d['item_category'] = d['item_name'].apply(categorize_item)
 ```
 
 
-```{python}
-d["item_category"].value_counts(normalize=True)
-```
 
 
 ## Calculating total amount
@@ -79,9 +71,29 @@ d["item_category"].value_counts(normalize=True)
 d['total_amount'] = d.apply(calculate_total_amount, axis=1)
 ```
 
+
+## Dropping duplicates
+
 ```{python}
-d
+d = drop_duplicates(d)
 ```
+
+
+
+## Remove stores in Eppendorf, Schöneberg, Hauptbahnhof from dataset 
+
+```{python}
+d = d[(d["date"] <= pd.to_datetime("2024-05-31")) &
+           (-d["store_name"].isin(["Eppendorf","Schöneberg","Hauptbahnhof"]))]
+```
+
+
+## Daily total 
+
+```{python}
+d = daily_total(d)
+```
+
 
 
 ## Adding weather variables
@@ -91,13 +103,12 @@ d = weather_data(d)
 ```
 
 ```{python}
-d
+d["sunshine_duration"] = d["sunshine_duration"]/3600
 ```
 
 
 
 ## Balancing Item Categories
-
 
 ```{python}
 
@@ -105,9 +116,6 @@ updated_d = update_item_category(d)
 
 ```
 
-```{python}
-updated_d
-```
 
 ```{python}
 updated_d[updated_d["item_category"] == "other"]["item_name"].value_counts()
@@ -120,13 +128,14 @@ updated_d["item_category"].value_counts()
 
 
 ```{python}
-updated_d = updated_d[~updated_d["item_category"].isin(["other","not_donut"])]
+updated_d = updated_d[~updated_d["item_category"].isin(["other","not_donut"])].reset_index(drop = True)
 ```
 
 
 ```{python}
 updated_d["item_category"].value_counts()
 ```
+
 
 
 ## Drop year and month features to avoid duplicates below
@@ -147,6 +156,7 @@ updated_d = hol_school(updated_d, school_h_be, school_h_hh)
 ```
 
 
+
 ## Adding date info
 
 ```{python}
@@ -154,20 +164,6 @@ updated_d = date_info(updated_d)
 ```
 
 
-## Dropping duplicates
-
-```{python}
-updated_d = drop_duplicates(updated_d)
-```
-
-
-
-## Remove stores in Eppendorf, Schöneberg, Hauptbahnhof from dataset 
-
-```{python}
-updated_d = updated_d[(updated_d["date"] <= pd.to_datetime("2024-05-31")) &
-           (-updated_d["store_name"].isin(["Eppendorf","Schöneberg","Hauptbahnhof"]))]
-```
 
 
 ## Create "weekend" dummy
@@ -177,24 +173,59 @@ updated_d["weekend"] = updated_d["weekday"].apply(lambda x: 1 if x in [5,6] else
 ```
 
 
+## Adding "street_market" dummy
+
+```{python}
+updated_d  = dummy_street_market(updated_d)
+```
+
+
 ## Create "public_space" dummy
 
 ```{python}
-updated_d["public_space"] = updated_d["store_name"].apply(lambda x: 1 if x in ["Potsdamer","Altona","KaDeWe","Hamburg Hauptbahnhof"] else 0)
+updated_d["public_space"] = updated_d["store_name"].apply(lambda x: 1 if x in ["Potsdamer","Altona","KaDeWe","Hamburg Hauptbahnhof","Mitte"] else 0)
 ```
 
 
 
 ## Create "box_deal" dummy
 
-
 ```{python}
 updated_d["box_deal"] = updated_d["type_name"].apply(lambda x: 1 if x in "box" else 0)
 ```
 
+
+## Create lagged variables
+
 ```{python}
-updated_d
+updated_d  = lag(updated_d)
 ```
+
+
+
+## Binning weather variables
+
+### Rainfall
+
+```{python}
+updated_d["rainfall_bins"] = pd.cut(updated_d["precipitation_hours"], bins=[updated_d["precipitation_hours"].min() - 1, 4, 8, 12, 16, updated_d["precipitation_hours"].max() + 1], labels = ["0-4 hrs", "4-8 hrs" ,"8-12 hrs", "12-16 hrs", "> 16 hrs"])
+```
+
+
+
+### Temperature
+
+```{python}
+updated_d["temp_bins"] = pd.cut(updated_d["temperature_2m_mean"], bins=[updated_d["temperature_2m_mean"].min() - 1, 0, 10, 15, 20, 25, d["temperature_2m_mean"].max() + 1], labels = ["< 0°C", "0 - 10°C", "10 - 15°C", "15 - 20°C", "20 - 25°C", "> 25°C"])
+```
+
+
+### Sunshine
+
+```{python}
+updated_d["sunshine_bins"] = pd.cut(updated_d["sunshine_duration"], bins=[updated_d["sunshine_duration"].min() - 1, 4, 8, 12, d["sunshine_duration"].max() + 1], labels = ["0-4 hrs", "4-8 hrs", "8-12 hrs", "> 12 hrs"])
+```
+
 
 
 
@@ -228,15 +259,20 @@ updated_d = updated_d.reset_index()
 
 
 ```{python}
-train = train.reset_index()
-test = test.reset_index()
-```
-
-```{python}
 train = train.sort_values("date", ascending = False)
 test = test.sort_values("date", ascending = False)
 ```
 
+```{python}
+train = train.reset_index()
+test = test.reset_index()
+```
+
+
+```{python}
+train['days_back'] =(datetime(2024, 5, 24) - train['date']).dt.days
+test['days_back'] =(datetime(2024, 5, 31) - test['date']).dt.days
+```
 
 
 # Creating .csv files
