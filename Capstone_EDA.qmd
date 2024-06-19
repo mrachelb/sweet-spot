@@ -244,6 +244,12 @@ updated_d["sunshine_bins"] = pd.cut(updated_d["sunshine_duration"], bins=[update
 ```
 
 
+### Drop ID columns
+
+```{python}
+updated_d = updated_d.drop(["location_id","store_id","type_id","item_id"], axis = 1)
+```
+
 
 
 ## Time Series split
