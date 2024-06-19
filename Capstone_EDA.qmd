@@ -164,6 +164,23 @@ updated_d = date_info(updated_d)
 ```
 
 
+## Create NYE dummy
+
+```{python}
+updated_d['nye'] = updated_d['date'].apply(lambda x: 1 if (x.month ==12 and x.day ==31) else 0)
+```
+
+## Create Valentine's day dummy
+
+```{python}
+updated_d['valentines_day'] = updated_d['date'].apply(lambda x: 1 if (x.month ==2 and x.day ==14) else 0)
+```
+
+## Create Halloween dummy
+
+```{python}
+updated_d['halloween'] = updated_d['date'].apply(lambda x: 1 if (x.month == 10 and (x.day ==29 or x.day ==30 or x.day ==31)) else 0)
+```
 
 
 ## Create "weekend" dummy
@@ -274,6 +291,9 @@ train['days_back'] =(datetime(2024, 5, 24) - train['date']).dt.days
 test['days_back'] =(datetime(2024, 5, 31) - test['date']).dt.days
 ```
 
+```{python}
+train
+```
 
 # Creating .csv files
 
