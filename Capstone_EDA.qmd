@@ -212,13 +212,6 @@ updated_d["box_deal"] = updated_d["type_name"].apply(lambda x: 1 if x in "box" e
 ```
 
 
-## Create lagged variables
-
-```{python}
-updated_d  = lag(updated_d)
-```
-
-
 
 ## Binning weather variables
 
@@ -291,15 +284,21 @@ train = train.reset_index()
 test = test.reset_index()
 ```
 
-
+### days back for both test and train
 ```{python}
 train['days_back'] =(datetime(2024, 5, 24) - train['date']).dt.days
 test['days_back'] =(datetime(2024, 5, 31) - test['date']).dt.days
 ```
 
+
+## Create lagged variables for both test and train
+
 ```{python}
-train
+train  = lag(train)
+test = lag(test)
 ```
+
+
 
 # Creating .csv files
 
