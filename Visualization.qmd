@@ -1,13 +1,238 @@
-# Categories balance
+
+# Load libraries and data
+
+
+```{python}
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+```
+
+```{python}
+%run vis_functions.py
+```
+
+```{python}
+pd.set_option("display.max_columns", None)
+```
+
+# Loading dataset
+
+```{python}
+d = pd.read_csv("data/train_df.csv")
+```
+
+
+## Converting "date" to datetime 
+
+```{python}
+d['date'] = pd.to_datetime(d['date'])
+```
+
+
+
+
+# Visualizations
+
+## Histogram
+
+```{python}
+vis_total_amount_hist(d)
+```
+
+
+```{python}
+d[(d["item_category"] == "daily total")].groupby("store_name")["total_amount"].mean()
+```
+
+
+
+## Weather data
+
+### Rainfall
+
+```{python}
+vis_rain(d)
+```
+
+```{python}
+corr_total_amount_by_store(d, "precipitation_hours")
+```
+
+
+```{python}
+vis_rain_bin(d)
+```
+
+
+```{python}
+anova_pvalue(d, "rainfall_bins", "total_amount")
+```
+
+
+
+
+### Temperature
+
+```{python}
+vis_temp(d)
+```
+
+```{python}
+corr_total_amount_by_store(d, "temperature_2m_mean")
+```
+
+
+```{python}
+vis_temp_bin(d)
+```
+
+
+```{python}
+anova_pvalue(d, "temp_bins", "total_amount")
+```
+
+
+```{python}
+sns.stripplot(data = d, x = "temp_bins", y = "total_amount")
+```
+
+
+
+
+### Sunshine duration
+
+```{python}
+vis_sunshine(d)
+```
+
+```{python}
+corr_total_amount_by_store(d, "sunshine_duration")
+```
+
+
+```{python}
+vis_sunshine_bin(d)
+```
+
+
+```{python}
+anova_pvalue(d, "sunshine_bins", "total_amount")
+```
+
+
+```{python}
+sns.stripplot(data = d, x = "sunshine_bins", y = "total_amount")
+```
+
+
+
+
+
+## Holidays
+
+### Public holidays
+
+```{python}
+vis_pub_hol(d)
+```
+
+```{python}
+anova_pvalue(d, "hol_pub", "total_amount")
+```
+
+
+
+### School holidays
+```{python}
+vis_school_hol(d)
+```
+
+```{python}
+anova_pvalue(d, "hol_school", "total_amount")
+```
+
+
+```{python}
+d["store_name"].unique()
+```
+
+
+
+## Public Spaces
+
+```{python}
+vis_pub_spaces(d)
+```
+
+
+
+
+## Time variables
+
+### Weeks of the year
+
+```{python}
+vis_weeks(d)
+```
+
+```{python}
+anova_pvalue(d, "week_year", "total_amount")
+```
+
+
+
+
+### Weekdays
+
+```{python}
+vis_weekday(d)
+```
+
+
+```{python}
+anova_pvalue(d, "weekday", "total_amount")
+```
+
+
+
+### Weekend
+
+```{python}
+vis_weekend(d)
+```
+
+
+```{python}
+anova_pvalue(d, "weekend", "total_amount")
+```
+
+
+
+
+
+
+
+
+
+
+```{python}
+d.groupby(["store_name","date"])["total_amount"].sum()
+```
+
+
+
+
+
+
+## Item Categories Balance
+
 ```{python}
 
-import matplotlib.pyplot as plt
+d['item_category'].value_counts().plot(kind='bar', color='skyblue')
 
-# Count occurrences of each item category
-category_counts = d['item_category'].value_counts()
-
-# Create bar plot
-category_counts.plot(kind='bar', color='skyblue')
 
 # Add labels and title
 plt.title('Amount of Data per Item Category')
@@ -17,4 +242,19 @@ plt.ylabel('Count')
 # Show plot
 plt.show()
 
+```
+
+
+```{python}
+sns.boxplot(data = d, x = "item_category", y = "total_amount")
+```
+
+
+```{python}
+d.groupby("item_category")["total_amount"].sum().sort_values(ascending=False).sum()
+```
+
+
+```{python}
+d.groupby("item_category")["total_amount"].sum().sort_values(ascending=False)[-1] / d.groupby("item_category")["total_amount"].sum().sort_values(ascending=False).sum()
 ```
