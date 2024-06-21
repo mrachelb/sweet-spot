@@ -4,6 +4,35 @@ import numpy as np
 import holidays
 from datetime import datetime, timedelta
 import requests
+from matplotlib import ticker
+
+# function to bar-plot the total amount per category, excluding daily_toTAL
+def vis_total_categories(d):
+
+    # Filter out rows where item_category is 'daily total'
+    filtered_df = d[d['item_category'] != 'daily total']
+
+    # Count occurrences of each item category and sum the total_amount
+    category_counts = filtered_df.groupby('item_category')['total_amount'].sum().sort_values(ascending = False)
+
+    # Create bar plot
+    ax =category_counts.plot(kind='bar', color='skyblue')
+
+    # Add labels and title
+    plt.title('Total Amount per Item Category')
+    plt.xlabel('Item Category')
+    plt.ylabel('Total Amount (in Millions)')
+    ax.yaxis.set_major_formatter(ticker.FuncFormatter(lambda x, _: f'{x / 1e6:.2f}'))
+
+    # Add the value of each bar on top of the bars
+    for p in ax.patches:
+        ax.annotate(f'{p.get_height() / 1e6:.2f}', 
+                    (p.get_x() + p.get_width() / 2., p.get_height()), 
+                    ha='center', va='center', 
+                    xytext=(0, 9), 
+                    textcoords='offset points')
+    # Show plot
+    plt.show()
 
 # function to add column street_market as a dummy
 
