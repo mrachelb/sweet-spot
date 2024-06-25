@@ -12,6 +12,7 @@ import seaborn as sns
 
 ```{python}
 %run vis_functions.py
+% fun functions.py
 ```
 
 ```{python}
@@ -88,6 +89,11 @@ corr_total_amount_by_store(d, "temperature_2m_mean")
 ```{python}
 vis_temp_bin(d)
 ```
+
+```{python}
+d[d["item_category"] == "daily total"].groupby("temp_bins")["total_amount"].mean()
+```
+
 
 
 ```{python}
