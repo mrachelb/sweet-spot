@@ -5,6 +5,7 @@ import holidays
 from datetime import datetime, timedelta
 import requests
 from matplotlib import ticker
+import matplotlib.pyplot as plt
 
 # function to bar-plot the total amount per category, excluding daily_toTAL
 def vis_total_categories(d):
