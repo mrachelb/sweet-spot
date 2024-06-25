@@ -1,0 +1,585 @@
+---
+title: "Modelling"
+author: "Alex, Rachel, Vlatko, Malte"
+date: "2024-06-20"
+format: html
+execute: 
+  cache: true
+  echo: false
+  error: true
+jupyter: python3
+editor:
+  render-on-save: true
+---
+
+```{python}
+
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+import matplotlib.dates as md
+import seaborn as sns
+import datetime as dt
+
+from sklearn.impute import SimpleImputer, KNNImputer 
+from sklearn.preprocessing import OneHotEncoder, RobustScaler, FunctionTransformer, PolynomialFeatures
+from sklearn.compose import ColumnTransformer
+from sklearn.pipeline import Pipeline
+from sklearn.model_selection import cross_validate, RandomizedSearchCV
+from sklearn.linear_model import LinearRegression, Ridge, Lasso, ElasticNet
+from sklearn.metrics import mean_absolute_percentage_error, r2_score, mean_squared_error
+
+from sklearn.model_selection import TimeSeriesSplit
+from statsmodels.tsa.stattools import adfuller
+
+from catboost import CatBoostRegressor
+from xgboost import XGBRegressor
+import optuna 
+```
+
+
+```{python}
+%run model_functions.py
+```
+
+```{python}
+pd.set_option("display.max_columns", None)
+```
+
+
+# Loading the dataset
+
+```{python}
+d = pd.read_csv("data/train_df.csv")
+d_test = pd.read_csv("data/test_df.csv")
+```
+
+
+```{python}
+d['date'] = pd.to_datetime(d['date'])
+d_test['date'] = pd.to_datetime(d_test['date'])
+```
+
+
+
+# Creating validation dataset
+
+```{python}
+d = d.set_index("date")
+days = np.sort(d.index.unique())
+tscv = TimeSeriesSplit(n_splits=2, test_size = 7)
+
+for train_index, val_index in tscv.split(days):
+    train_days, val_days = days[train_index], days[val_index]
+    train, val = d.loc[train_days], d.loc[val_days]
+
+train = train.sort_values("date", ascending = False)
+val = val.sort_values("date", ascending = False)
+
+train = train.reset_index()
+val = val.reset_index()
+
+```
+
+
+
+
+# Modelling
+
+## Time Series baseline model
+
+### Selecting features
+
+```{python}
+
+# reduce dataset to daily totals and drop nas
+
+train_ts = train[(train["item_category"] == "daily total")]
+train_ts["year_month"] = pd.to_datetime(train['year'].astype(str) + '-'+ train['month'].astype(str), format= '%Y-%m')
+train_ts = train_ts.dropna().set_index("date")
+
+test_ts = d_test[(d_test["item_category"] =="daily total")]
+test_ts["year_month"] = pd.to_datetime(d_test['year'].astype(str) + '-'+ d_test['month'].astype(str), format= '%Y-%m')
+test_ts = test_ts.set_index("date")
+```
+
+
+
+```{python}
+# create features and target variable
+
+trend =["days_back"]
+season = ["year_month","month"]
+lag = ["lag1","lag2"]
+store = ["store_name"]
+
+train_ts = train_ts[trend + season + store + ["total_amount"] + lag]
+y_train = train_ts['total_amount']
+
+test_ts = test_ts[trend + season + store + ["total_amount"] + lag]
+y_test = test_ts['total_amount']
+```
+
+
+
+### Reshuffle dataframe
+
+
+```{python}
+train_ts = train_ts.sample(frac=1)
+```
+
+
+
+### Plot time series of sales for all stores
+
+```{python}
+
+def ts_lineplot (df):
+    fig, axes = plt.subplots(5,2, figsize = (18,15), sharey = False, sharex = False)
+    axes = axes.flatten()
+
+    for i, store in enumerate(df["store_name"].unique()):
+      store_df = df[df["store_name"] == store]
+      store_grouped = store_df.groupby("year_month")["total_amount"].sum()
+
+      g = sns.lineplot(data = store_grouped, ax = axes[i], errorbar=("ci",False))
+
+      axes[i].set_title(store, size = 20)
+      axes[i].set_xlabel("")
+      axes[i].set_ylabel("Amount sold", size = 18)
+      #axes[i].xaxis.set_major_formatter(md.DateFormatter('%Y'))
+
+    for j in range(i + 1, len(axes)):
+        fig.delaxes(axes[j])
+
+    plt.tight_layout()
+    plt.show()
+```
+
+
+```{python}
+ts_lineplot(train_ts)
+```
+
+
+### ADF Test
+
+```{python}
+adf_test_p_values(train_ts)
+```
+
+
+
+## Feature preprocessing
+
+```{python}
+
+# Training set 
+
+groups = train_ts[-train_ts["store_name"].isin(["Neuer Kamp","Altona","Jungfernstieg","Hamburg Hauptbahnhof","KaDeWe"])].groupby("store_name")[["days_back","month","total_amount","lag1","lag2"]]
+
+group_dict = {i:j for i, j in groups}
+
+
+for store in group_dict:
+    globals()[store.lower()] = group_dict[store]
+
+for store in group_dict:
+    globals()[f'{store.lower()}_y'] = group_dict[store]['total_amount']
+
+
+# Test set
+
+groups_test = test_ts[-test_ts["store_name"].isin(["Neuer Kamp","Altona","Jungfernstieg","Hamburg Hauptbahnhof","KaDeWe"])].groupby("store_name")[["days_back","month","total_amount","lag1","lag2"]]
+
+group_dict_test = {i:j for i, j in groups_test}
+
+
+
+for store in group_dict_test:
+    globals()[f"{store.lower()}_test"] = group_dict_test[store]
+
+for store in group_dict_test:
+    globals()[f'{store.lower()}_y_test'] = group_dict_test[store]['total_amount']
+```
+
+
+```{python}
+
+# Training set 
+
+sub_datasets = [
+    ("Danziger", danziger, danziger_y),
+    ("Maybachufer", maybachufer, maybachufer_y),
+    ("Mitte", mitte, mitte_y),
+    ("Potsdamer", potsdamer, potsdamer_y),
+    ("Warschauer", warschauer, warschauer_y)
+]
+
+
+# Test set
+
+sub_datasets_test = [
+    ("Danziger", danziger_test, danziger_y_test),
+    ("Maybachufer", maybachufer_test, maybachufer_y_test),
+    ("Mitte", mitte_test, mitte_y_test),
+    ("Potsdamer", potsdamer_test, potsdamer_y_test),
+    ("Warschauer", warschauer_test, warschauer_y_test)
+]
+
+```
+
+
+
+```{python}
+
+ts_transform = ColumnTransformer([
+    ('poly', PolynomialFeatures(degree=2, include_bias=False), ['days_back']),
+    #("passthrough_trend", "passthrough", ["days_back"]),
+    ('ohe', OneHotEncoder(drop='first', sparse_output =False), ['month'])
+], remainder = "drop")
+
+```
+
+
+### Transformed datasets (by store)
+
+```{python}
+ts_transform.set_output(transform="pandas")
+
+# Training set
+
+for name, store, store_y in sub_datasets:
+    globals()[f'{name.lower()}_trans'] = ts_transform.fit_transform(store)
+
+
+# Test set
+
+for name, store, store_y in sub_datasets_test:
+    globals()[f'{name.lower()}_trans_test'] = ts_transform.fit_transform(store)
+
+```
+
+
+
+## Model estimation
+
+### Trend and seasonality
+
+```{python}
+
+ts_model = Pipeline(steps=[
+    ("ts_transformer", ts_transform),
+    ("lin_reg", LinearRegression())
+    ])
+
+# Training set
+for name, store, store_y in sub_datasets:
+    ts_model.fit(store, store_y)
+    store['trend_seasonal'] = ts_model.predict(store)
+
+for name, store, store_y in sub_datasets:
+    store['remainder'] = store['total_amount'] - store['trend_seasonal']
+
+
+# Test set
+
+for name, store, store_y in sub_datasets_test:
+    ts_model.fit(store, store_y)
+    store['trend_seasonal'] = ts_model.predict(store)
+
+for name, store, store_y in sub_datasets_test:
+    store['remainder'] = store['total_amount'] - store['trend_seasonal']
+```
+
+
+
+```{python}
+
+# Training set 
+
+for name, store, store_y in sub_datasets:
+    globals()[f'{name.lower()}_remainder_y'] = store['remainder']
+
+
+# Test set
+
+for name, store, store_y in sub_datasets_test:
+    globals()[f'{name.lower()}_remainder_y_test'] = store['remainder']
+```
+
+
+
+
+```{python}
+
+# Training set
+
+sub_datasets_remainder = [
+    ("Danziger", danziger, danziger_remainder_y),
+    ("Maybachufer", maybachufer, maybachufer_remainder_y),
+    ("Mitte", mitte, mitte_remainder_y),
+    ("Potsdamer", potsdamer, potsdamer_remainder_y),
+    ("Warschauer", warschauer, warschauer_remainder_y)
+]
+
+
+# Test set
+
+sub_datasets_remainder_test = [
+    ("Danziger", danziger_test, danziger_remainder_y_test),
+    ("Maybachufer", maybachufer_test, maybachufer_remainder_y_test),
+    ("Mitte", mitte_test, mitte_remainder_y_test),
+    ("Potsdamer", potsdamer_test, potsdamer_remainder_y_test),
+    ("Warschauer", warschauer_test, warschauer_remainder_y_test)
+]
+```
+
+
+
+### AR model
+
+```{python}
+
+# Training set
+
+for name, store, store_y_remainder in sub_datasets_remainder:
+    ar_model = LinearRegression()
+    ar_model.fit(store[["lag1","lag2"]], store_y_remainder)
+    store['remainder_pred'] = ar_model.predict(store[["lag1","lag2"]])
+
+
+```
+
+
+```{python}
+
+# Test set
+
+for name, store, store_y_remainder in sub_datasets_remainder_test:
+    ar_model = LinearRegression()
+    ar_model.fit(store[["lag1"]], store_y_remainder)
+    store['remainder_pred'] = ar_model.predict(store[["lag1"]])
+
+```
+
+
+
+```{python}
+
+# Training set
+
+for name, store, store_y in sub_datasets:
+    store["total_pred"] = store["trend_seasonal"] + store["remainder_pred"]
+
+
+# Test set
+
+for name, store, store_y in sub_datasets_test:
+    store["total_pred"] = store["trend_seasonal"] + store["remainder_pred"]
+```
+
+
+
+### Evaluation per store
+
+```{python}
+
+# Training set 
+
+sub_datasets_trans = [
+    ("Danziger", danziger, danziger_trans, danziger_y),
+    ("Maybachufer", maybachufer, maybachufer_trans, maybachufer_y),
+    ("Mitte", mitte, mitte_trans, mitte_y),
+    ("Potsdamer", potsdamer, potsdamer_trans, potsdamer_y),
+    ("Warschauer", warschauer, warschauer_trans, warschauer_y)
+]
+
+
+# Test set
+
+sub_datasets_trans_test = [
+    ("Danziger", danziger_test, danziger_trans_test, danziger_y_test),
+    ("Maybachufer", maybachufer_test, maybachufer_trans_test, maybachufer_y_test),
+    ("Mitte", mitte_test, mitte_trans_test, mitte_y_test),
+    ("Potsdamer", potsdamer_test, potsdamer_trans_test, potsdamer_y_test),
+    ("Warschauer", warschauer_test, warschauer_trans_test, warschauer_y_test)
+]
+```
+
+
+```{python}
+
+# Training set
+
+print ("TRAINING DATA\n")
+for name, store, store_trans, store_y in sub_datasets_trans:
+    r2_lin_ts_train = r2_score(y_true = store_y, y_pred= store['total_pred'])
+
+    print(f"r-squared - {name}: ", r2_lin_ts_train.round(2))
+    print(f"Adjusted r-squared - {name}: ", adj_r2(r2_lin_ts_train, store_trans))
+    print(f"Mean absolute percentage error - {name}: ", 100*mean_absolute_percentage_error(store_y, store['total_pred']).round(2),"\n")
+
+
+# Test set
+
+print ("TEST DATA\n")
+for name, store, store_trans, store_y in sub_datasets_trans_test:
+    r2_lin_ts_test = r2_score(y_true = store_y, y_pred= store['total_pred'])
+
+    print(f"r-squared - {name}: ", r2_lin_ts_test.round(2))
+    print(f"Adjusted r-squared - {name}: ", adj_r2(r2_lin_ts_test, store_trans))
+    print(f"Mean absolute percentage error - {name}: ", 100*mean_absolute_percentage_error(store_y, store['total_pred']).round(2),"\n")
+```
+
+
+### Time series plot w/ predictions
+
+```{python}
+for name, store, store_y in sub_datasets:
+
+    store["year_month"] = pd.to_datetime(store.index.year.astype(str) + '-'+ store['month'].astype(str), format= '%Y-%m')
+
+    store_group = store.groupby("year_month")[["total_amount","total_pred","trend_seasonal"]].sum()
+
+    store_group[["total_amount","total_pred","trend_seasonal"]].plot.line(legend = True)
+
+
+    sns.despine()
+    plt.title(name)
+```
+
+
+
+
+
+
+## Linear Regression (Elastic Net)
+
+```{python}
+
+# create features and target variable
+numfeat1 =["lag1"]
+numfeat2 =["days_back"]
+numfeat3 =["temperature_2m_mean","sunshine_duration","precipitation_hours"]
+catfeat =["store_name","month","weekday","hol_pub","hol_school",
+"valentines_day","nye","halloween",
+"street_market","public_space"]
+xtrain = train[numfeat1 +numfeat2 +numfeat3 +catfeat]
+ytrain = train['total_amount']
+
+
+# feature engineering
+num_tr1 =Pipeline(
+  steps=[
+    ("scaling", RobustScaler())
+])
+
+num_tr2 =Pipeline(
+  steps=[
+    ("scaling", RobustScaler()),
+    ("polyint",PolynomialFeatures(3,include_bias=False))
+])
+
+num_tr3 =Pipeline(
+  steps=[
+    ("scaling", RobustScaler()),
+    ("polyint",PolynomialFeatures(3,include_bias=False))
+])
+
+
+cat_tr =Pipeline(steps=[
+  ("ohe", OneHotEncoder(drop='first',sparse_output=False))
+])
+
+prepro =ColumnTransformer(
+  transformers=[
+    ("num1", num_tr1, numfeat1),
+    ("num2", num_tr2, numfeat2),
+    ("num3", num_tr3, numfeat3),
+    ("cat",cat_tr,catfeat)
+])
+
+prepro.set_output(transform="pandas")
+xtraintrans =prepro.fit_transform(xtrain)
+
+# model estimation
+
+models =[
+  ("ols",LinearRegression())
+]
+
+for name,algorithm in models:
+  model =Pipeline(steps=[
+    ("prepro", prepro),
+    (name,algorithm)])
+  model.fit(xtrain,ytrain)
+  ytrainpred =model.predict(xtrain)
+  r2_lin_train =r2_score(ytrain, ytrainpred)
+  print("Adjusted r-squared: ", adj_r2(r2_lin_train,xtraintrans))
+  print("Mean absolute percentage error: ", 100*mean_absolute_percentage_error(ytrain, ytrainpred).round(2))
+
+ytrain =ytrain.reset_index(drop=True)
+diff =ytrain -ytrainpred
+ytrainpred =pd.DataFrame(ytrainpred)
+diff =pd.DataFrame(diff)
+fit =pd.concat([ytrain, ytrainpred, diff], axis =1)
+```
+
+
+
+
+
+
+
+
+
+## Catboost
+
+```{python}
+
+date = ["date"]
+
+catfeat_cb = ["store_name","item_category","hol_pub","hol_school","weekday","day","month","year","week_year","nye","valentines_day","halloween", "street_market","public_space","box_deal"]
+
+trend = ["days_back"]
+
+temp = ["temperature_2m_mean","sunshine_duration","precipitation_hours"]
+
+lag = ["lag1","lag2"]
+
+x_train_cb = d[date + catfeat_cb + temp + trend + lag]
+x_train_cb = x_train_cb.set_index("date")
+y_train_cb = d['total_amount']
+
+x_test_cb = d_test[date + catfeat_cb + temp + trend + lag]
+x_test_cb = x_test_cb.set_index("date")
+y_test = d_test['total_amount']
+
+```
+
+
+
+```{python}
+
+# cb_transform = ColumnTransformer([
+#    ('poly_temp', PolynomialFeatures(degree=2, include_bias=False), temp),
+#    ('poly_trend', PolynomialFeatures(degree=2, include_bias=False), trend)
+#], remainder = "passthrough")
+
+
+#cb_transform.set_output(transform="pandas")
+
+#cb_transform.fit_transform(x_train_cb)
+
+```
+
+```{python}
+x_train_cb
+```
+
+```{python}
+CatBoostRegressor(cat_features=catfeat_cb)
+```
+
