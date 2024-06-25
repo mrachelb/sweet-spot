@@ -17,3 +17,4 @@ holidays==0.50
 requests
 scipy==1.10.1
 catboost == 1.2.5
+optuna == 3.6.1
