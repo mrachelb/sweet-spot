@@ -1,12 +1,12 @@
 date,Location_name,store_name,type_name,item_name,amount,item_category,total_amount,temperature_2m_mean,sunshine_duration,precipitation_hours,hol_pub,hol_school,weekday,day,month,year,week_year,days_back,nye,valentines_day,halloween,weekend,street_market,public_space,box_deal,rainfall_bins,temp_bins,sunshine_bins,lag1,lag2
 2024-05-31,Berlin,Potsdamer,donuts,Strawberry Sprinkles,51,classics,51,17.6,14.841458333333334,1.0,0.0,0.0,4,31,5,2024,22,0,0,0,0,0,0,1,0,0-4 hrs,15 - 20°C,> 12 hrs,,
 2024-05-31,Berlin,Warschauer,donuts,Salted Caramel,4,classics,4,17.6,14.841458333333334,1.0,0.0,0.0,4,31,5,2024,22,0,0,0,0,0,0,0,0,0-4 hrs,15 - 20°C,> 12 hrs,,
-2024-05-31,Berlin,Mitte,daily total,daily total,1319,daily total,1319,17.6,14.841458333333334,1.0,0.0,0.0,4,31,5,2024,22,0,0,0,0,0,0,1,0,0-4 hrs,15 - 20°C,> 12 hrs,1070.0,898.0
-2024-05-31,Berlin,Maybachufer,daily total,daily total,1048,daily total,1048,17.6,14.841458333333334,1.0,0.0,0.0,4,31,5,2024,22,0,0,0,0,0,1,0,0,0-4 hrs,15 - 20°C,> 12 hrs,985.0,777.0
-2024-05-31,Berlin,KaDeWe,daily total,daily total,38,daily total,38,17.6,14.841458333333334,1.0,0.0,0.0,4,31,5,2024,22,0,0,0,0,0,0,1,0,0-4 hrs,15 - 20°C,> 12 hrs,11.0,48.0
-2024-05-31,Hamburg,Jungfernstieg,daily total,daily total,874,daily total,874,16.3,5.497005555555556,18.0,0.0,0.0,4,31,5,2024,22,0,0,0,0,0,0,0,0,> 16 hrs,15 - 20°C,4-8 hrs,667.0,582.0
-2024-05-31,Berlin,Danziger,daily total,daily total,994,daily total,994,17.6,14.841458333333334,1.0,0.0,0.0,4,31,5,2024,22,0,0,0,0,0,0,0,0,0-4 hrs,15 - 20°C,> 12 hrs,844.0,725.0
-2024-05-31,Hamburg,Altona,daily total,daily total,481,daily total,481,16.3,5.497005555555556,18.0,0.0,0.0,4,31,5,2024,22,0,0,0,0,0,0,1,0,> 16 hrs,15 - 20°C,4-8 hrs,139.0,150.0
+2024-05-31,Berlin,Mitte,daily total,daily total,1319,daily total,1319,17.6,14.841458333333334,1.0,0.0,0.0,4,31,5,2024,22,0,0,0,0,0,0,1,0,0-4 hrs,15 - 20°C,> 12 hrs,,
+2024-05-31,Berlin,Maybachufer,daily total,daily total,1048,daily total,1048,17.6,14.841458333333334,1.0,0.0,0.0,4,31,5,2024,22,0,0,0,0,0,1,0,0,0-4 hrs,15 - 20°C,> 12 hrs,,
+2024-05-31,Berlin,KaDeWe,daily total,daily total,38,daily total,38,17.6,14.841458333333334,1.0,0.0,0.0,4,31,5,2024,22,0,0,0,0,0,0,1,0,0-4 hrs,15 - 20°C,> 12 hrs,,
+2024-05-31,Hamburg,Jungfernstieg,daily total,daily total,874,daily total,874,16.3,5.497005555555556,18.0,0.0,0.0,4,31,5,2024,22,0,0,0,0,0,0,0,0,> 16 hrs,15 - 20°C,4-8 hrs,,
+2024-05-31,Berlin,Danziger,daily total,daily total,994,daily total,994,17.6,14.841458333333334,1.0,0.0,0.0,4,31,5,2024,22,0,0,0,0,0,0,0,0,0-4 hrs,15 - 20°C,> 12 hrs,,
+2024-05-31,Hamburg,Altona,daily total,daily total,481,daily total,481,16.3,5.497005555555556,18.0,0.0,0.0,4,31,5,2024,22,0,0,0,0,0,0,1,0,> 16 hrs,15 - 20°C,4-8 hrs,,
 2024-05-31,Berlin,Danziger,box,12 Donuts,6,mixed,72,17.6,14.841458333333334,1.0,0.0,0.0,4,31,5,2024,22,0,0,0,0,0,0,0,1,0-4 hrs,15 - 20°C,> 12 hrs,,
 2024-05-31,Berlin,Danziger,donuts,Chocolate Bomboloni,40,specials,40,17.6,14.841458333333334,1.0,0.0,0.0,4,31,5,2024,22,0,0,0,0,0,0,0,0,0-4 hrs,15 - 20°C,> 12 hrs,,
 2024-05-31,Berlin,Maybachufer,donuts,Chocolate Bomboloni,47,specials,47,17.6,14.841458333333334,1.0,0.0,0.0,4,31,5,2024,22,0,0,0,0,0,1,0,0,0-4 hrs,15 - 20°C,> 12 hrs,,
@@ -24,8 +24,8 @@ date,Location_name,store_name,type_name,item_name,amount,item_category,total_amo
 2024-05-31,Berlin,Danziger,donuts,Strawberry Lemoncake,51,monthly_specials,51,17.6,14.841458333333334,1.0,0.0,0.0,4,31,5,2024,22,0,0,0,0,0,0,0,0,0-4 hrs,15 - 20°C,> 12 hrs,,
 2024-05-31,Berlin,Maybachufer,donuts,Strawberry Lemoncake,53,monthly_specials,53,17.6,14.841458333333334,1.0,0.0,0.0,4,31,5,2024,22,0,0,0,0,0,1,0,0,0-4 hrs,15 - 20°C,> 12 hrs,,
 2024-05-31,Berlin,Danziger,donuts,Boston Cream,48,classics,48,17.6,14.841458333333334,1.0,0.0,0.0,4,31,5,2024,22,0,0,0,0,0,0,0,0,0-4 hrs,15 - 20°C,> 12 hrs,,
-2024-05-31,Hamburg,Neuer Kamp,daily total,daily total,391,daily total,391,16.3,5.497005555555556,18.0,0.0,0.0,4,31,5,2024,22,0,0,0,0,0,0,0,0,> 16 hrs,15 - 20°C,4-8 hrs,252.0,294.0
-2024-05-31,Berlin,Potsdamer,daily total,daily total,1677,daily total,1677,17.6,14.841458333333334,1.0,0.0,0.0,4,31,5,2024,22,0,0,0,0,0,0,1,0,0-4 hrs,15 - 20°C,> 12 hrs,1405.0,1488.0
+2024-05-31,Hamburg,Neuer Kamp,daily total,daily total,391,daily total,391,16.3,5.497005555555556,18.0,0.0,0.0,4,31,5,2024,22,0,0,0,0,0,0,0,0,> 16 hrs,15 - 20°C,4-8 hrs,,
+2024-05-31,Berlin,Potsdamer,daily total,daily total,1677,daily total,1677,17.6,14.841458333333334,1.0,0.0,0.0,4,31,5,2024,22,0,0,0,0,0,0,1,0,0-4 hrs,15 - 20°C,> 12 hrs,,
 2024-05-31,Berlin,Mitte,donuts,Strawberry Lemoncake,58,monthly_specials,58,17.6,14.841458333333334,1.0,0.0,0.0,4,31,5,2024,22,0,0,0,0,0,0,1,0,0-4 hrs,15 - 20°C,> 12 hrs,,
 2024-05-31,Berlin,Mitte,donuts,Choc Sprinkles,41,classics,41,17.6,14.841458333333334,1.0,0.0,0.0,4,31,5,2024,22,0,0,0,0,0,0,1,0,0-4 hrs,15 - 20°C,> 12 hrs,,
 2024-05-31,Hamburg,Neuer Kamp,donuts,Strawberry Lemoncake,23,monthly_specials,23,16.3,5.497005555555556,18.0,0.0,0.0,4,31,5,2024,22,0,0,0,0,0,0,0,0,> 16 hrs,15 - 20°C,4-8 hrs,,
@@ -183,7 +183,7 @@ date,Location_name,store_name,type_name,item_name,amount,item_category,total_amo
 2024-05-31,Berlin,Maybachufer,donuts,Boston Cream,49,classics,49,17.6,14.841458333333334,1.0,0.0,0.0,4,31,5,2024,22,0,0,0,0,0,1,0,0,0-4 hrs,15 - 20°C,> 12 hrs,,
 2024-05-31,Berlin,Warschauer,box,6 Donuts,13,mixed,78,17.6,14.841458333333334,1.0,0.0,0.0,4,31,5,2024,22,0,0,0,0,0,0,0,1,0-4 hrs,15 - 20°C,> 12 hrs,,
 2024-05-31,Berlin,Maybachufer,donuts,Chocolate Bombolini,1,specials,1,17.6,14.841458333333334,1.0,0.0,0.0,4,31,5,2024,22,0,0,0,0,0,1,0,0,0-4 hrs,15 - 20°C,> 12 hrs,,
-2024-05-31,Berlin,Warschauer,daily total,daily total,1229,daily total,1229,17.6,14.841458333333334,1.0,0.0,0.0,4,31,5,2024,22,0,0,0,0,0,0,0,0,0-4 hrs,15 - 20°C,> 12 hrs,1277.0,1144.0
+2024-05-31,Berlin,Warschauer,daily total,daily total,1229,daily total,1229,17.6,14.841458333333334,1.0,0.0,0.0,4,31,5,2024,22,0,0,0,0,0,0,0,0,0-4 hrs,15 - 20°C,> 12 hrs,,
 2024-05-31,Berlin,Warschauer,donuts,Strawberry Cream Cake,82,monthly_specials,82,17.6,14.841458333333334,1.0,0.0,0.0,4,31,5,2024,22,0,0,0,0,0,0,0,0,0-4 hrs,15 - 20°C,> 12 hrs,,
 2024-05-31,Berlin,Potsdamer,donuts,Benjamin Blumchen,1,monthly_specials,1,17.6,14.841458333333334,1.0,0.0,0.0,4,31,5,2024,22,0,0,0,0,0,0,1,0,0-4 hrs,15 - 20°C,> 12 hrs,,
 2024-05-31,Berlin,Warschauer,donuts,Benjamin Blumchen,2,monthly_specials,2,17.6,14.841458333333334,1.0,0.0,0.0,4,31,5,2024,22,0,0,0,0,0,0,0,0,0-4 hrs,15 - 20°C,> 12 hrs,,
@@ -207,15 +207,15 @@ date,Location_name,store_name,type_name,item_name,amount,item_category,total_amo
 2024-05-31,Hamburg,Neuer Kamp,box,12 Donuts,1,mixed,12,16.3,5.497005555555556,18.0,0.0,0.0,4,31,5,2024,22,0,0,0,0,0,0,0,1,> 16 hrs,15 - 20°C,4-8 hrs,,
 2024-05-31,Berlin,Warschauer,box,12 Donuts,6,mixed,72,17.6,14.841458333333334,1.0,0.0,0.0,4,31,5,2024,22,0,0,0,0,0,0,0,1,0-4 hrs,15 - 20°C,> 12 hrs,,
 2024-05-31,Berlin,Mitte,donuts,Banana Caramel,43,monthly_specials,43,17.6,14.841458333333334,1.0,0.0,0.0,4,31,5,2024,22,0,0,0,0,0,0,1,0,0-4 hrs,15 - 20°C,> 12 hrs,,
-2024-05-30,Hamburg,Neuer Kamp,daily total,daily total,252,daily total,252,15.5,12.09553611111111,6.0,0.0,0.0,3,30,5,2024,22,1,0,0,0,0,0,0,0,4-8 hrs,15 - 20°C,> 12 hrs,294.0,272.0
+2024-05-30,Hamburg,Neuer Kamp,daily total,daily total,252,daily total,252,15.5,12.09553611111111,6.0,0.0,0.0,3,30,5,2024,22,1,0,0,0,0,0,0,0,4-8 hrs,15 - 20°C,> 12 hrs,,
 2024-05-30,Berlin,Potsdamer,box,Bram's 12 Favorites,4,classics,48,17.0,9.64520277777778,12.0,0.0,0.0,3,30,5,2024,22,1,0,0,0,0,0,1,1,8-12 hrs,15 - 20°C,8-12 hrs,,
-2024-05-30,Berlin,Warschauer,daily total,daily total,1277,daily total,1277,17.0,9.64520277777778,12.0,0.0,0.0,3,30,5,2024,22,1,0,0,0,0,0,0,0,8-12 hrs,15 - 20°C,8-12 hrs,1144.0,951.0
-2024-05-30,Berlin,Potsdamer,daily total,daily total,1405,daily total,1405,17.0,9.64520277777778,12.0,0.0,0.0,3,30,5,2024,22,1,0,0,0,0,0,1,0,8-12 hrs,15 - 20°C,8-12 hrs,1488.0,1115.0
-2024-05-30,Berlin,Danziger,daily total,daily total,844,daily total,844,17.0,9.64520277777778,12.0,0.0,0.0,3,30,5,2024,22,1,0,0,0,0,0,0,0,8-12 hrs,15 - 20°C,8-12 hrs,725.0,645.0
-2024-05-30,Berlin,Mitte,daily total,daily total,1070,daily total,1070,17.0,9.64520277777778,12.0,0.0,0.0,3,30,5,2024,22,1,0,0,0,0,0,1,0,8-12 hrs,15 - 20°C,8-12 hrs,898.0,852.0
-2024-05-30,Berlin,Maybachufer,daily total,daily total,985,daily total,985,17.0,9.64520277777778,12.0,0.0,0.0,3,30,5,2024,22,1,0,0,0,0,0,0,0,8-12 hrs,15 - 20°C,8-12 hrs,777.0,820.0
-2024-05-30,Berlin,KaDeWe,daily total,daily total,11,daily total,11,17.0,9.64520277777778,12.0,0.0,0.0,3,30,5,2024,22,1,0,0,0,0,0,1,0,8-12 hrs,15 - 20°C,8-12 hrs,48.0,12.0
-2024-05-30,Hamburg,Jungfernstieg,daily total,daily total,667,daily total,667,15.5,12.09553611111111,6.0,0.0,0.0,3,30,5,2024,22,1,0,0,0,0,0,0,0,4-8 hrs,15 - 20°C,> 12 hrs,582.0,561.0
+2024-05-30,Berlin,Warschauer,daily total,daily total,1277,daily total,1277,17.0,9.64520277777778,12.0,0.0,0.0,3,30,5,2024,22,1,0,0,0,0,0,0,0,8-12 hrs,15 - 20°C,8-12 hrs,,
+2024-05-30,Berlin,Potsdamer,daily total,daily total,1405,daily total,1405,17.0,9.64520277777778,12.0,0.0,0.0,3,30,5,2024,22,1,0,0,0,0,0,1,0,8-12 hrs,15 - 20°C,8-12 hrs,,
+2024-05-30,Berlin,Danziger,daily total,daily total,844,daily total,844,17.0,9.64520277777778,12.0,0.0,0.0,3,30,5,2024,22,1,0,0,0,0,0,0,0,8-12 hrs,15 - 20°C,8-12 hrs,,
+2024-05-30,Berlin,Mitte,daily total,daily total,1070,daily total,1070,17.0,9.64520277777778,12.0,0.0,0.0,3,30,5,2024,22,1,0,0,0,0,0,1,0,8-12 hrs,15 - 20°C,8-12 hrs,,
+2024-05-30,Berlin,Maybachufer,daily total,daily total,985,daily total,985,17.0,9.64520277777778,12.0,0.0,0.0,3,30,5,2024,22,1,0,0,0,0,0,0,0,8-12 hrs,15 - 20°C,8-12 hrs,,
+2024-05-30,Berlin,KaDeWe,daily total,daily total,11,daily total,11,17.0,9.64520277777778,12.0,0.0,0.0,3,30,5,2024,22,1,0,0,0,0,0,1,0,8-12 hrs,15 - 20°C,8-12 hrs,,
+2024-05-30,Hamburg,Jungfernstieg,daily total,daily total,667,daily total,667,15.5,12.09553611111111,6.0,0.0,0.0,3,30,5,2024,22,1,0,0,0,0,0,0,0,4-8 hrs,15 - 20°C,> 12 hrs,,
 2024-05-30,Berlin,Danziger,box,Bram's 12 Favorites,4,classics,48,17.0,9.64520277777778,12.0,0.0,0.0,3,30,5,2024,22,1,0,0,0,0,0,0,1,8-12 hrs,15 - 20°C,8-12 hrs,,
 2024-05-30,Berlin,Warschauer,box,Bram's 12 Favorites,2,classics,24,17.0,9.64520277777778,12.0,0.0,0.0,3,30,5,2024,22,1,0,0,0,0,0,0,1,8-12 hrs,15 - 20°C,8-12 hrs,,
 2024-05-30,Hamburg,Neuer Kamp,box,May Donut Box,1,monthly_specials,6,15.5,12.09553611111111,6.0,0.0,0.0,3,30,5,2024,22,1,0,0,0,0,0,0,1,4-8 hrs,15 - 20°C,> 12 hrs,,
@@ -229,7 +229,7 @@ date,Location_name,store_name,type_name,item_name,amount,item_category,total_amo
 2024-05-30,Berlin,Potsdamer,box,4 Donuts,56,mixed,224,17.0,9.64520277777778,12.0,0.0,0.0,3,30,5,2024,22,1,0,0,0,0,0,1,1,8-12 hrs,15 - 20°C,8-12 hrs,,
 2024-05-30,Berlin,Maybachufer,box,12 Box,11,mixed,132,17.0,9.64520277777778,12.0,0.0,0.0,3,30,5,2024,22,1,0,0,0,0,0,0,1,8-12 hrs,15 - 20°C,8-12 hrs,,
 2024-05-30,Berlin,Warschauer,box,12 Box,1,mixed,12,17.0,9.64520277777778,12.0,0.0,0.0,3,30,5,2024,22,1,0,0,0,0,0,0,1,8-12 hrs,15 - 20°C,8-12 hrs,,
-2024-05-30,Hamburg,Altona,daily total,daily total,139,daily total,139,15.5,12.09553611111111,6.0,0.0,0.0,3,30,5,2024,22,1,0,0,0,0,0,1,0,4-8 hrs,15 - 20°C,> 12 hrs,150.0,146.0
+2024-05-30,Hamburg,Altona,daily total,daily total,139,daily total,139,15.5,12.09553611111111,6.0,0.0,0.0,3,30,5,2024,22,1,0,0,0,0,0,1,0,4-8 hrs,15 - 20°C,> 12 hrs,,
 2024-05-30,Berlin,Warschauer,donuts,Salted Caramel,1,classics,1,17.0,9.64520277777778,12.0,0.0,0.0,3,30,5,2024,22,1,0,0,0,0,0,0,0,8-12 hrs,15 - 20°C,8-12 hrs,,
 2024-05-30,Berlin,Potsdamer,error,WC Pretzel,4,monthly_specials,4,17.0,9.64520277777778,12.0,0.0,0.0,3,30,5,2024,22,1,0,0,0,0,0,1,0,8-12 hrs,15 - 20°C,8-12 hrs,,
 2024-05-30,Berlin,Danziger,box,12 Box,1,mixed,12,17.0,9.64520277777778,12.0,0.0,0.0,3,30,5,2024,22,1,0,0,0,0,0,0,1,8-12 hrs,15 - 20°C,8-12 hrs,,
@@ -411,18 +411,18 @@ date,Location_name,store_name,type_name,item_name,amount,item_category,total_amo
 2024-05-30,Berlin,Warschauer,donuts,Chocolate Bomboloni,45,specials,45,17.0,9.64520277777778,12.0,0.0,0.0,3,30,5,2024,22,1,0,0,0,0,0,0,0,8-12 hrs,15 - 20°C,8-12 hrs,,
 2024-05-30,Berlin,Danziger,donuts,Chocolate Bomboloni,29,specials,29,17.0,9.64520277777778,12.0,0.0,0.0,3,30,5,2024,22,1,0,0,0,0,0,0,0,8-12 hrs,15 - 20°C,8-12 hrs,,
 2024-05-30,Berlin,Potsdamer,donuts,Chocolate Bomboloni,62,specials,62,17.0,9.64520277777778,12.0,0.0,0.0,3,30,5,2024,22,1,0,0,0,0,0,1,0,8-12 hrs,15 - 20°C,8-12 hrs,,
-2024-05-29,Berlin,Mitte,daily total,daily total,898,daily total,898,16.2,14.030558333333333,1.0,0.0,0.0,2,29,5,2024,22,2,0,0,0,0,0,1,0,0-4 hrs,15 - 20°C,> 12 hrs,852.0,697.0
-2024-05-29,Berlin,Danziger,daily total,daily total,725,daily total,725,16.2,14.030558333333333,1.0,0.0,0.0,2,29,5,2024,22,2,0,0,0,0,0,0,0,0-4 hrs,15 - 20°C,> 12 hrs,645.0,488.0
-2024-05-29,Hamburg,Jungfernstieg,daily total,daily total,582,daily total,582,14.7,3.7895833333333333,15.0,0.0,0.0,2,29,5,2024,22,2,0,0,0,0,0,0,0,12-16 hrs,10 - 15°C,0-4 hrs,561.0,545.0
-2024-05-29,Berlin,KaDeWe,daily total,daily total,48,daily total,48,16.2,14.030558333333333,1.0,0.0,0.0,2,29,5,2024,22,2,0,0,0,0,0,1,0,0-4 hrs,15 - 20°C,> 12 hrs,12.0,70.0
-2024-05-29,Berlin,Maybachufer,daily total,daily total,777,daily total,777,16.2,14.030558333333333,1.0,0.0,0.0,2,29,5,2024,22,2,0,0,0,0,0,0,0,0-4 hrs,15 - 20°C,> 12 hrs,820.0,642.0
+2024-05-29,Berlin,Mitte,daily total,daily total,898,daily total,898,16.2,14.030558333333333,1.0,0.0,0.0,2,29,5,2024,22,2,0,0,0,0,0,1,0,0-4 hrs,15 - 20°C,> 12 hrs,,
+2024-05-29,Berlin,Danziger,daily total,daily total,725,daily total,725,16.2,14.030558333333333,1.0,0.0,0.0,2,29,5,2024,22,2,0,0,0,0,0,0,0,0-4 hrs,15 - 20°C,> 12 hrs,,
+2024-05-29,Hamburg,Jungfernstieg,daily total,daily total,582,daily total,582,14.7,3.7895833333333333,15.0,0.0,0.0,2,29,5,2024,22,2,0,0,0,0,0,0,0,12-16 hrs,10 - 15°C,0-4 hrs,,
+2024-05-29,Berlin,KaDeWe,daily total,daily total,48,daily total,48,16.2,14.030558333333333,1.0,0.0,0.0,2,29,5,2024,22,2,0,0,0,0,0,1,0,0-4 hrs,15 - 20°C,> 12 hrs,,
+2024-05-29,Berlin,Maybachufer,daily total,daily total,777,daily total,777,16.2,14.030558333333333,1.0,0.0,0.0,2,29,5,2024,22,2,0,0,0,0,0,0,0,0-4 hrs,15 - 20°C,> 12 hrs,,
 2024-05-29,Hamburg,Altona,donuts,Apple Pie,8,specials,8,14.7,3.7895833333333333,15.0,0.0,0.0,2,29,5,2024,22,2,0,0,0,0,0,1,0,12-16 hrs,10 - 15°C,0-4 hrs,,
-2024-05-29,Hamburg,Neuer Kamp,daily total,daily total,294,daily total,294,14.7,3.7895833333333333,15.0,0.0,0.0,2,29,5,2024,22,2,0,0,0,0,0,0,0,12-16 hrs,10 - 15°C,0-4 hrs,272.0,219.0
-2024-05-29,Berlin,Potsdamer,daily total,daily total,1488,daily total,1488,16.2,14.030558333333333,1.0,0.0,0.0,2,29,5,2024,22,2,0,0,0,0,0,1,0,0-4 hrs,15 - 20°C,> 12 hrs,1115.0,895.0
+2024-05-29,Hamburg,Neuer Kamp,daily total,daily total,294,daily total,294,14.7,3.7895833333333333,15.0,0.0,0.0,2,29,5,2024,22,2,0,0,0,0,0,0,0,12-16 hrs,10 - 15°C,0-4 hrs,,
+2024-05-29,Berlin,Potsdamer,daily total,daily total,1488,daily total,1488,16.2,14.030558333333333,1.0,0.0,0.0,2,29,5,2024,22,2,0,0,0,0,0,1,0,0-4 hrs,15 - 20°C,> 12 hrs,,
 2024-05-29,Hamburg,Jungfernstieg,donuts,Mousse au Chocolat,33,monthly_specials,33,14.7,3.7895833333333333,15.0,0.0,0.0,2,29,5,2024,22,2,0,0,0,0,0,0,0,12-16 hrs,10 - 15°C,0-4 hrs,,
 2024-05-29,Hamburg,Jungfernstieg,donuts,Pumpkin Spice,2,monthly_specials,2,14.7,3.7895833333333333,15.0,0.0,0.0,2,29,5,2024,22,2,0,0,0,0,0,0,0,12-16 hrs,10 - 15°C,0-4 hrs,,
 2024-05-29,Berlin,KaDeWe,donuts,Strawberry Sprinkles,7,classics,7,16.2,14.030558333333333,1.0,0.0,0.0,2,29,5,2024,22,2,0,0,0,0,0,1,0,0-4 hrs,15 - 20°C,> 12 hrs,,
-2024-05-29,Hamburg,Altona,daily total,daily total,150,daily total,150,14.7,3.7895833333333333,15.0,0.0,0.0,2,29,5,2024,22,2,0,0,0,0,0,1,0,12-16 hrs,10 - 15°C,0-4 hrs,146.0,88.0
+2024-05-29,Hamburg,Altona,daily total,daily total,150,daily total,150,14.7,3.7895833333333333,15.0,0.0,0.0,2,29,5,2024,22,2,0,0,0,0,0,1,0,12-16 hrs,10 - 15°C,0-4 hrs,,
 2024-05-29,Berlin,Mitte,donuts,Choc Sprinkles,27,classics,27,16.2,14.030558333333333,1.0,0.0,0.0,2,29,5,2024,22,2,0,0,0,0,0,1,0,0-4 hrs,15 - 20°C,> 12 hrs,,
 2024-05-29,Berlin,Danziger,donuts,Apple Pie,24,specials,24,16.2,14.030558333333333,1.0,0.0,0.0,2,29,5,2024,22,2,0,0,0,0,0,0,0,0-4 hrs,15 - 20°C,> 12 hrs,,
 2024-05-29,Berlin,Warschauer,donuts,Apple Pie,32,specials,32,16.2,14.030558333333333,1.0,0.0,0.0,2,29,5,2024,22,2,0,0,0,0,0,0,0,0-4 hrs,15 - 20°C,> 12 hrs,,
@@ -479,7 +479,7 @@ date,Location_name,store_name,type_name,item_name,amount,item_category,total_amo
 2024-05-29,Berlin,Mitte,donuts,Cinnamon Sugar,29,classics,29,16.2,14.030558333333333,1.0,0.0,0.0,2,29,5,2024,22,2,0,0,0,0,0,1,0,0-4 hrs,15 - 20°C,> 12 hrs,,
 2024-05-29,Hamburg,Jungfernstieg,donuts,Chocolate Peanut Fudge,3,classics,3,14.7,3.7895833333333333,15.0,0.0,0.0,2,29,5,2024,22,2,0,0,0,0,0,0,0,12-16 hrs,10 - 15°C,0-4 hrs,,
 2024-05-29,Berlin,Danziger,donuts,Chocolate Peanut Fudge,2,classics,2,16.2,14.030558333333333,1.0,0.0,0.0,2,29,5,2024,22,2,0,0,0,0,0,0,0,0-4 hrs,15 - 20°C,> 12 hrs,,
-2024-05-29,Berlin,Warschauer,daily total,daily total,1144,daily total,1144,16.2,14.030558333333333,1.0,0.0,0.0,2,29,5,2024,22,2,0,0,0,0,0,0,0,0-4 hrs,15 - 20°C,> 12 hrs,951.0,809.0
+2024-05-29,Berlin,Warschauer,daily total,daily total,1144,daily total,1144,16.2,14.030558333333333,1.0,0.0,0.0,2,29,5,2024,22,2,0,0,0,0,0,0,0,0-4 hrs,15 - 20°C,> 12 hrs,,
 2024-05-29,Berlin,KaDeWe,donuts,Chocolate Peanut Fudge,1,classics,1,16.2,14.030558333333333,1.0,0.0,0.0,2,29,5,2024,22,2,0,0,0,0,0,1,0,0-4 hrs,15 - 20°C,> 12 hrs,,
 2024-05-29,Berlin,Warschauer,donuts,White Choc & Strawberries,51,classics,51,16.2,14.030558333333333,1.0,0.0,0.0,2,29,5,2024,22,2,0,0,0,0,0,0,0,0-4 hrs,15 - 20°C,> 12 hrs,,
 2024-05-29,Hamburg,Altona,donuts,White Choc & Strawberries,7,classics,7,14.7,3.7895833333333333,15.0,0.0,0.0,2,29,5,2024,22,2,0,0,0,0,0,1,0,12-16 hrs,10 - 15°C,0-4 hrs,,
@@ -722,7 +722,7 @@ date,Location_name,store_name,type_name,item_name,amount,item_category,total_amo
 2024-05-28,Berlin,Danziger,box,Bram's 6 Favorites,1,classics,6,15.8,8.289675,11.0,0.0,0.0,1,28,5,2024,22,3,0,0,0,0,0,0,1,8-12 hrs,15 - 20°C,8-12 hrs,,
 2024-05-28,Hamburg,Jungfernstieg,donuts,White Choc & Strawberries,31,classics,31,14.8,9.305411111111113,14.0,0.0,0.0,1,28,5,2024,22,3,0,0,0,0,0,0,0,12-16 hrs,10 - 15°C,8-12 hrs,,
 2024-05-28,Berlin,Mitte,donuts,Pumpkin Spice,3,monthly_specials,3,15.8,8.289675,11.0,0.0,0.0,1,28,5,2024,22,3,0,0,0,0,0,1,0,8-12 hrs,15 - 20°C,8-12 hrs,,
-2024-05-28,Berlin,KaDeWe,daily total,daily total,12,daily total,12,15.8,8.289675,11.0,0.0,0.0,1,28,5,2024,22,3,0,0,0,0,0,1,0,8-12 hrs,15 - 20°C,8-12 hrs,70.0,
+2024-05-28,Berlin,KaDeWe,daily total,daily total,12,daily total,12,15.8,8.289675,11.0,0.0,0.0,1,28,5,2024,22,3,0,0,0,0,0,1,0,8-12 hrs,15 - 20°C,8-12 hrs,,
 2024-05-28,Hamburg,Neuer Kamp,donuts,Cinnamon Sugar,10,classics,10,14.8,9.305411111111113,14.0,0.0,0.0,1,28,5,2024,22,3,0,0,0,0,0,0,0,12-16 hrs,10 - 15°C,8-12 hrs,,
 2024-05-28,Hamburg,Altona,donuts,Boston Cream,9,classics,9,14.8,9.305411111111113,14.0,0.0,0.0,1,28,5,2024,22,3,0,0,0,0,0,1,0,12-16 hrs,10 - 15°C,8-12 hrs,,
 2024-05-28,Hamburg,Jungfernstieg,donuts,Boston Cream,22,classics,22,14.8,9.305411111111113,14.0,0.0,0.0,1,28,5,2024,22,3,0,0,0,0,0,0,0,12-16 hrs,10 - 15°C,8-12 hrs,,
@@ -733,9 +733,9 @@ date,Location_name,store_name,type_name,item_name,amount,item_category,total_amo
 2024-05-28,Berlin,Maybachufer,donuts,Cinnamon Sugar,37,classics,37,15.8,8.289675,11.0,0.0,0.0,1,28,5,2024,22,3,0,0,0,0,1,0,0,8-12 hrs,15 - 20°C,8-12 hrs,,
 2024-05-28,Hamburg,Altona,donuts,Cinnamon Sugar,6,classics,6,14.8,9.305411111111113,14.0,0.0,0.0,1,28,5,2024,22,3,0,0,0,0,0,1,0,12-16 hrs,10 - 15°C,8-12 hrs,,
 2024-05-28,Hamburg,Jungfernstieg,donuts,Cinnamon Sugar,21,classics,21,14.8,9.305411111111113,14.0,0.0,0.0,1,28,5,2024,22,3,0,0,0,0,0,0,0,12-16 hrs,10 - 15°C,8-12 hrs,,
-2024-05-28,Hamburg,Altona,daily total,daily total,146,daily total,146,14.8,9.305411111111113,14.0,0.0,0.0,1,28,5,2024,22,3,0,0,0,0,0,1,0,12-16 hrs,10 - 15°C,8-12 hrs,88.0,283.0
+2024-05-28,Hamburg,Altona,daily total,daily total,146,daily total,146,14.8,9.305411111111113,14.0,0.0,0.0,1,28,5,2024,22,3,0,0,0,0,0,1,0,12-16 hrs,10 - 15°C,8-12 hrs,,
 2024-05-28,Berlin,Maybachufer,donuts,Boston Cream,46,classics,46,15.8,8.289675,11.0,0.0,0.0,1,28,5,2024,22,3,0,0,0,0,1,0,0,8-12 hrs,15 - 20°C,8-12 hrs,,
-2024-05-28,Berlin,Danziger,daily total,daily total,645,daily total,645,15.8,8.289675,11.0,0.0,0.0,1,28,5,2024,22,3,0,0,0,0,0,0,0,8-12 hrs,15 - 20°C,8-12 hrs,488.0,1385.0
+2024-05-28,Berlin,Danziger,daily total,daily total,645,daily total,645,15.8,8.289675,11.0,0.0,0.0,1,28,5,2024,22,3,0,0,0,0,0,0,0,8-12 hrs,15 - 20°C,8-12 hrs,,
 2024-05-28,Berlin,Danziger,box,May Donut Box,3,monthly_specials,18,15.8,8.289675,11.0,0.0,0.0,1,28,5,2024,22,3,0,0,0,0,0,0,1,8-12 hrs,15 - 20°C,8-12 hrs,,
 2024-05-28,Berlin,Maybachufer,box,May Donut Box,4,monthly_specials,24,15.8,8.289675,11.0,0.0,0.0,1,28,5,2024,22,3,0,0,0,0,1,0,1,8-12 hrs,15 - 20°C,8-12 hrs,,
 2024-05-28,Berlin,Maybachufer,box,12 Box,3,mixed,36,15.8,8.289675,11.0,0.0,0.0,1,28,5,2024,22,3,0,0,0,0,1,0,1,8-12 hrs,15 - 20°C,8-12 hrs,,
@@ -767,9 +767,9 @@ date,Location_name,store_name,type_name,item_name,amount,item_category,total_amo
 2024-05-28,Berlin,Potsdamer,donuts,Bienenstich,60,specials,60,15.8,8.289675,11.0,0.0,0.0,1,28,5,2024,22,3,0,0,0,0,0,1,0,8-12 hrs,15 - 20°C,8-12 hrs,,
 2024-05-28,Berlin,Potsdamer,box,Bram's 6 Favorites,2,classics,12,15.8,8.289675,11.0,0.0,0.0,1,28,5,2024,22,3,0,0,0,0,0,1,1,8-12 hrs,15 - 20°C,8-12 hrs,,
 2024-05-28,Berlin,Mitte,box,12 Box,1,mixed,12,15.8,8.289675,11.0,0.0,0.0,1,28,5,2024,22,3,0,0,0,0,0,1,1,8-12 hrs,15 - 20°C,8-12 hrs,,
-2024-05-28,Hamburg,Jungfernstieg,daily total,daily total,561,daily total,561,14.8,9.305411111111113,14.0,0.0,0.0,1,28,5,2024,22,3,0,0,0,0,0,0,0,12-16 hrs,10 - 15°C,8-12 hrs,545.0,527.0
+2024-05-28,Hamburg,Jungfernstieg,daily total,daily total,561,daily total,561,14.8,9.305411111111113,14.0,0.0,0.0,1,28,5,2024,22,3,0,0,0,0,0,0,0,12-16 hrs,10 - 15°C,8-12 hrs,,
 2024-05-28,Hamburg,Jungfernstieg,box,6 Box,1,mixed,6,14.8,9.305411111111113,14.0,0.0,0.0,1,28,5,2024,22,3,0,0,0,0,0,0,1,12-16 hrs,10 - 15°C,8-12 hrs,,
-2024-05-28,Berlin,Maybachufer,daily total,daily total,820,daily total,820,15.8,8.289675,11.0,0.0,0.0,1,28,5,2024,22,3,0,0,0,0,1,0,0,8-12 hrs,15 - 20°C,8-12 hrs,642.0,1354.0
+2024-05-28,Berlin,Maybachufer,daily total,daily total,820,daily total,820,15.8,8.289675,11.0,0.0,0.0,1,28,5,2024,22,3,0,0,0,0,1,0,0,8-12 hrs,15 - 20°C,8-12 hrs,,
 2024-05-28,Hamburg,Jungfernstieg,donuts,Mousse au Chocolat,36,monthly_specials,36,14.8,9.305411111111113,14.0,0.0,0.0,1,28,5,2024,22,3,0,0,0,0,0,0,0,12-16 hrs,10 - 15°C,8-12 hrs,,
 2024-05-28,Hamburg,Neuer Kamp,donuts,Banana Caramel,4,monthly_specials,4,14.8,9.305411111111113,14.0,0.0,0.0,1,28,5,2024,22,3,0,0,0,0,0,0,0,12-16 hrs,10 - 15°C,8-12 hrs,,
 2024-05-28,Berlin,Mitte,box,Bram's 12 Favorites,3,classics,36,15.8,8.289675,11.0,0.0,0.0,1,28,5,2024,22,3,0,0,0,0,0,1,1,8-12 hrs,15 - 20°C,8-12 hrs,,
@@ -789,7 +789,7 @@ date,Location_name,store_name,type_name,item_name,amount,item_category,total_amo
 2024-05-28,Hamburg,Neuer Kamp,donuts,Strawberry Lemoncake,14,monthly_specials,14,14.8,9.305411111111113,14.0,0.0,0.0,1,28,5,2024,22,3,0,0,0,0,0,0,0,12-16 hrs,10 - 15°C,8-12 hrs,,
 2024-05-28,Hamburg,Jungfernstieg,donuts,Strawberry Lemoncake,29,monthly_specials,29,14.8,9.305411111111113,14.0,0.0,0.0,1,28,5,2024,22,3,0,0,0,0,0,0,0,12-16 hrs,10 - 15°C,8-12 hrs,,
 2024-05-28,Hamburg,Altona,donuts,Strawberry Lemoncake,5,monthly_specials,5,14.8,9.305411111111113,14.0,0.0,0.0,1,28,5,2024,22,3,0,0,0,0,0,1,0,12-16 hrs,10 - 15°C,8-12 hrs,,
-2024-05-28,Berlin,Mitte,daily total,daily total,852,daily total,852,15.8,8.289675,11.0,0.0,0.0,1,28,5,2024,22,3,0,0,0,0,0,1,0,8-12 hrs,15 - 20°C,8-12 hrs,697.0,637.0
+2024-05-28,Berlin,Mitte,daily total,daily total,852,daily total,852,15.8,8.289675,11.0,0.0,0.0,1,28,5,2024,22,3,0,0,0,0,0,1,0,8-12 hrs,15 - 20°C,8-12 hrs,,
 2024-05-28,Berlin,Danziger,donuts,Banana Caramel,16,monthly_specials,16,15.8,8.289675,11.0,0.0,0.0,1,28,5,2024,22,3,0,0,0,0,0,0,0,8-12 hrs,15 - 20°C,8-12 hrs,,
 2024-05-28,Berlin,Mitte,donuts,Banana Caramel,28,monthly_specials,28,15.8,8.289675,11.0,0.0,0.0,1,28,5,2024,22,3,0,0,0,0,0,1,0,8-12 hrs,15 - 20°C,8-12 hrs,,
 2024-05-28,Berlin,Potsdamer,donuts,Banana Caramel,33,monthly_specials,33,15.8,8.289675,11.0,0.0,0.0,1,28,5,2024,22,3,0,0,0,0,0,1,0,8-12 hrs,15 - 20°C,8-12 hrs,,
@@ -804,9 +804,9 @@ date,Location_name,store_name,type_name,item_name,amount,item_category,total_amo
 2024-05-28,Berlin,Danziger,donuts,Boston Cream,31,classics,31,15.8,8.289675,11.0,0.0,0.0,1,28,5,2024,22,3,0,0,0,0,0,0,0,8-12 hrs,15 - 20°C,8-12 hrs,,
 2024-05-28,Berlin,Mitte,donuts,Rhubarb Crumble,30,monthly_specials,30,15.8,8.289675,11.0,0.0,0.0,1,28,5,2024,22,3,0,0,0,0,0,1,0,8-12 hrs,15 - 20°C,8-12 hrs,,
 2024-05-28,Berlin,Warschauer,donuts,Boston Cream,59,classics,59,15.8,8.289675,11.0,0.0,0.0,1,28,5,2024,22,3,0,0,0,0,0,0,0,8-12 hrs,15 - 20°C,8-12 hrs,,
-2024-05-28,Hamburg,Neuer Kamp,daily total,daily total,272,daily total,272,14.8,9.305411111111113,14.0,0.0,0.0,1,28,5,2024,22,3,0,0,0,0,0,0,0,12-16 hrs,10 - 15°C,8-12 hrs,219.0,377.0
-2024-05-28,Berlin,Potsdamer,daily total,daily total,1115,daily total,1115,15.8,8.289675,11.0,0.0,0.0,1,28,5,2024,22,3,0,0,0,0,0,1,0,8-12 hrs,15 - 20°C,8-12 hrs,895.0,1598.0
-2024-05-28,Berlin,Warschauer,daily total,daily total,951,daily total,951,15.8,8.289675,11.0,0.0,0.0,1,28,5,2024,22,3,0,0,0,0,0,0,0,8-12 hrs,15 - 20°C,8-12 hrs,809.0,1822.0
+2024-05-28,Hamburg,Neuer Kamp,daily total,daily total,272,daily total,272,14.8,9.305411111111113,14.0,0.0,0.0,1,28,5,2024,22,3,0,0,0,0,0,0,0,12-16 hrs,10 - 15°C,8-12 hrs,,
+2024-05-28,Berlin,Potsdamer,daily total,daily total,1115,daily total,1115,15.8,8.289675,11.0,0.0,0.0,1,28,5,2024,22,3,0,0,0,0,0,1,0,8-12 hrs,15 - 20°C,8-12 hrs,,
+2024-05-28,Berlin,Warschauer,daily total,daily total,951,daily total,951,15.8,8.289675,11.0,0.0,0.0,1,28,5,2024,22,3,0,0,0,0,0,0,0,8-12 hrs,15 - 20°C,8-12 hrs,,
 2024-05-28,Berlin,Maybachufer,box,Bram's 12 Favorites,2,classics,24,15.8,8.289675,11.0,0.0,0.0,1,28,5,2024,22,3,0,0,0,0,1,0,1,8-12 hrs,15 - 20°C,8-12 hrs,,
 2024-05-28,Berlin,KaDeWe,donuts,Boston Cream,4,classics,4,15.8,8.289675,11.0,0.0,0.0,1,28,5,2024,22,3,0,0,0,0,0,1,0,8-12 hrs,15 - 20°C,8-12 hrs,,
 2024-05-28,Berlin,Potsdamer,donuts,Pumpkin Spice,2,monthly_specials,2,15.8,8.289675,11.0,0.0,0.0,1,28,5,2024,22,3,0,0,0,0,0,1,0,8-12 hrs,15 - 20°C,8-12 hrs,,
@@ -844,16 +844,16 @@ date,Location_name,store_name,type_name,item_name,amount,item_category,total_amo
 2024-05-27,Hamburg,Jungfernstieg,donuts,Bienenstich,47,specials,47,17.6,11.863852777777778,3.0,0.0,0.0,0,27,5,2024,22,4,0,0,0,0,0,0,0,0-4 hrs,15 - 20°C,8-12 hrs,,
 2024-05-27,Berlin,Potsdamer,donuts,Cookies & Cream,4,specials,4,18.7,10.01321111111111,6.0,0.0,0.0,0,27,5,2024,22,4,0,0,0,0,0,1,0,4-8 hrs,15 - 20°C,8-12 hrs,,
 2024-05-27,Hamburg,Altona,donuts,Bienenstich,1,specials,1,17.6,11.863852777777778,3.0,0.0,0.0,0,27,5,2024,22,4,0,0,0,0,0,1,0,0-4 hrs,15 - 20°C,8-12 hrs,,
-2024-05-27,Hamburg,Altona,daily total,daily total,88,daily total,88,17.6,11.863852777777778,3.0,0.0,0.0,0,27,5,2024,22,4,0,0,0,0,0,1,0,0-4 hrs,15 - 20°C,8-12 hrs,283.0,315.0
-2024-05-27,Berlin,Danziger,daily total,daily total,488,daily total,488,18.7,10.01321111111111,6.0,0.0,0.0,0,27,5,2024,22,4,0,0,0,0,0,0,0,4-8 hrs,15 - 20°C,8-12 hrs,1385.0,1050.0
+2024-05-27,Hamburg,Altona,daily total,daily total,88,daily total,88,17.6,11.863852777777778,3.0,0.0,0.0,0,27,5,2024,22,4,0,0,0,0,0,1,0,0-4 hrs,15 - 20°C,8-12 hrs,,
+2024-05-27,Berlin,Danziger,daily total,daily total,488,daily total,488,18.7,10.01321111111111,6.0,0.0,0.0,0,27,5,2024,22,4,0,0,0,0,0,0,0,4-8 hrs,15 - 20°C,8-12 hrs,,
 2024-05-27,Berlin,Danziger,donuts,Bienenstich,28,specials,28,18.7,10.01321111111111,6.0,0.0,0.0,0,27,5,2024,22,4,0,0,0,0,0,0,0,4-8 hrs,15 - 20°C,8-12 hrs,,
-2024-05-27,Berlin,Maybachufer,daily total,daily total,642,daily total,642,18.7,10.01321111111111,6.0,0.0,0.0,0,27,5,2024,22,4,0,0,0,0,0,0,0,4-8 hrs,15 - 20°C,8-12 hrs,1354.0,1087.0
-2024-05-27,Hamburg,Jungfernstieg,daily total,daily total,545,daily total,545,17.6,11.863852777777778,3.0,0.0,0.0,0,27,5,2024,22,4,0,0,0,0,0,0,0,0-4 hrs,15 - 20°C,8-12 hrs,527.0,922.0
+2024-05-27,Berlin,Maybachufer,daily total,daily total,642,daily total,642,18.7,10.01321111111111,6.0,0.0,0.0,0,27,5,2024,22,4,0,0,0,0,0,0,0,4-8 hrs,15 - 20°C,8-12 hrs,,
+2024-05-27,Hamburg,Jungfernstieg,daily total,daily total,545,daily total,545,17.6,11.863852777777778,3.0,0.0,0.0,0,27,5,2024,22,4,0,0,0,0,0,0,0,0-4 hrs,15 - 20°C,8-12 hrs,,
 2024-05-27,Berlin,Warschauer,donuts,Bienenstich,49,specials,49,18.7,10.01321111111111,6.0,0.0,0.0,0,27,5,2024,22,4,0,0,0,0,0,0,0,4-8 hrs,15 - 20°C,8-12 hrs,,
 2024-05-27,Hamburg,Neuer Kamp,box,Bram's 6 Favorites,1,classics,6,17.6,11.863852777777778,3.0,0.0,0.0,0,27,5,2024,22,4,0,0,0,0,0,0,1,0-4 hrs,15 - 20°C,8-12 hrs,,
 2024-05-27,Berlin,Maybachufer,donuts,Bienenstich,35,specials,35,18.7,10.01321111111111,6.0,0.0,0.0,0,27,5,2024,22,4,0,0,0,0,0,0,0,4-8 hrs,15 - 20°C,8-12 hrs,,
 2024-05-27,Hamburg,Neuer Kamp,donuts,Bienenstich,18,specials,18,17.6,11.863852777777778,3.0,0.0,0.0,0,27,5,2024,22,4,0,0,0,0,0,0,0,0-4 hrs,15 - 20°C,8-12 hrs,,
-2024-05-27,Hamburg,Neuer Kamp,daily total,daily total,219,daily total,219,17.6,11.863852777777778,3.0,0.0,0.0,0,27,5,2024,22,4,0,0,0,0,0,0,0,0-4 hrs,15 - 20°C,8-12 hrs,377.0,523.0
+2024-05-27,Hamburg,Neuer Kamp,daily total,daily total,219,daily total,219,17.6,11.863852777777778,3.0,0.0,0.0,0,27,5,2024,22,4,0,0,0,0,0,0,0,0-4 hrs,15 - 20°C,8-12 hrs,,
 2024-05-27,Berlin,Potsdamer,box,Bram's 6 Favorites,1,classics,6,18.7,10.01321111111111,6.0,0.0,0.0,0,27,5,2024,22,4,0,0,0,0,0,1,1,4-8 hrs,15 - 20°C,8-12 hrs,,
 2024-05-27,Berlin,Mitte,donuts,Banana Caramel,21,monthly_specials,21,18.7,10.01321111111111,6.0,0.0,0.0,0,27,5,2024,22,4,0,0,0,0,0,1,0,4-8 hrs,15 - 20°C,8-12 hrs,,
 2024-05-27,Berlin,Maybachufer,box,Bram's 6 Favorites,2,classics,12,18.7,10.01321111111111,6.0,0.0,0.0,0,27,5,2024,22,4,0,0,0,0,0,0,1,4-8 hrs,15 - 20°C,8-12 hrs,,
@@ -872,9 +872,9 @@ date,Location_name,store_name,type_name,item_name,amount,item_category,total_amo
 2024-05-27,Berlin,Warschauer,donuts,Banana Caramel,34,monthly_specials,34,18.7,10.01321111111111,6.0,0.0,0.0,0,27,5,2024,22,4,0,0,0,0,0,0,0,4-8 hrs,15 - 20°C,8-12 hrs,,
 2024-05-27,Berlin,Potsdamer,donuts,Coconut Mango,24,monthly_specials,24,18.7,10.01321111111111,6.0,0.0,0.0,0,27,5,2024,22,4,0,0,0,0,0,1,0,4-8 hrs,15 - 20°C,8-12 hrs,,
 2024-05-27,Berlin,Maybachufer,donuts,Banana Caramel,23,monthly_specials,23,18.7,10.01321111111111,6.0,0.0,0.0,0,27,5,2024,22,4,0,0,0,0,0,0,0,4-8 hrs,15 - 20°C,8-12 hrs,,
-2024-05-27,Berlin,Mitte,daily total,daily total,697,daily total,697,18.7,10.01321111111111,6.0,0.0,0.0,0,27,5,2024,22,4,0,0,0,0,0,1,0,4-8 hrs,15 - 20°C,8-12 hrs,637.0,1115.0
+2024-05-27,Berlin,Mitte,daily total,daily total,697,daily total,697,18.7,10.01321111111111,6.0,0.0,0.0,0,27,5,2024,22,4,0,0,0,0,0,1,0,4-8 hrs,15 - 20°C,8-12 hrs,,
 2024-05-27,Berlin,Warschauer,donuts,Cinnamon Sugar,24,classics,24,18.7,10.01321111111111,6.0,0.0,0.0,0,27,5,2024,22,4,0,0,0,0,0,0,0,4-8 hrs,15 - 20°C,8-12 hrs,,
-2024-05-27,Berlin,Potsdamer,daily total,daily total,895,daily total,895,18.7,10.01321111111111,6.0,0.0,0.0,0,27,5,2024,22,4,0,0,0,0,0,1,0,4-8 hrs,15 - 20°C,8-12 hrs,1598.0,1730.0
+2024-05-27,Berlin,Potsdamer,daily total,daily total,895,daily total,895,18.7,10.01321111111111,6.0,0.0,0.0,0,27,5,2024,22,4,0,0,0,0,0,1,0,4-8 hrs,15 - 20°C,8-12 hrs,,
 2024-05-27,Berlin,Danziger,donuts,Banana Caramel,17,monthly_specials,17,18.7,10.01321111111111,6.0,0.0,0.0,0,27,5,2024,22,4,0,0,0,0,0,0,0,4-8 hrs,15 - 20°C,8-12 hrs,,
 2024-05-27,Hamburg,Altona,donuts,Chocolate Bomboloni,3,specials,3,17.6,11.863852777777778,3.0,0.0,0.0,0,27,5,2024,22,4,0,0,0,0,0,1,0,0-4 hrs,15 - 20°C,8-12 hrs,,
 2024-05-27,Berlin,Warschauer,donuts,Strawberry Cream Cake,70,monthly_specials,70,18.7,10.01321111111111,6.0,0.0,0.0,0,27,5,2024,22,4,0,0,0,0,0,0,0,4-8 hrs,15 - 20°C,8-12 hrs,,
@@ -907,7 +907,7 @@ date,Location_name,store_name,type_name,item_name,amount,item_category,total_amo
 2024-05-27,Berlin,Potsdamer,donuts,Salted Caramel Hazelnut,2,classics,2,18.7,10.01321111111111,6.0,0.0,0.0,0,27,5,2024,22,4,0,0,0,0,0,1,0,4-8 hrs,15 - 20°C,8-12 hrs,,
 2024-05-27,Hamburg,Jungfernstieg,donuts,Strawberry Sprinkles,18,classics,18,17.6,11.863852777777778,3.0,0.0,0.0,0,27,5,2024,22,4,0,0,0,0,0,0,0,0-4 hrs,15 - 20°C,8-12 hrs,,
 2024-05-27,Hamburg,Neuer Kamp,donuts,Strawberry Sprinkles,2,classics,2,17.6,11.863852777777778,3.0,0.0,0.0,0,27,5,2024,22,4,0,0,0,0,0,0,0,0-4 hrs,15 - 20°C,8-12 hrs,,
-2024-05-27,Berlin,Warschauer,daily total,daily total,809,daily total,809,18.7,10.01321111111111,6.0,0.0,0.0,0,27,5,2024,22,4,0,0,0,0,0,0,0,4-8 hrs,15 - 20°C,8-12 hrs,1822.0,1433.0
+2024-05-27,Berlin,Warschauer,daily total,daily total,809,daily total,809,18.7,10.01321111111111,6.0,0.0,0.0,0,27,5,2024,22,4,0,0,0,0,0,0,0,4-8 hrs,15 - 20°C,8-12 hrs,,
 2024-05-27,Hamburg,Jungfernstieg,donuts,Chocolate Bomboloni,34,specials,34,17.6,11.863852777777778,3.0,0.0,0.0,0,27,5,2024,22,4,0,0,0,0,0,0,0,0-4 hrs,15 - 20°C,8-12 hrs,,
 2024-05-27,Berlin,Warschauer,box,12 Donuts,2,mixed,24,18.7,10.01321111111111,6.0,0.0,0.0,0,27,5,2024,22,4,0,0,0,0,0,0,1,4-8 hrs,15 - 20°C,8-12 hrs,,
 2024-05-27,Hamburg,Jungfernstieg,donuts,Chocolate Bombolini,1,specials,1,17.6,11.863852777777778,3.0,0.0,0.0,0,27,5,2024,22,4,0,0,0,0,0,0,0,0-4 hrs,15 - 20°C,8-12 hrs,,
@@ -1016,17 +1016,17 @@ date,Location_name,store_name,type_name,item_name,amount,item_category,total_amo
 2024-05-26,Berlin,Warschauer,donuts,Chocolate Bombolini,5,specials,5,18.5,13.665555555555555,2.0,0.0,0.0,6,26,5,2024,21,5,0,0,0,1,0,0,0,0-4 hrs,15 - 20°C,> 12 hrs,,
 2024-05-26,Hamburg,Neuer Kamp,donuts,Weekend special,24,specials,24,18.0,12.247288888888889,8.0,0.0,0.0,6,26,5,2024,21,5,0,0,0,1,0,0,0,4-8 hrs,15 - 20°C,> 12 hrs,,
 2024-05-26,Berlin,Mitte,donuts,Weekend special,30,specials,30,18.5,13.665555555555555,2.0,0.0,0.0,6,26,5,2024,21,5,0,0,0,1,0,1,0,0-4 hrs,15 - 20°C,> 12 hrs,,
-2024-05-26,Hamburg,Jungfernstieg,daily total,daily total,527,daily total,527,18.0,12.247288888888889,8.0,0.0,0.0,6,26,5,2024,21,5,0,0,0,1,0,0,0,4-8 hrs,15 - 20°C,> 12 hrs,922.0,
+2024-05-26,Hamburg,Jungfernstieg,daily total,daily total,527,daily total,527,18.0,12.247288888888889,8.0,0.0,0.0,6,26,5,2024,21,5,0,0,0,1,0,0,0,4-8 hrs,15 - 20°C,> 12 hrs,,
 2024-05-26,Hamburg,Altona,donuts,Weekend special,28,specials,28,18.0,12.247288888888889,8.0,0.0,0.0,6,26,5,2024,21,5,0,0,0,1,0,1,0,4-8 hrs,15 - 20°C,> 12 hrs,,
 2024-05-26,Hamburg,Jungfernstieg,donuts,Weekend special,29,specials,29,18.0,12.247288888888889,8.0,0.0,0.0,6,26,5,2024,21,5,0,0,0,1,0,0,0,4-8 hrs,15 - 20°C,> 12 hrs,,
 2024-05-26,Berlin,Mitte,box,12 Donuts,1,mixed,12,18.5,13.665555555555555,2.0,0.0,0.0,6,26,5,2024,21,5,0,0,0,1,0,1,1,0-4 hrs,15 - 20°C,> 12 hrs,,
-2024-05-26,Berlin,Warschauer,daily total,daily total,1822,daily total,1822,18.5,13.665555555555555,2.0,0.0,0.0,6,26,5,2024,21,5,0,0,0,1,0,0,0,0-4 hrs,15 - 20°C,> 12 hrs,1433.0,
-2024-05-26,Berlin,Potsdamer,daily total,daily total,1598,daily total,1598,18.5,13.665555555555555,2.0,0.0,0.0,6,26,5,2024,21,5,0,0,0,1,0,1,0,0-4 hrs,15 - 20°C,> 12 hrs,1730.0,
-2024-05-26,Hamburg,Neuer Kamp,daily total,daily total,377,daily total,377,18.0,12.247288888888889,8.0,0.0,0.0,6,26,5,2024,21,5,0,0,0,1,0,0,0,4-8 hrs,15 - 20°C,> 12 hrs,523.0,
-2024-05-26,Berlin,Mitte,daily total,daily total,637,daily total,637,18.5,13.665555555555555,2.0,0.0,0.0,6,26,5,2024,21,5,0,0,0,1,0,1,0,0-4 hrs,15 - 20°C,> 12 hrs,1115.0,
-2024-05-26,Berlin,Maybachufer,daily total,daily total,1354,daily total,1354,18.5,13.665555555555555,2.0,0.0,0.0,6,26,5,2024,21,5,0,0,0,1,0,0,0,0-4 hrs,15 - 20°C,> 12 hrs,1087.0,
+2024-05-26,Berlin,Warschauer,daily total,daily total,1822,daily total,1822,18.5,13.665555555555555,2.0,0.0,0.0,6,26,5,2024,21,5,0,0,0,1,0,0,0,0-4 hrs,15 - 20°C,> 12 hrs,,
+2024-05-26,Berlin,Potsdamer,daily total,daily total,1598,daily total,1598,18.5,13.665555555555555,2.0,0.0,0.0,6,26,5,2024,21,5,0,0,0,1,0,1,0,0-4 hrs,15 - 20°C,> 12 hrs,,
+2024-05-26,Hamburg,Neuer Kamp,daily total,daily total,377,daily total,377,18.0,12.247288888888889,8.0,0.0,0.0,6,26,5,2024,21,5,0,0,0,1,0,0,0,4-8 hrs,15 - 20°C,> 12 hrs,,
+2024-05-26,Berlin,Mitte,daily total,daily total,637,daily total,637,18.5,13.665555555555555,2.0,0.0,0.0,6,26,5,2024,21,5,0,0,0,1,0,1,0,0-4 hrs,15 - 20°C,> 12 hrs,,
+2024-05-26,Berlin,Maybachufer,daily total,daily total,1354,daily total,1354,18.5,13.665555555555555,2.0,0.0,0.0,6,26,5,2024,21,5,0,0,0,1,0,0,0,0-4 hrs,15 - 20°C,> 12 hrs,,
 2024-05-26,Hamburg,Jungfernstieg,donuts,Chocolate Bomboloni,20,specials,20,18.0,12.247288888888889,8.0,0.0,0.0,6,26,5,2024,21,5,0,0,0,1,0,0,0,4-8 hrs,15 - 20°C,> 12 hrs,,
-2024-05-26,Berlin,Danziger,daily total,daily total,1385,daily total,1385,18.5,13.665555555555555,2.0,0.0,0.0,6,26,5,2024,21,5,0,0,0,1,0,0,0,0-4 hrs,15 - 20°C,> 12 hrs,1050.0,
+2024-05-26,Berlin,Danziger,daily total,daily total,1385,daily total,1385,18.5,13.665555555555555,2.0,0.0,0.0,6,26,5,2024,21,5,0,0,0,1,0,0,0,0-4 hrs,15 - 20°C,> 12 hrs,,
 2024-05-26,Berlin,Maybachufer,donuts,Weekend special,65,specials,65,18.5,13.665555555555555,2.0,0.0,0.0,6,26,5,2024,21,5,0,0,0,1,0,0,0,0-4 hrs,15 - 20°C,> 12 hrs,,
 2024-05-26,Berlin,Potsdamer,donuts,Weekend special,86,specials,86,18.5,13.665555555555555,2.0,0.0,0.0,6,26,5,2024,21,5,0,0,0,1,0,1,0,0-4 hrs,15 - 20°C,> 12 hrs,,
 2024-05-26,Berlin,Maybachufer,donuts,Cinnamon Sugar,50,classics,50,18.5,13.665555555555555,2.0,0.0,0.0,6,26,5,2024,21,5,0,0,0,1,0,0,0,0-4 hrs,15 - 20°C,> 12 hrs,,
@@ -1054,7 +1054,7 @@ date,Location_name,store_name,type_name,item_name,amount,item_category,total_amo
 2024-05-26,Berlin,Mitte,box,6 Box,3,mixed,18,18.5,13.665555555555555,2.0,0.0,0.0,6,26,5,2024,21,5,0,0,0,1,0,1,1,0-4 hrs,15 - 20°C,> 12 hrs,,
 2024-05-26,Berlin,Warschauer,box,May Donut Box,5,monthly_specials,30,18.5,13.665555555555555,2.0,0.0,0.0,6,26,5,2024,21,5,0,0,0,1,0,0,1,0-4 hrs,15 - 20°C,> 12 hrs,,
 2024-05-26,Berlin,Maybachufer,box,12 Donuts,2,mixed,24,18.5,13.665555555555555,2.0,0.0,0.0,6,26,5,2024,21,5,0,0,0,1,0,0,1,0-4 hrs,15 - 20°C,> 12 hrs,,
-2024-05-26,Hamburg,Altona,daily total,daily total,283,daily total,283,18.0,12.247288888888889,8.0,0.0,0.0,6,26,5,2024,21,5,0,0,0,1,0,1,0,4-8 hrs,15 - 20°C,> 12 hrs,315.0,
+2024-05-26,Hamburg,Altona,daily total,daily total,283,daily total,283,18.0,12.247288888888889,8.0,0.0,0.0,6,26,5,2024,21,5,0,0,0,1,0,1,0,4-8 hrs,15 - 20°C,> 12 hrs,,
 2024-05-26,Berlin,Potsdamer,donuts,Mousse au Chocolat,70,monthly_specials,70,18.5,13.665555555555555,2.0,0.0,0.0,6,26,5,2024,21,5,0,0,0,1,0,1,0,0-4 hrs,15 - 20°C,> 12 hrs,,
 2024-05-26,Hamburg,Jungfernstieg,donuts,White Choc & Strawberries,23,classics,23,18.0,12.247288888888889,8.0,0.0,0.0,6,26,5,2024,21,5,0,0,0,1,0,0,0,4-8 hrs,15 - 20°C,> 12 hrs,,
 2024-05-26,Hamburg,Jungfernstieg,donuts,Strawberry Cream Cake,41,monthly_specials,41,18.0,12.247288888888889,8.0,0.0,0.0,6,26,5,2024,21,5,0,0,0,1,0,0,0,4-8 hrs,15 - 20°C,> 12 hrs,,
@@ -1218,18 +1218,18 @@ date,Location_name,store_name,type_name,item_name,amount,item_category,total_amo
 2024-05-25,Berlin,Maybachufer,donuts,Affogato,1,specials,1,18.8,12.2986,11.0,0.0,0.0,5,25,5,2024,21,6,0,0,0,1,0,0,0,8-12 hrs,15 - 20°C,> 12 hrs,,
 2024-05-25,Hamburg,Altona,donuts,Choc Sprinkles,8,classics,8,16.4,9.651716666666667,7.0,0.0,0.0,5,25,5,2024,21,6,0,0,0,1,0,1,0,4-8 hrs,15 - 20°C,8-12 hrs,,
 2024-05-25,Hamburg,Jungfernstieg,donuts,Choc Sprinkles,34,classics,34,16.4,9.651716666666667,7.0,0.0,0.0,5,25,5,2024,21,6,0,0,0,1,0,0,0,4-8 hrs,15 - 20°C,8-12 hrs,,
-2024-05-25,Berlin,Danziger,daily total,daily total,1050,daily total,1050,18.8,12.2986,11.0,0.0,0.0,5,25,5,2024,21,6,0,0,0,1,0,0,0,8-12 hrs,15 - 20°C,> 12 hrs,,
+2024-05-25,Berlin,Danziger,daily total,daily total,1050,daily total,1050,18.8,12.2986,11.0,0.0,0.0,5,25,5,2024,21,6,0,0,0,1,0,0,0,8-12 hrs,15 - 20°C,> 12 hrs,614.0,616.0
 2024-05-25,Berlin,KaDeWe,donuts,Mousse au Chocolat,1,monthly_specials,1,18.8,12.2986,11.0,0.0,0.0,5,25,5,2024,21,6,0,0,0,1,0,1,0,8-12 hrs,15 - 20°C,> 12 hrs,,
 2024-05-25,Hamburg,Altona,donuts,Mousse au Chocolat,12,monthly_specials,12,16.4,9.651716666666667,7.0,0.0,0.0,5,25,5,2024,21,6,0,0,0,1,0,1,0,4-8 hrs,15 - 20°C,8-12 hrs,,
 2024-05-25,Hamburg,Neuer Kamp,donuts,Mousse au Chocolat,22,monthly_specials,22,16.4,9.651716666666667,7.0,0.0,0.0,5,25,5,2024,21,6,0,0,0,1,0,0,0,4-8 hrs,15 - 20°C,8-12 hrs,,
-2024-05-25,Hamburg,Altona,daily total,daily total,315,daily total,315,16.4,9.651716666666667,7.0,0.0,0.0,5,25,5,2024,21,6,0,0,0,1,0,1,0,4-8 hrs,15 - 20°C,8-12 hrs,,
-2024-05-25,Hamburg,Jungfernstieg,daily total,daily total,922,daily total,922,16.4,9.651716666666667,7.0,0.0,0.0,5,25,5,2024,21,6,0,0,0,1,0,0,0,4-8 hrs,15 - 20°C,8-12 hrs,,
-2024-05-25,Berlin,KaDeWe,daily total,daily total,70,daily total,70,18.8,12.2986,11.0,0.0,0.0,5,25,5,2024,21,6,0,0,0,1,0,1,0,8-12 hrs,15 - 20°C,> 12 hrs,,
-2024-05-25,Berlin,Maybachufer,daily total,daily total,1087,daily total,1087,18.8,12.2986,11.0,0.0,0.0,5,25,5,2024,21,6,0,0,0,1,0,0,0,8-12 hrs,15 - 20°C,> 12 hrs,,
-2024-05-25,Berlin,Mitte,daily total,daily total,1115,daily total,1115,18.8,12.2986,11.0,0.0,0.0,5,25,5,2024,21,6,0,0,0,1,0,1,0,8-12 hrs,15 - 20°C,> 12 hrs,,
-2024-05-25,Hamburg,Neuer Kamp,daily total,daily total,523,daily total,523,16.4,9.651716666666667,7.0,0.0,0.0,5,25,5,2024,21,6,0,0,0,1,0,0,0,4-8 hrs,15 - 20°C,8-12 hrs,,
+2024-05-25,Hamburg,Altona,daily total,daily total,315,daily total,315,16.4,9.651716666666667,7.0,0.0,0.0,5,25,5,2024,21,6,0,0,0,1,0,1,0,4-8 hrs,15 - 20°C,8-12 hrs,96.0,136.0
+2024-05-25,Hamburg,Jungfernstieg,daily total,daily total,922,daily total,922,16.4,9.651716666666667,7.0,0.0,0.0,5,25,5,2024,21,6,0,0,0,1,0,0,0,4-8 hrs,15 - 20°C,8-12 hrs,581.0,608.0
+2024-05-25,Berlin,KaDeWe,daily total,daily total,70,daily total,70,18.8,12.2986,11.0,0.0,0.0,5,25,5,2024,21,6,0,0,0,1,0,1,0,8-12 hrs,15 - 20°C,> 12 hrs,12.0,8.0
+2024-05-25,Berlin,Maybachufer,daily total,daily total,1087,daily total,1087,18.8,12.2986,11.0,0.0,0.0,5,25,5,2024,21,6,0,0,0,1,0,0,0,8-12 hrs,15 - 20°C,> 12 hrs,738.0,676.0
+2024-05-25,Berlin,Mitte,daily total,daily total,1115,daily total,1115,18.8,12.2986,11.0,0.0,0.0,5,25,5,2024,21,6,0,0,0,1,0,1,0,8-12 hrs,15 - 20°C,> 12 hrs,809.0,665.0
+2024-05-25,Hamburg,Neuer Kamp,daily total,daily total,523,daily total,523,16.4,9.651716666666667,7.0,0.0,0.0,5,25,5,2024,21,6,0,0,0,1,0,0,0,4-8 hrs,15 - 20°C,8-12 hrs,261.0,262.0
 2024-05-25,Berlin,Mitte,donuts,Mousse au Chocolat,43,monthly_specials,43,18.8,12.2986,11.0,0.0,0.0,5,25,5,2024,21,6,0,0,0,1,0,1,0,8-12 hrs,15 - 20°C,> 12 hrs,,
-2024-05-25,Berlin,Potsdamer,daily total,daily total,1730,daily total,1730,18.8,12.2986,11.0,0.0,0.0,5,25,5,2024,21,6,0,0,0,1,0,1,0,8-12 hrs,15 - 20°C,> 12 hrs,,
+2024-05-25,Berlin,Potsdamer,daily total,daily total,1730,daily total,1730,18.8,12.2986,11.0,0.0,0.0,5,25,5,2024,21,6,0,0,0,1,0,1,0,8-12 hrs,15 - 20°C,> 12 hrs,1167.0,1140.0
 2024-05-25,Berlin,Potsdamer,donuts,Strawberry Lemoncake,84,monthly_specials,84,18.8,12.2986,11.0,0.0,0.0,5,25,5,2024,21,6,0,0,0,1,0,1,0,8-12 hrs,15 - 20°C,> 12 hrs,,
 2024-05-25,Berlin,Warschauer,donuts,Pumpkin Spice,1,monthly_specials,1,18.8,12.2986,11.0,0.0,0.0,5,25,5,2024,21,6,0,0,0,1,0,0,0,8-12 hrs,15 - 20°C,> 12 hrs,,
 2024-05-25,Berlin,Danziger,donuts,Mousse au Chocolat,35,monthly_specials,35,18.8,12.2986,11.0,0.0,0.0,5,25,5,2024,21,6,0,0,0,1,0,0,0,8-12 hrs,15 - 20°C,> 12 hrs,,
@@ -1247,7 +1247,7 @@ date,Location_name,store_name,type_name,item_name,amount,item_category,total_amo
 2024-05-25,Berlin,Warschauer,donuts,Rhubarb Crumble,71,monthly_specials,71,18.8,12.2986,11.0,0.0,0.0,5,25,5,2024,21,6,0,0,0,1,0,0,0,8-12 hrs,15 - 20°C,> 12 hrs,,
 2024-05-25,Berlin,Warschauer,donuts,Mousse au Chocolat,65,monthly_specials,65,18.8,12.2986,11.0,0.0,0.0,5,25,5,2024,21,6,0,0,0,1,0,0,0,8-12 hrs,15 - 20°C,> 12 hrs,,
 2024-05-25,Berlin,Mitte,donuts,Rhubarb Crumble,69,monthly_specials,69,18.8,12.2986,11.0,0.0,0.0,5,25,5,2024,21,6,0,0,0,1,0,1,0,8-12 hrs,15 - 20°C,> 12 hrs,,
-2024-05-25,Berlin,Warschauer,daily total,daily total,1433,daily total,1433,18.8,12.2986,11.0,0.0,0.0,5,25,5,2024,21,6,0,0,0,1,0,0,0,8-12 hrs,15 - 20°C,> 12 hrs,,
+2024-05-25,Berlin,Warschauer,daily total,daily total,1433,daily total,1433,18.8,12.2986,11.0,0.0,0.0,5,25,5,2024,21,6,0,0,0,1,0,0,0,8-12 hrs,15 - 20°C,> 12 hrs,1051.0,887.0
 2024-05-25,Berlin,Danziger,donuts,Pumpkin Spice,1,monthly_specials,1,18.8,12.2986,11.0,0.0,0.0,5,25,5,2024,21,6,0,0,0,1,0,0,0,8-12 hrs,15 - 20°C,> 12 hrs,,
 2024-05-25,Hamburg,Jungfernstieg,donuts,Weekend special,52,specials,52,16.4,9.651716666666667,7.0,0.0,0.0,5,25,5,2024,21,6,0,0,0,1,0,0,0,4-8 hrs,15 - 20°C,8-12 hrs,,
 2024-05-25,Hamburg,Neuer Kamp,donuts,Weekend special,31,specials,31,16.4,9.651716666666667,7.0,0.0,0.0,5,25,5,2024,21,6,0,0,0,1,0,0,0,4-8 hrs,15 - 20°C,8-12 hrs,,

@@ -245,6 +245,15 @@ updated_d = updated_d.drop(["location_id","store_id","type_id","item_id"], axis 
 
 
 
+## Create lagged variables
+
+```{python}
+updated_d  = lag(updated_d)
+```
+
+
+
+
 ## Time Series split
 
 ```{python}
@@ -284,6 +293,7 @@ train = train.reset_index()
 test = test.reset_index()
 ```
 
+
 ### days back for both test and train
 ```{python}
 train['days_back'] =(datetime(2024, 5, 24) - train['date']).dt.days
@@ -291,11 +301,10 @@ test['days_back'] =(datetime(2024, 5, 31) - test['date']).dt.days
 ```
 
 
-## Create lagged variables for both test and train
+### keep lag1 and lag2 only for first day in test dataset
 
 ```{python}
-train  = lag(train)
-test = lag(test)
+test.loc[test['date'] >'2024-05-25',["lag1","lag2"]] =np.nan
 ```
 
 
