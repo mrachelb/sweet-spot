@@ -94,9 +94,13 @@ def fit_overview(ytrain, ytrainpred, ytest, ytestpred):
   r2_train =round(r2_score(ytrain, ytrainpred),3)
   r2_test =round(r2_score(ytest, ytestpred),3)
   print("R-squared train: ", r2_train)
+  print("Mean absolute percentage error train: ", 100*(mean_absolute_percentage_error(ytrain, ytrainpred).round(2)),"\n")
+  
   print("R-squared test ", r2_test)
-  print("Mean absolute percentage error train: ", 100*(mean_absolute_percentage_error(ytrain, ytrainpred).round(2)))
   print("Mean absolute percentage error test: ", 100*(mean_absolute_percentage_error(ytest, ytestpred).round(2)))
+
+
+
 
 # prections for test dataset
 # arguments:
@@ -105,43 +109,51 @@ def fit_overview(ytrain, ytrainpred, ytest, ytestpred):
 # catfeat, numfeat: list of categorical and numerical features
   
 def pred_test(train,test,model,numfeat,catfeat):
-  start_date =test.date.min()
-  end_date =test.date.max()
-  date_range =pd.date_range(
-    start =start_date,
-    end =end_date
-  )
-
+  
   def forecast_amount(store, model):
-    test_store=test[(test.store_name==store)]
-    train_store_last_day =train[(train.store_name==store) & (train.date==train.date.max())]
-    # train_store_penultimate_day = train[(train.store_name==store) & (train.date==train.date.max() - pd.Timedelta(days = 1))]
 
-    lag_value = train_store_last_day['total_amount'].values
-    # lag_value2 = train_store_penultimate_day["total_amount"].values[0]
+    start_date = test.date.min()
+    end_date = test.date.max()
+    date_range = pd.date_range(start = start_date, end = end_date)
 
-    pred_daily_amount ={}
+    test_store = test[(test.store_name==store)]
+
+    train_store_last_day = train[(train.store_name==store) & (train.date == train.date.max())]
+
+    train_store_penultimate_day = train[(train.store_name==store) & (train.date==train.date.max() - pd.Timedelta(days = 1))]
+
+    lag_value = train_store_last_day['total_amount'].iloc[0]
+    lag_value2 = train_store_penultimate_day["total_amount"].iloc[0]
+
+    pred_daily_amount = {}
+
 
     for date in date_range:
 
-      x =test_store[test_store.date==date][numfeat +catfeat]
-      x['lag1'] =lag_value
-      # X["lag2"] = lag_value2
+        x = test_store[test_store.date == date][catfeat + numfeat]
+        x['lag1'] = lag_value
+        x["lag2"] = lag_value2
 
-      pred_amount =model.predict(x)[0]
-      pred_daily_amount[date] = pred_amount
-
-      lag_value = [pred_amount]
-      # lag_value2 = [lag_value]
+        pred_amount = model.predict(x)[0]
+        pred_daily_amount[date] = [pred_amount, lag_value, lag_value2]
+    
+        lag_value = pred_amount
+        lag_value2 = x["lag1"].iloc[0]
 
     return pred_daily_amount
 
-  storewise_daily_forecast ={store:forecast_amount(store, model) for store in test.store_name.unique()}
+  storewise_daily_forecast = {store:forecast_amount(store, model) for store in test.store_name.unique()}
 
-  test['pred_total_amount'] =test.apply(
-    lambda x: storewise_daily_forecast[x.store_name][x.date], 
-   axis=1
-  )
+  test['pred_total_amount'] = test.apply(lambda x: storewise_daily_forecast[x.store_name][x.date], axis=1)
+
+  test["all"]  = test.apply(lambda x: storewise_daily_forecast[x.store_name][x.date], axis=1)
+
+  test[['pred_total_amount',"lag1","lag2"]]  = test["all"].apply(pd.Series)
+
+  test = test.drop("all", axis = 1)
+
+
   # ytest =test['total_amount']
   ytestpred = test['pred_total_amount']
-  return ytestpred  
+
+  return test, ytestpred  
