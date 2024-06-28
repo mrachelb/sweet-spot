@@ -1,5 +1,5 @@
 ---
-title: "Modelling"
+title: "Time Series Modelling"
 author: "Alex, Rachel, Vlatko, Malte"
 date: "2024-06-20"
 format: html
@@ -39,12 +39,14 @@ import optuna
 
 
 ```{python}
-%run model_functions.py
+%run functions_model.py
 ```
+
 
 ```{python}
 pd.set_option("display.max_columns", None)
 ```
+
 
 
 # Loading the dataset
@@ -65,20 +67,7 @@ d_test['date'] = pd.to_datetime(d_test['date'])
 # Creating validation dataset
 
 ```{python}
-d = d.set_index("date")
-days = np.sort(d.index.unique())
-tscv = TimeSeriesSplit(n_splits=2, test_size = 7)
-
-for train_index, val_index in tscv.split(days):
-    train_days, val_days = days[train_index], days[val_index]
-    train, val = d.loc[train_days], d.loc[val_days]
-
-train = train.sort_values("date", ascending = False)
-val = val.sort_values("date", ascending = False)
-
-train = train.reset_index()
-val = val.reset_index()
-
+train, val = create_val_set(d)
 ```
 
 
@@ -94,13 +83,13 @@ val = val.reset_index()
 
 # reduce dataset to daily totals and drop nas
 
-train_ts = train[(train["item_category"] == "daily total")]
-train_ts["year_month"] = pd.to_datetime(train['year'].astype(str) + '-'+ train['month'].astype(str), format= '%Y-%m')
-train_ts = train_ts.dropna().set_index("date")
+train = train[(train["item_category"] == "daily total")]
+train["year_month"] = pd.to_datetime(train['year'].astype(str) + '-'+ train['month'].astype(str), format= '%Y-%m')
+train = train.dropna().set_index("date")
 
-test_ts = d_test[(d_test["item_category"] =="daily total")]
-test_ts["year_month"] = pd.to_datetime(d_test['year'].astype(str) + '-'+ d_test['month'].astype(str), format= '%Y-%m')
-test_ts = test_ts.set_index("date")
+test = d_test[(d_test["item_category"] =="daily total")]
+test["year_month"] = pd.to_datetime(d_test['year'].astype(str) + '-'+ d_test['month'].astype(str), format= '%Y-%m')
+test = test.set_index("date")
 ```
 
 
@@ -113,20 +102,20 @@ season = ["year_month","month"]
 lag = ["lag1","lag2"]
 store = ["store_name"]
 
-train_ts = train_ts[trend + season + store + ["total_amount"] + lag]
-y_train = train_ts['total_amount']
+x_train = train[trend + season + store + ["total_amount"] + lag]
+y_train = train['total_amount']
 
-test_ts = test_ts[trend + season + store + ["total_amount"] + lag]
-y_test = test_ts['total_amount']
+x_test = test[trend + season + store + ["total_amount"]]
+y_test = test['total_amount']
 ```
 
 
 
-### Reshuffle dataframe
+### Shuffle training set
 
 
 ```{python}
-train_ts = train_ts.sample(frac=1)
+x_train = x_train.sample(frac=1)
 ```
 
 
@@ -177,7 +166,7 @@ adf_test_p_values(train_ts)
 
 # Training set 
 
-groups = train_ts[-train_ts["store_name"].isin(["Neuer Kamp","Altona","Jungfernstieg","Hamburg Hauptbahnhof","KaDeWe"])].groupby("store_name")[["days_back","month","total_amount","lag1","lag2"]]
+groups = train[-train["store_name"].isin(["Neuer Kamp","Altona","Jungfernstieg","Hamburg Hauptbahnhof","KaDeWe"])].groupby("store_name")[["days_back","month","total_amount","lag1","lag2"]]
 
 group_dict = {i:j for i, j in groups}
 
@@ -191,7 +180,7 @@ for store in group_dict:
 
 # Test set
 
-groups_test = test_ts[-test_ts["store_name"].isin(["Neuer Kamp","Altona","Jungfernstieg","Hamburg Hauptbahnhof","KaDeWe"])].groupby("store_name")[["days_back","month","total_amount","lag1","lag2"]]
+groups_test = test[-test["store_name"].isin(["Neuer Kamp","Altona","Jungfernstieg","Hamburg Hauptbahnhof","KaDeWe"])].groupby("store_name")[["days_back","month","total_amount"]]
 
 group_dict_test = {i:j for i, j in groups_test}
 
@@ -283,6 +272,14 @@ for name, store, store_y in sub_datasets:
     store['remainder'] = store['total_amount'] - store['trend_seasonal']
 
 
+
+```
+
+```{python}
+
+
+pred_test()
+
 # Test set
 
 for name, store, store_y in sub_datasets_test:
@@ -291,6 +288,8 @@ for name, store, store_y in sub_datasets_test:
 
 for name, store, store_y in sub_datasets_test:
     store['remainder'] = store['total_amount'] - store['trend_seasonal']
+
+
 ```
 
 
@@ -451,135 +450,4 @@ for name, store, store_y in sub_datasets:
 ```
 
 
-
-
-
-
-## Linear Regression (Elastic Net)
-
-```{python}
-
-# create features and target variable
-numfeat1 =["lag1"]
-numfeat2 =["days_back"]
-numfeat3 =["temperature_2m_mean","sunshine_duration","precipitation_hours"]
-catfeat =["store_name","month","weekday","hol_pub","hol_school",
-"valentines_day","nye","halloween",
-"street_market","public_space"]
-xtrain = train[numfeat1 +numfeat2 +numfeat3 +catfeat]
-ytrain = train['total_amount']
-
-
-# feature engineering
-num_tr1 =Pipeline(
-  steps=[
-    ("scaling", RobustScaler())
-])
-
-num_tr2 =Pipeline(
-  steps=[
-    ("scaling", RobustScaler()),
-    ("polyint",PolynomialFeatures(3,include_bias=False))
-])
-
-num_tr3 =Pipeline(
-  steps=[
-    ("scaling", RobustScaler()),
-    ("polyint",PolynomialFeatures(3,include_bias=False))
-])
-
-
-cat_tr =Pipeline(steps=[
-  ("ohe", OneHotEncoder(drop='first',sparse_output=False))
-])
-
-prepro =ColumnTransformer(
-  transformers=[
-    ("num1", num_tr1, numfeat1),
-    ("num2", num_tr2, numfeat2),
-    ("num3", num_tr3, numfeat3),
-    ("cat",cat_tr,catfeat)
-])
-
-prepro.set_output(transform="pandas")
-xtraintrans =prepro.fit_transform(xtrain)
-
-# model estimation
-
-models =[
-  ("ols",LinearRegression())
-]
-
-for name,algorithm in models:
-  model =Pipeline(steps=[
-    ("prepro", prepro),
-    (name,algorithm)])
-  model.fit(xtrain,ytrain)
-  ytrainpred =model.predict(xtrain)
-  r2_lin_train =r2_score(ytrain, ytrainpred)
-  print("Adjusted r-squared: ", adj_r2(r2_lin_train,xtraintrans))
-  print("Mean absolute percentage error: ", 100*mean_absolute_percentage_error(ytrain, ytrainpred).round(2))
-
-ytrain =ytrain.reset_index(drop=True)
-diff =ytrain -ytrainpred
-ytrainpred =pd.DataFrame(ytrainpred)
-diff =pd.DataFrame(diff)
-fit =pd.concat([ytrain, ytrainpred, diff], axis =1)
-```
-
-
-
-
-
-
-
-
-
-## Catboost
-
-```{python}
-
-date = ["date"]
-
-catfeat_cb = ["store_name","item_category","hol_pub","hol_school","weekday","day","month","year","week_year","nye","valentines_day","halloween", "street_market","public_space","box_deal"]
-
-trend = ["days_back"]
-
-temp = ["temperature_2m_mean","sunshine_duration","precipitation_hours"]
-
-lag = ["lag1","lag2"]
-
-x_train_cb = d[date + catfeat_cb + temp + trend + lag]
-x_train_cb = x_train_cb.set_index("date")
-y_train_cb = d['total_amount']
-
-x_test_cb = d_test[date + catfeat_cb + temp + trend + lag]
-x_test_cb = x_test_cb.set_index("date")
-y_test = d_test['total_amount']
-
-```
-
-
-
-```{python}
-
-# cb_transform = ColumnTransformer([
-#    ('poly_temp', PolynomialFeatures(degree=2, include_bias=False), temp),
-#    ('poly_trend', PolynomialFeatures(degree=2, include_bias=False), trend)
-#], remainder = "passthrough")
-
-
-#cb_transform.set_output(transform="pandas")
-
-#cb_transform.fit_transform(x_train_cb)
-
-```
-
-```{python}
-x_train_cb
-```
-
-```{python}
-CatBoostRegressor(cat_features=catfeat_cb)
-```
 
