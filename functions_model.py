@@ -6,6 +6,9 @@ from sklearn.metrics import r2_score
 from sklearn.metrics import mean_absolute_percentage_error
 from statsmodels.tsa.stattools import adfuller
 from sklearn.model_selection import TimeSeriesSplit
+from sklearn.preprocessing import StandardScaler
+import datetime as dt
+
 
 # adjusted r-squared
 # arguments: r-squared, dataframe with features 
@@ -47,7 +50,19 @@ def create_val_set(df):
     return train, val
 
 
+# Create validation folds
 
+def create_train_validation_folds(df):
+    last_val_date = df.date.max()
+    cv = []
+    for n in range(5):
+        first_val_date = last_val_date - dt.timedelta(days=6)
+        train_index = df[df.date<first_val_date].index
+        val_index = df[(df.date>=first_val_date) & (df.date<=last_val_date)].index
+        cv.append((train_index,val_index))
+        last_val_date = first_val_date - dt.timedelta(days=1)
+    cv = cv[::-1]
+    return cv
 
 
 
@@ -74,12 +89,15 @@ def mape_stores(data, pred):
 # list of store names or the word all (without quotation marks) for every store in the dataset
 
 def diff_overview(data,pred,stores):
+  scaler = StandardScaler()
+
   sum_ =pd.DataFrame({
     'Store name': data["store_name"],
     'Date': data["date"],
     'Observed': data["total_amount"],
     'Predicted': pred,
-    'Difference': (pred -data['total_amount'])})
+    'Difference': (pred - data['total_amount'])})
+  sum_["Stand_resid"] = scaler.fit_transform(np.array(sum_["Difference"]).reshape(-1,1))
   if stores ==all:
     return sum_
   else:
