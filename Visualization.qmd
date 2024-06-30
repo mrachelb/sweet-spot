@@ -6,13 +6,14 @@
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
+from matplotlib.patches import Patch
 import seaborn as sns
 
 ```
 
 ```{python}
-%run vis_functions.py
-% fun functions.py
+%run functions_vis.py
+%run functions_EDA.py
 ```
 
 ```{python}
@@ -160,10 +161,6 @@ vis_school_hol(d)
 anova_pvalue(d, "hol_school", "total_amount")
 ```
 
-
-```{python}
-d["store_name"].unique()
-```
 
 
 
