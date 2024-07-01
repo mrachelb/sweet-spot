@@ -99,21 +99,21 @@ lag = ["lag1","lag2"]
 
 x_train = train[date + catfeat + numfeat + lag]
 x_train = x_train.set_index("date")
-x_train_daily = x_train[(x_train["item_category"] == "daily total") & (x_train["store_name"] != "KaDeWe")]
+x_train_daily = x_train[(x_train["item_category"] == "daily total")]
 y_train = train['total_amount']
-y_train_daily = train[(train["item_category"] == "daily total") & (train["store_name"] != "KaDeWe")]['total_amount']
+y_train_daily = train[(train["item_category"] == "daily total")]['total_amount']
 
 x_val = val[date + catfeat + numfeat + lag]
 x_val = x_val.set_index("date")
-x_val_daily = x_val[(x_val["item_category"] == "daily total") & (x_val["store_name"] != "KaDeWe")]
+x_val_daily = x_val[(x_val["item_category"] == "daily total")]
 y_val = val['total_amount']
-y_val_daily = val[(val["item_category"] == "daily total") & (val["store_name"] != "KaDeWe")]['total_amount']
+y_val_daily = val[(val["item_category"] == "daily total") ]['total_amount']
 
 x_test = d_test[date + catfeat + numfeat]
 x_test = x_test.set_index("date")
-x_test_daily = x_test[(x_test["item_category"] == "daily total") & (x_test["store_name"] != "KaDeWe")]
+x_test_daily = x_test[(x_test["item_category"] == "daily total")]
 y_test = d_test['total_amount']
-y_test_daily = d_test[(d_test["item_category"] == "daily total") & (d_test["store_name"] != "KaDeWe")]['total_amount']
+y_test_daily = d_test[(d_test["item_category"] == "daily total")]['total_amount']
 
 ```
 
@@ -123,6 +123,10 @@ x_train_daily_totalamount = pd.concat([x_train_daily.reset_index(), y_train_dail
 x_test_daily_totalamount = pd.concat([x_test_daily.reset_index(), y_test_daily.reset_index(drop= True)], axis = 1)
 ```
 
+
+```{python}
+x_train_daily[x_train_daily["store_name"] == 'Hamburg Hauptbahnhof'].index.max()
+```
 
 
 
@@ -329,7 +333,9 @@ print(f"MAPE validation: {round(100*mean_absolute_percentage_error(y_val_daily, 
 ```
 
 
-
+```{python}
+x_train_daily_totalamount.columns
+```
 
 
 # Test dataset
