@@ -140,8 +140,11 @@ def pred_test(train,test,model,numfeat,catfeat):
 
     train_store_penultimate_day = train[(train.store_name==store) & (train.date==train.date.max() - pd.Timedelta(days = 1))]
 
+    # train_store_last_week = train[(train.store_name==store) & (train.date==train.date.max() - pd.Timedelta(days = 6))]
+
     lag_value = train_store_last_day['total_amount'].iloc[0]
     lag_value2 = train_store_penultimate_day["total_amount"].iloc[0]
+    # lag_value7 = train_store_last_week['total_amount'].iloc[0]
 
     pred_daily_amount = {}
 
@@ -151,6 +154,7 @@ def pred_test(train,test,model,numfeat,catfeat):
         x = test_store[test_store.date == date][catfeat + numfeat]
         x['lag1'] = lag_value
         x["lag2"] = lag_value2
+        # x["lag7"] = lag_value7
 
         pred_amount = model.predict(x)[0]
         pred_daily_amount[date] = [pred_amount, lag_value, lag_value2]
@@ -171,7 +175,6 @@ def pred_test(train,test,model,numfeat,catfeat):
   test = test.drop("all", axis = 1)
 
 
-  # ytest =test['total_amount']
   ytestpred = test['pred_total_amount']
 
   return test, ytestpred  
