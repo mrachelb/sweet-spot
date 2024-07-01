@@ -10,6 +10,38 @@ import scipy.stats as ss
 
 
 
+#TOTAL SALES THROUGOUT THE YEARS, by store and by year
+# 1. Aggregate the data by year, month, store_name, and item_category
+monthly_sum = d.groupby(['year', 'month', 'store_name', 'item_category'])['total_amount'].sum().reset_index()
+
+# 2. Create a datetime column from year and month
+monthly_sum['date'] = pd.to_datetime(monthly_sum[['year', 'month']].assign(day=1))
+
+# 3. Pivot the data to have dates as index, and item categories as columns for each store
+pivot_data = monthly_sum.pivot_table(index='date', columns=['store_name', 'item_category'], values='total_amount', fill_value=0)
+
+# 4. Create the stack plot for each store
+stores = pivot_data.columns.get_level_values(0).unique()
+
+# Create a figure with subplots for each store
+fig, axes = plt.subplots(nrows=len(stores), ncols=1, figsize=(15, 5 * len(stores)), sharex=True)
+
+if len(stores) == 1:
+    axes = [axes]  # Ensure axes is always iterable
+
+for ax, store in zip(axes, stores):
+    store_data = pivot_data.xs(store, axis=1, level=0)
+    ax.stackplot(store_data.index, store_data.T, labels=store_data.columns)
+    ax.set_title(f'Sum of Total Amount per Month by Item Category for {store}')
+    ax.set_ylabel('Total Amount')
+    ax.legend(loc='upper left')
+
+plt.xlabel('Date')
+plt.tight_layout()
+plt.show()
+
+
+
 # Histogram of total sales
 
 
