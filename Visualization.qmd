@@ -51,6 +51,25 @@ d[(d["item_category"] == "daily total")].groupby("store_name")["total_amount"].m
 
 
 
+## Time series 
+
+```{python}
+ts_lineplot(d)
+```
+
+
+```{python}
+ts_lineplot_stacked(d)
+
+# Branch 1 = Danziger
+# Branch 2 = Maybachufer
+# Branch 3 = Potsdamer
+```
+
+
+
+
+
 ## Weather data
 
 ### Rainfall
@@ -101,10 +120,48 @@ d[d["item_category"] == "daily total"].groupby("temp_bins")["total_amount"].mean
 anova_pvalue(d, "temp_bins", "total_amount")
 ```
 
+```{python}
+pd.Categorical(d['month'], categories=[range(1,13)], ordered=True)
+```
 
 ```{python}
-sns.stripplot(data = d, x = "temp_bins", y = "total_amount")
+def temp_sales (df):
+    fig, axes1 = plt.subplots(4,2, figsize = (12,12))
+    axes1 = axes1.flatten()
+
+
+    for i, store in enumerate(df["store_name"].unique()):
+        store_df = df[df["store_name"] == store]
+
+        # Sales
+
+        sns.barplot(data = store_df, x = "month", y = "total_amount", errorbar=("ci",False),  color = "#3578FF", ax = axes1[i])
+
+        axes1[i].set_title(store, size = 24)
+        axes1[i].set_xlabel('')
+        axes1[i].set_ylabel('Total Amount', size = 18)
+        axes1[i].set_xticklabels(axes1[i].get_xticklabels(), rotation=45, size = 15)
+        axes1[i].set_yticklabels(axes1[i].get_yticklabels(), size = 16)
+
+        axes2 = axes1[i].twinx()
+
+        # Temperature
+
+        sns.lineplot(data = store_df, x = "month", y = "temperature_2m_mean", errorbar=("ci",False), color = "red", ax = axes2)
+
+        axes2.set_ylabel('Temperature (°C)', size = 18)
+        axes2.set_yticklabels(axes2.get_yticklabels(), size = 16)
+
+    
+    plt.tight_layout()
+
 ```
+
+
+```{python}
+temp_sales(d)
+```
+
 
 
 
@@ -127,11 +184,6 @@ vis_sunshine_bin(d)
 
 ```{python}
 anova_pvalue(d, "sunshine_bins", "total_amount")
-```
-
-
-```{python}
-sns.stripplot(data = d, x = "sunshine_bins", y = "total_amount")
 ```
 
 
