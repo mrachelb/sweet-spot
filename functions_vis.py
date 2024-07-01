@@ -2,6 +2,7 @@
 
 import matplotlib.pyplot as plt
 from matplotlib.patches import Patch
+import matplotlib.dates as md
 import seaborn as sns
 import pandas as pd
 import numpy as np
@@ -10,35 +11,74 @@ import scipy.stats as ss
 
 
 
-#TOTAL SALES THROUGOUT THE YEARS, by store and by year
-# 1. Aggregate the data by year, month, store_name, and item_category
-monthly_sum = d.groupby(['year', 'month', 'store_name', 'item_category'])['total_amount'].sum().reset_index()
 
-# 2. Create a datetime column from year and month
-monthly_sum['date'] = pd.to_datetime(monthly_sum[['year', 'month']].assign(day=1))
 
-# 3. Pivot the data to have dates as index, and item categories as columns for each store
-pivot_data = monthly_sum.pivot_table(index='date', columns=['store_name', 'item_category'], values='total_amount', fill_value=0)
 
-# 4. Create the stack plot for each store
-stores = pivot_data.columns.get_level_values(0).unique()
 
-# Create a figure with subplots for each store
-fig, axes = plt.subplots(nrows=len(stores), ncols=1, figsize=(15, 5 * len(stores)), sharex=True)
+# Time series plot by store
 
-if len(stores) == 1:
-    axes = [axes]  # Ensure axes is always iterable
+def ts_lineplot (df):
 
-for ax, store in zip(axes, stores):
-    store_data = pivot_data.xs(store, axis=1, level=0)
-    ax.stackplot(store_data.index, store_data.T, labels=store_data.columns)
-    ax.set_title(f'Sum of Total Amount per Month by Item Category for {store}')
-    ax.set_ylabel('Total Amount')
-    ax.legend(loc='upper left')
+    df["year_month"] = pd.to_datetime(df['year'].astype(str) + '-'+ df['month'].astype(str), format= '%Y-%m')
+    df = df.dropna().set_index("date")
 
-plt.xlabel('Date')
-plt.tight_layout()
-plt.show()
+    fig, axes = plt.subplots(4,2, figsize = (12,10), sharey = False, sharex = True)
+    axes = axes.flatten()
+
+    for i, store in enumerate(df["store_name"].unique()):
+      store_df = df[df["store_name"] == store]
+      store_grouped = store_df.groupby("year_month").agg({"total_amount":"sum"})
+
+      sns.lineplot(data = store_grouped, x = store_grouped.index, y = "total_amount", linewidth = 2, ax = axes[i], errorbar=("ci",False))
+      
+      #sns.regplot(data = store_grouped, x = store_grouped.index, y = "total_amount",lowess=True, ax = axes[i])
+
+      axes[i].set_title(store, size = 24)
+      axes[i].set_xlabel("")
+      axes[i].set_ylabel("Amount sold", size = 18)
+      #axes[i].xaxis.set_major_formatter(md.DateFormatter('%Y'))
+      axes[i].tick_params(axis='y', labelsize=16)
+      axes[i].tick_params(axis='x', labelsize=16, rotation=45)
+
+    for j in range(i + 1, len(axes)):
+        fig.delaxes(axes[j])
+
+    plt.tight_layout()
+    plt.show()
+
+
+
+
+# Time series plot stacked (Danziger, Maybachufer, Potsdamer)
+
+def ts_lineplot_stacked (df):
+
+    df["year_month"] = pd.to_datetime(df['year'].astype(str) + '-'+ df['month'].astype(str), format= '%Y-%m')
+    df = df.dropna().set_index("date")
+
+    df_grouped = df.groupby(["store_name","year_month"]).agg({"total_amount":"sum"}).reset_index()
+
+    df_grouped = df_grouped[df_grouped["store_name"].isin(["Potsdamer","Maybachufer","Danziger"])].reset_index()
+
+    df_grouped["store_name"] =  df_grouped["store_name"].map({"Danziger":"Branch 1", "Maybachufer":"Branch 2", "Potsdamer":"Branch 3"})
+
+    plt.figure(figsize=(12,6))
+    sns.lineplot(data = df_grouped, x = "year_month", y = "total_amount", linewidth = 2, errorbar=("ci",False), hue = "store_name")
+
+
+    plt.title("Total Donut Sales", size = 24)
+    plt.xlabel("")
+    plt.ylabel("Amount sold", size = 18)
+    plt.tick_params(axis='y', labelsize=16)
+    plt.tick_params(axis='x', labelsize=16)
+
+    plt.legend(loc = "upper left", fontsize = 14)
+
+    plt.tight_layout()
+    plt.show()
+
+
+
 
 
 
@@ -246,6 +286,52 @@ def vis_temp_bin (df):
 
 
 
+# Visualisation of temperature and sales over months 
+
+
+def temp_sales (df):
+    fig, axes1 = plt.subplots(4,2, figsize = (12,15))
+    axes1 = axes1.flatten()
+
+
+    for i, store in enumerate(df["store_name"].unique()):
+        store_df = df[df["store_name"] == store]
+
+        # Sales
+
+        sns.barplot(data = store_df, x = "month", y = "total_amount", errorbar=("ci",False),  color = "#3578FF", ax = axes1[i])
+
+        axes1[i].set_title(store, size = 24)
+        axes1[i].set_xlabel('')
+        axes1[i].set_ylabel('Total Amount', size = 18)
+        axes1[i].set_xticklabels(axes1[i].get_xticklabels(), rotation=45, size = 15)
+        axes1[i].set_yticklabels(axes1[i].get_yticklabels(), size = 16)
+
+        axes2 = axes1[i].twinx()
+
+        # Temperature
+
+        sns.lineplot(data = store_df, x = "month", y = "temperature_2m_mean", errorbar=("ci",False), color = "red", ax = axes2)
+
+        axes2.set_ylabel('Temperature (°C)', size = 18)
+        axes2.set_yticklabels(axes2.get_yticklabels(), size = 16)
+
+    
+    plt.tight_layout()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 # Visualisation of holidays and total amount sold
 
 def vis_pub_hol(df):
@@ -371,7 +457,7 @@ def vis_weeks(df):
 ### Weekday
 
 def vis_weekday(df):
-    fig, axes = plt.subplots(4, 3, figsize = (15, 20), sharey=False)
+    fig, axes = plt.subplots(4, 3, figsize = (10, 15), sharey=False)
     axes = axes.flatten()
     df = df[df["item_category"] == "daily total"]
 
@@ -417,6 +503,39 @@ def vis_weekend(df):
         fig.delaxes(axes[j])
     
     plt.tight_layout()
+
+
+
+# Final timeseries prediction
+
+def ts_predicted (df):
+    fig, axes = plt.subplots(4,2, figsize = (15,18))
+    axes = axes.flatten()
+
+    for i, store in enumerate(df["store_name"].unique()):
+        store_df = df[(df["store_name"] == store)]
+        cutoff_date = pd.to_datetime("2024-05-25")
+
+        sns.lineplot(data = store_df, x = "date", y = "total_amount", ax = axes[i], errorbar = ("ci", False), marker = "o", markersize = 10,linewidth = 4, label = "Observed")
+
+        sns.lineplot(data = store_df[store_df["date"] >= cutoff_date], x = "date", y = "Predicted", errorbar = ("ci", False), label = "Predicted", marker = "o", markersize = 10, linewidth = 4, ax = axes[i])
+
+        axes[i].axvline(x = cutoff_date, color='black', linestyle='--', linewidth = 3)
+
+        axes[i].set_title(store, size = 24)
+        axes[i].set_xlabel("")
+        axes[i].set_ylabel("Amount Sold", size = 18)
+        axes[i].xaxis.set_major_formatter(md.DateFormatter('%m-%d'))
+        axes[i].tick_params(axis='y', labelsize=16)
+        axes[i].tick_params(axis='x', labelsize=16, rotation=45)
+
+        axes[i].legend(fontsize = 16, loc = "upper right")
+
+    for j in range(i + 1, len(axes)):
+        fig.delaxes(axes[j])
+    
+    plt.tight_layout()
+
 
 
 

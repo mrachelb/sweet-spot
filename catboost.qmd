@@ -18,6 +18,7 @@ import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.dates as md
+from matplotlib.patches import Patch
 import seaborn as sns
 import datetime as dt
 
@@ -41,6 +42,7 @@ import optuna
 
 ```{python}
 %run functions_model.py
+%run functions_vis.py
 ```
 
 ```{python}
@@ -99,33 +101,27 @@ lag = ["lag1","lag2"]
 
 x_train = train[date + catfeat + numfeat + lag]
 x_train = x_train.set_index("date")
-x_train_daily = x_train[(x_train["item_category"] == "daily total")]
+x_train_daily = x_train[(x_train["item_category"] == "daily total")].drop("item_category", axis = 1)
 y_train = train['total_amount']
 y_train_daily = train[(train["item_category"] == "daily total")]['total_amount']
 
 x_val = val[date + catfeat + numfeat + lag]
 x_val = x_val.set_index("date")
-x_val_daily = x_val[(x_val["item_category"] == "daily total")]
+x_val_daily = x_val[(x_val["item_category"] == "daily total")].drop("item_category", axis = 1)
 y_val = val['total_amount']
 y_val_daily = val[(val["item_category"] == "daily total") ]['total_amount']
 
 x_test = d_test[date + catfeat + numfeat]
 x_test = x_test.set_index("date")
-x_test_daily = x_test[(x_test["item_category"] == "daily total")]
+x_test_daily = x_test[(x_test["item_category"] == "daily total")].drop("item_category", axis = 1)
 y_test = d_test['total_amount']
 y_test_daily = d_test[(d_test["item_category"] == "daily total")]['total_amount']
 
 ```
 
-```{python}
-x_train_daily_totalamount = pd.concat([x_train_daily.reset_index(), y_train_daily.reset_index(drop= True)], axis = 1)
-
-x_test_daily_totalamount = pd.concat([x_test_daily.reset_index(), y_test_daily.reset_index(drop= True)], axis = 1)
-```
-
 
 ```{python}
-x_train_daily[x_train_daily["store_name"] == 'Hamburg Hauptbahnhof'].index.max()
+catfeat.remove("item_category")
 ```
 
 
@@ -152,6 +148,11 @@ x_test_daily["hol_school"] = x_test_daily["hol_school"].apply(np.int64)
 ```
 
 
+```{python}
+x_train_daily_totalamount = pd.concat([x_train_daily.reset_index(), y_train_daily.reset_index(drop= True)], axis = 1)
+
+x_test_daily_totalamount = pd.concat([x_test_daily.reset_index(), y_test_daily.reset_index(drop= True)], axis = 1)
+```
 
 
 ### Custom CV split
@@ -221,13 +222,13 @@ for set, train, val:
 ```{python}
 grid = {
     'n_estimators': np.arange(1000,5001,1),
-    "learning_rate": np.linspace( 1e-3, 0.1),
+    "learning_rate": np.linspace(1e-3, 0.1),
     "l2_leaf_reg": np.linspace(2, 30),
     "depth":np.arange(3,21,1),
     "subsample": np.linspace(0.05, 1.0),
     "colsample_bylevel": np.linspace(0.05, 1.0),
     "min_data_in_leaf": np.arange(10, 101, 1),
-    "min_child_weight": np.arange(1, 301, 1),
+    #"min_child_weight": np.arange(1, 301, 1),
     "early_stopping_rounds": np.arange(20, 81, 1)}
 ```
 
@@ -237,12 +238,12 @@ model = cb.CatBoostRegressor(cat_features=catfeat)
 
 ```{python}
 randomized_search_result = model.randomized_search(grid,
-                                                  n_iter=30,
+                                                  # n_iter=30,
                                                    X=x_train_daily,
                                                    y=y_train_daily,
                                                    cv = create_train_validation_folds(x_train_daily_totalamount),
                                                    plot=True,
-                                                   verbose = True,
+                                                   verbose = 500,
                                                    calc_cv_statistics=True)
 
 ```
@@ -304,7 +305,7 @@ print('Best RMSE:', study.best_value)
 # Best model
 
 model = CatBoostRegressor(n_estimators = 2620, learning_rate = 0.0487,
- depth = 5, subsample = 0.21, colsample_bylevel = 0.2, min_data_in_leaf = 21, early_stopping_rounds = 69, cat_features = catfeat, random_state = 123, allow_writing_files = False)
+ depth = 5, subsample = 0.21, colsample_bylevel = 0.2, min_data_in_leaf = 21, early_stopping_rounds = 69, cat_features = catfeat, random_state = 123, allow_writing_files = True)
 
 model.fit(x_train_daily, y_train_daily, eval_set=(x_val_daily, y_val_daily), verbose = 500, plot = True)
 
@@ -332,10 +333,6 @@ print(f"MAPE validation: {round(100*mean_absolute_percentage_error(y_val_daily, 
 
 ```
 
-
-```{python}
-x_train_daily_totalamount.columns
-```
 
 
 # Test dataset
@@ -379,4 +376,24 @@ fit_overview(ytrain = y_train_daily, ytrainpred = y_train_pred, ytest = y_test_d
 
 ```{python}
 mape_stores(x_test_daily_totalamount, y_test_pred)
+```
+
+
+
+
+### Visualisation of predictions
+
+```{python}
+df_predicted = pd.concat(
+    [
+    difference_df[["Date","Store name","Observed","Predicted"]].rename(columns = {"Date":"date","Store name":"store_name","Observed":"total_amount"}),
+    d[(d["date"] >= pd.to_datetime("2024-05-01")) & (d["item_category"] == "daily total")][["date","store_name","total_amount"]]
+    ]
+    )
+
+```
+
+
+```{python}
+ts_predicted(df_predicted)
 ```

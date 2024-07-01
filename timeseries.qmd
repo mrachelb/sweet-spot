@@ -40,6 +40,7 @@ import optuna
 
 ```{python}
 %run functions_model.py
+%run functions_vis.py
 ```
 
 
@@ -123,32 +124,12 @@ x_train = x_train.sample(frac=1)
 ### Plot time series of sales for all stores
 
 ```{python}
-
-def ts_lineplot (df):
-    fig, axes = plt.subplots(5,2, figsize = (18,15), sharey = False, sharex = False)
-    axes = axes.flatten()
-
-    for i, store in enumerate(df["store_name"].unique()):
-      store_df = df[df["store_name"] == store]
-      store_grouped = store_df.groupby("year_month")["total_amount"].sum()
-
-      g = sns.lineplot(data = store_grouped, ax = axes[i], errorbar=("ci",False))
-
-      axes[i].set_title(store, size = 20)
-      axes[i].set_xlabel("")
-      axes[i].set_ylabel("Amount sold", size = 18)
-      #axes[i].xaxis.set_major_formatter(md.DateFormatter('%Y'))
-
-    for j in range(i + 1, len(axes)):
-        fig.delaxes(axes[j])
-
-    plt.tight_layout()
-    plt.show()
+ts_lineplot(train)
 ```
 
 
 ```{python}
-ts_lineplot(train_ts)
+ts_lineplot_stacked(train)
 ```
 
 
