@@ -126,7 +126,7 @@ pd.Categorical(d['month'], categories=[range(1,13)], ordered=True)
 
 ```{python}
 def temp_sales (df):
-    fig, axes1 = plt.subplots(4,2, figsize = (12,12))
+    fig, axes1 = plt.subplots(4,2, figsize = (12,15), sharey = True)
     axes1 = axes1.flatten()
 
 

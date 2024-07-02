@@ -13,11 +13,11 @@ from functions_model import pred_test, fit_overview, diff_overview, mape_stores
 
 # load and filter data
 
-train =pd.read_csv("train_df.csv", parse_dates=[0])
+train =pd.read_csv("data/train_df.csv", parse_dates=[0])
 train =train[(train["item_category"] =="daily total") & (train["store_name"] !="KaDeWe")] 
 train =train.dropna()
 
-test =pd.read_csv("test_df.csv", parse_dates=[0])
+test =pd.read_csv("data/test_df.csv", parse_dates=[0])
 test =test[(test["item_category"] =="daily total") & (test["store_name"] !="KaDeWe")] 
 
 
@@ -56,6 +56,7 @@ prepro =ColumnTransformer(
 train =train.sample(frac=1, random_state=21).reset_index(drop=True)
 xtrain =train[numfeat +catfeat +['lag1']]
 ytrain =train['total_amount']
+ytest =test['total_amount']
 
 # model fit and prediction 
 lr =Pipeline(
@@ -68,7 +69,7 @@ ytrainpred =lr.predict(xtrain)
 
 # evaluate model with test data
 # predict
-ytest,ytestpred =pred_test(train,test,lr,numfeat,catfeat)
+ytestpred =pred_test(train,test,lr,numfeat,catfeat)
 
 # fir statistics for train and test
 fit_overview(ytrain,ytrainpred,ytest,ytestpred)
